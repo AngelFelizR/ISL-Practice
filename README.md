@@ -1,12 +1,49 @@
 # An Introduction to Statistical Learning
 
-## SL goal
+## 1. Basic concepts
+
+### 1.1. Reducible and irreducible error
 
 It is to estimate the next:
 
-![unknow function](img/01-unknow-function.PNG)
+<center><img src="img/01-unknow-function.PNG" width="225" height="75" /></center>
 
 - **f unknown function** of X1,...,Xp
-- **Random error (ϵ)**: independent of X and has mean zero. It also correspond to the **irreducible error** as it cannot be predicted using X.
+- **Random error (ϵ)**: independent of X and has mean zero. It also correspond to the **irreducible error** as it cannot be predicted using X. If the mean of ϵ isn't zero it may contain unmeasured variables that are useful in predicting.
 
 An error is **reducible** if we can improve the accuracy of ˆf by using the most appropriate statistical learning technique to estimate f. 
+
+<center><img src="img/02-average-squared-difference-between-predicted-and-actual-value.png" width="400" height="100"/></center>
+
+When general we don't have any way to know how much of the error comes from each source.
+
+
+### 1.2. Statistical learning methods 
+
+- **Parametric methods**
+  1. Make an assumption about the functional form. For example assuming linearity.
+  2. Estimates a small number parameters based on training data.
+
+- **Non-parametric methods** 
+  1. Don't make an assumption about the functional form, to accurately ﬁt a wider range of possible shapes for f.
+  2. Need a large number of observations in order to obtain an accurate estimate for f.
+  3. The data analyst must select a level of smoothness. 
+
+### 1.3. Accuracy vs interpretability
+
+<center><img src="img/03-accuracy-vs-interpretability.png" width="500" height="350"/></center>
+
+### 1.4. Evaluating model performance 
+
+we may have access to a set of observations that were not used to train
+the statistical learning method. We can then simply evaluate on the 
+test observations, and select the learning method for which the **test MSE** is smallest.
+
+- **Test mean squared error (MSE)**
+
+<img src="img/05-test-mse.png" width="200" height="50" />
+
+
+
+- **Training data**: Data used to train, or teach, our method how to estimate f. 
+- **Overﬁtting**: Models follow the errors   
