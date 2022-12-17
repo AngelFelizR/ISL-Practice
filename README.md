@@ -62,7 +62,8 @@ from each source.
 
 ## Accuracy vs interpretability
 
-<img src="img/03-accuracy-vs-interpretability.png" fig-align="center" width="530" height="354"/>
+<img src="img/01-accuracy-vs-interpretability.png"
+data-fig-align="center" />
 
 ## Evaluating model performance
 
@@ -89,10 +90,10 @@ Var(\hat{f}(x_{0})) +
 Var(\epsilon)
 $$
 
-- - **Variance** refers to the amount by which \$\hat{f}\$ would change
-    if we estimated it using a diﬀerent training data set. If a method
-    has high variance then small changes in the training data can result
-    in large changes in \$\hat{f}\$ .
+- - **Variance** refers to the amount by which ^f would change if we
+    estimated it using a diﬀerent training data set. If a method has
+    high variance then small changes in the training data can result in
+    large changes in ^f.
 
   - **Squared bias** refers to the error that is introduced by
     approximating a real-life problem, which may be extremely
@@ -101,18 +102,16 @@ $$
 
 - **Test Error rate**
 
-$$
-Ave(I(y_{0} \neq \hat{y}_{0}))
-$$
-
-$$
-\[ I(y_{0} \neq \hat{y}_{0}) = 
-\begin{cases}
-1 & \quand \text{If TRUE}\\
-0 & \quand \text{If FALSE}
-\end{cases}
-\]
-$$
+  $$
+  Ave(I(y_{0} \neq \hat{y}_{0}))
+  $$ $$
+   I(y_{0} \neq \hat{y}_{0}) = 
+  \begin{cases}
+  1 & \text{If } 
+  y_{0} \neq \hat{y}_{0} \\
+  0 & \text{If } y_{0} = \hat{y}_{0}
+  \end{cases}
+  $$
 
 In this case the **Bayes Error Rate** is the **irreducible error** for
 classifications, as we don’t know the distribution of Y given X.

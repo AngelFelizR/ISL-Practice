@@ -93,27 +93,27 @@ error** is the irreducible error we can not change it.
   goal of each application inference or prediction? Explain your
   answer.**
 
-| Description                                                                        | Response        | Predictors                                                                                                                                             |
-|:-----------------------------------------------------------------------------------|:----------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Predicting which customer are more likely to churn in next 3 months from the tower | Churn (0 or 1)  | Annual Rent, Tower Lat, Tower Log, Tower Type, Number of sites around 10 km, Population around 10 km, Average Annual Salary in the city                |
-| Predicting which employee are more likely to churn in next 3 months                | Churn (0 or 1)  | Months in company, Salary, Number of positions, Major, Sex, Total Salary Change, Bono, Wellness Expend, Number of depends                              |
-| Predict which employee will be absent                                              | Absent (0 or 1) | Salary, Rain?, Number of uniforms, distance from home to work place, Months in company, Home with median salary, number of depends, number of marriage |
+|   Goal    | Response                      | Predictors                                                                                                                                                                                          |
+|:---------:|:------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Inference | Customer Tower Churn (0 or 1) | Annual Rent, Tower Lat, Tower Log, Tower Type, Number of sites around 10 km, Population around 10 km, Average Annual Salary in the city, contract Rent increases, customer technology               |
+| Inference | Employee Churn (0 or 1)       | Months in company, Salary, Number of positions, Major, Sex, Total Salary Change, Bono, Wellness Expend, Number of depends, Home location                                                            |
+| Inference | Absent (0 or 1)               | Salary, Rain?, Holiday?, Number of uniforms, distance from home to work place, Months in company, Neighborhood median Salary, number of depends, number of marriage, Work start, Work End, Free day |
 
 - **Describe three real-life applications in which regression might be
   useful. Describe the response, as well as the predictors. Is the goal
   of each application inference or prediction? Explain your answer.**
 
-| Description | Response | Predictors |
-|:------------|:---------|:-----------|
-|             |          |            |
-|             |          |            |
-|             |          |            |
+|   Goal    | Response        | Predictors                                                   |
+|:---------:|:----------------|:-------------------------------------------------------------|
+| Inference | Number of likes | Words, Has a video?, Has a picture?, Post time, hashtag used |
+|  Predict  |                 |                                                              |
+|           |                 |                                                              |
 
 - **Describe three real-life applications in which cluster analysis
   might be useful.**
 
-| Description | Response | Predictors |
-|:------------|:---------|:-----------|
-|             |          |            |
-|             |          |            |
-|             |          |            |
+|                                Goal                                | Predictors                                                                                                                                           |
+|:------------------------------------------------------------------:|------------------------------------------------------------------------------------------------------------------------------------------------------|
+|              Classify costumer to improve advertising              | Words searched, products clicked, Explored image, Seconds spent on each product, start time, end time, customer location                             |
+|        Classify company towers to see patterns in customers        | Tower Lat, Tower Log, Tower Type, Number of sites around 10 km, Population around 10 km, Average Annual Salary in the city, BTS?, start date, Height |
+| Classify football players check which players have similar results | Number of passes on each game, Number of meters run on each game, Position Played, Number of goals, Number of stolen balls, total time played        |
