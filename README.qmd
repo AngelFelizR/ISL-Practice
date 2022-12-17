@@ -1,11 +1,10 @@
 ---
 title: "An Introduction to Statistical Learning"
-author: "Angel Feliz"
 format:
   gfm:
     number-sections: true
     toc: true
-editor: source
+editor: visual
 ---
 
 # Basic concepts
@@ -14,57 +13,62 @@ editor: source
 
 It is to estimate the next:
 
-<center><img src="img/01-unknow-function.PNG" width="225" height="75" /></center>
+<img src="img/01-unknow-function.PNG" fig-align="center" width="190" height="63"/>
 
-- **f unknown function** of X1,...,Xp
-- **Random error (ϵ)**: independent of X and has mean zero. It also correspond to the **irreducible error** as it cannot be predicted using X. If the mean of ϵ isn't zero it may contain unmeasured variables that are useful in predicting.
+-   **f unknown function** of X1,...,Xp
+-   **Random error (ϵ)**: independent of X and has mean zero. It also correspond to the **irreducible error** as it cannot be predicted using X. If the mean of ϵ isn't zero it may contain unmeasured variables that are useful in predicting.
 
-An error is **reducible** if we can improve the accuracy of ˆf by using the most appropriate statistical learning technique to estimate f. 
+An error is **reducible** if we can improve the accuracy of ˆf by using the most appropriate statistical learning technique to estimate f.
 
-<center><img src="img/02-average-squared-difference-between-predicted-and-actual-value.png" width="400" height="100"/></center>
+<img src="img/02-average-squared-difference-between-predicted-and-actual-value.png" fig-align="center" width="400" height="100"/>
 
 When general we don't have any way to know how much of the error comes from each source.
 
+## Statistical learning methods
 
-## Statistical learning methods 
-
-- **Parametric methods**
-  1. Make an assumption about the functional form. For example assuming linearity.
-  2. Estimates a small number parameters based on training data.
-
-- **Non-parametric methods** 
-  1. Don't make an assumption about the functional form, to accurately ﬁt a wider range of possible shapes for f.
-  2. Need a large number of observations in order to obtain an accurate estimate for f.
-  3. The data analyst must select a level of smoothness (degrees of freedom). 
+-   **Parametric methods**
+    1.  Make an assumption about the functional form. For example assuming linearity.
+    2.  Estimates a small number parameters based on training data.
+-   **Non-parametric methods**
+    1.  Don't make an assumption about the functional form, to accurately ﬁt a wider range of possible shapes for f.
+    2.  Need a large number of observations in order to obtain an accurate estimate for f.
+    3.  The data analyst must select a level of smoothness (degrees of freedom).
 
 ## Accuracy vs interpretability
 
-<center><img src="img/03-accuracy-vs-interpretability.png" width="500" height="350"/></center>
+<img src="img/03-accuracy-vs-interpretability.png" fig-align="center" width="530" height="354"/>
 
-## Evaluating model performance 
+## Evaluating model performance
 
-we may have access to a set of observations that were not used to train
-the statistical learning method. We can then simply evaluate on the 
-test observations, and select the learning method for which the **test MSE** is smallest.
+we may have access to a set of observations that were not used to train the statistical learning method. We can then simply evaluate on the test observations, and select the learning method for which the **test MSE** is smallest.
 
-- **Test mean squared error (MSE)**
+-   **Test mean squared error (MSE)**
 
-<img src="img/05-test-mse.png" width="200" height="55" />
+<img src="img/05-test-mse.png" width="170" height="47"/>
 
-
-- **Bias-variance trade-oﬀ**
+-   **Bias-variance trade-oﬀ**
 
 *The challenge lies in ﬁnding a method for which both the variance and the squared bias are low.*
 
-<img src="img/06-expected-test-MSE.png" width="500" height="50" />
+<img src="img/06-expected-test-MSE.png" width="500" height="50"/>
 
-  - **Variance** refers to the amount by which ˆf would change if we estimated it using a diﬀerent training data set. If a method has high variance then small changes in the training data can result in large changes in ˆf.
+-   
 
-  - **Squared bias** refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model, like happens with linear models.
+    -   **Variance** refers to the amount by which ˆf would change if we estimated it using a diﬀerent training data set. If a method has high variance then small changes in the training data can result in large changes in ˆf.
 
+    -   **Squared bias** refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model, like happens with linear models.
+
+-   **Test Error rate**
+
+<img src="img/08-test-error-rate.png" width="180" height="32"/>
+
+*if yi!=ˆyi -\> 1 and if yi==ˆyi -\> 0*.
+
+In this case the **Bayes Error Rate** is the **irreducible error** for classifications, as we don't know the distribution of Y given X.
+
+<img src="img/09-bayes-error-rate.png" width="232" height="55"/>
 
 **Cross-validation** is a method for estimating test MSE using the training data.
 
-
-- **Training data**: Data used to train, or teach, our method how to estimate f. 
-- **Overﬁtting**: Models follow the errors   
+-   **Training data**: Data used to train, or teach, our method how to estimate f.
+-   **Overﬁtting**: Models follow the errors

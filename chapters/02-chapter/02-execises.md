@@ -1,0 +1,73 @@
+02-execises
+================
+
+- <a href="#conceptual" id="toc-conceptual"><span
+  class="toc-section-number">1</span> Conceptual</a>
+
+## Conceptual
+
+1.  **For each of parts (a) through (d), indicate whether we would
+    generally expect the performance of a ﬂexible statistical learning
+    method to be better or worse than an inﬂexible method. Justify your
+    answer.**
+
+- **The sample size n is extremely large, and the number of predictors p
+  is small.**
+
+Better, flexible models reduce bias and quit the variance low when
+having a large n.
+
+- **The number of predictors p is extremely large, and the number of
+  observations n is small.**
+
+Worse, a flexible model could increase its variance very high when
+having small n.
+
+- **The relationship between the predictors and response is highly
+  non-linear.**
+
+Better, a lineal model would have a very high bias in this case.
+
+- **The variance of the error terms, i.e. σ2 = Var(ϵ), is extremely
+  high.**
+
+Worse, a flexible model would over-fit trying to follow the irreducible
+error.
+
+2.  **Explain whether each scenario is a classiﬁcation or regression
+    problem, and indicate whether we are most interested in inference or
+    prediction. Finally, provide n and p.**
+
+- **We collect a set of data on the top 500 ﬁrms in the US. For each ﬁrm
+  we record proﬁt, number of employees, industry and the CEO salary. We
+  are interested in understanding which factors aﬀect CEO salary.**
+
+Regression, inference, \[500, 4\]
+
+- **We are considering launching a new product and wish to know whether
+  it will be a success or a failure. We collect data on 20 similar
+  products that were previously launched. For each product we have
+  recorded whether it was a success or failure, price charged for the
+  product, marketing budget, competition price, and ten other
+  variables.**
+
+Classification, prediction, \[20, 14\]
+
+- **We are interested in predicting the % change in the USD/Euro
+  exchange rate in relation to the weekly changes in the world stock
+  markets. Hence we collect weekly data for all of 2012. For each week
+  we record the % change in the USD/Euro, the % change in the US market,
+  the % change in the British market, and the % change in the German
+  market.**
+
+Regression, prediction, \[52, 4\]
+
+3.  **We now revisit the bias-variance decomposition.**
+
+- **Provide a sketch of typical (squared) bias, variance, training
+  error, test error, and Bayes (or irreducible) error curves, on a
+  single plot, as we go from less ﬂexible statistical learning methods
+  towards more ﬂexible approaches. The x-axis should represent the
+  amount of ﬂexibility in the method, and the y-axis should represent
+  the values for each curve. There should be ﬁve curves. Make sure to
+  label each one.**

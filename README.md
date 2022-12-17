@@ -82,14 +82,27 @@ the squared bias are low.*
 
 <img src="img/06-expected-test-MSE.png" width="500" height="50" />
 
-- **Variance** refers to the amount by which ˆf would change if we
-  estimated it using a diﬀerent training data set. If a method has high
-  variance then small changes in the training data can result in large
-  changes in ˆf.
+- - **Variance** refers to the amount by which ˆf would change if we
+    estimated it using a diﬀerent training data set. If a method has
+    high variance then small changes in the training data can result in
+    large changes in ˆf.
 
-- **Squared bias** refers to the error that is introduced by
-  approximating a real-life problem, which may be extremely complicated,
-  by a much simpler model, like happens with linear models.
+  - **Squared bias** refers to the error that is introduced by
+    approximating a real-life problem, which may be extremely
+    complicated, by a much simpler model, like happens with linear
+    models.
+
+- **Test Error rate**
+
+<img src="img/08-test-error-rate.png" width="200" height="55" />
+
+I(yi!=ˆyi) is an indicator variable: if yi!=ˆyi -\> 1 and if yi==ˆyi -\>
+0.
+
+In this case the **Bayes error rate** is the **irreducible error** for
+classifications.
+
+<img src="img/09-bayes-error-rate.png" width="200" height="55" />
 
 **Cross-validation** is a method for estimating test MSE using the
 training data.
