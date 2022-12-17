@@ -110,13 +110,19 @@ $$
 \begin{cases}
 1 & \quand \text{If TRUE}\\
 0 & \quand \text{If FALSE}
+\end{cases}
 \]
 $$
 
 In this case the **Bayes Error Rate** is the **irreducible error** for
 classifications, as we don’t know the distribution of Y given X.
 
-<img src="img/09-bayes-error-rate.png" width="257" height="50"/>
+$$
+1 - 
+E\left( 
+\underset{j}{max}Pr(Y = j|X)
+\right)
+$$
 
 **Cross-validation** is a method for estimating test MSE using the
 training data.
