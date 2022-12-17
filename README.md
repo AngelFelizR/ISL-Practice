@@ -1,6 +1,5 @@
 An Introduction to Statistical Learning
 ================
-Angel Feliz
 
 - <a href="#basic-concepts" id="toc-basic-concepts"><span
   class="toc-section-number">1</span> Basic concepts</a>
@@ -24,22 +23,25 @@ Angel Feliz
 
 It is to estimate the next:
 
-<center>
-<img src="img/01-unknow-function.PNG" width="225" height="75" />
-</center>
+$$
+Y = f(X) + \epsilon
+$$
 
-- **f unknown function** of X1,…,Xp
+- **\$f\$ unknown function** of X<sub>1</sub> , …, X<sub>p</sub>
 - **Random error (ϵ)**: independent of X and has mean zero. It also
   correspond to the **irreducible error** as it cannot be predicted
   using X. If the mean of ϵ isn’t zero it may contain unmeasured
   variables that are useful in predicting.
 
-An error is **reducible** if we can improve the accuracy of ˆf by using
-the most appropriate statistical learning technique to estimate f. 
+An error is **reducible** if we can improve the accuracy of \$\hat{f}\$
+by using the most appropriate statistical learning technique to estimate
+f.
 
-<center>
-<img src="img/02-average-squared-difference-between-predicted-and-actual-value.png" width="400" height="100"/>
-</center>
+$$
+E(Y-\hat{Y})^2 = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
+= \underbrace{[f(X)- \hat{f}(x)]^2}_\text{Reducible} + 
+  \underbrace{Var(\epsilon)}_\text{Irredicible}
+$$
 
 When general we don’t have any way to know how much of the error comes
 from each source.
@@ -60,9 +62,7 @@ from each source.
 
 ## Accuracy vs interpretability
 
-<center>
-<img src="img/03-accuracy-vs-interpretability.png" width="500" height="350"/>
-</center>
+<img src="img/03-accuracy-vs-interpretability.png" fig-align="center" width="530" height="354"/>
 
 ## Evaluating model performance
 
@@ -73,19 +73,26 @@ is smallest.
 
 - **Test mean squared error (MSE)**
 
-<img src="img/05-test-mse.png" width="200" height="55" />
+$$
+Ave(y_{0}-\hat{f}(x_{0}))^2
+$$
 
 - **Bias-variance trade-oﬀ**
 
 *The challenge lies in ﬁnding a method for which both the variance and
 the squared bias are low.*
 
-<img src="img/06-expected-test-MSE.png" width="500" height="50" />
+$$
+E(y_{0} - \hat{f}(x_{0}))^2 = 
+Var(\hat{f}(x_{0})) + 
+[Bias(\hat{f}(x_{0}))]^2 + 
+Var(\epsilon)
+$$
 
-- - **Variance** refers to the amount by which ˆf would change if we
-    estimated it using a diﬀerent training data set. If a method has
-    high variance then small changes in the training data can result in
-    large changes in ˆf.
+- - **Variance** refers to the amount by which \$\hat{f}\$ would change
+    if we estimated it using a diﬀerent training data set. If a method
+    has high variance then small changes in the training data can result
+    in large changes in \$\hat{f}\$ .
 
   - **Squared bias** refers to the error that is introduced by
     approximating a real-life problem, which may be extremely
@@ -94,19 +101,26 @@ the squared bias are low.*
 
 - **Test Error rate**
 
-<img src="img/08-test-error-rate.png" width="200" height="55" />
+$$
+Ave(I(y_{0} \neq \hat{y}_{0}))
+$$
 
-I(yi!=ˆyi) is an indicator variable: if yi!=ˆyi -\> 1 and if yi==ˆyi -\>
-0.
+$$
+\[ I(y_{0} \neq \hat{y}_{0}) = 
+\begin{cases}
+1 & \quand \text{If TRUE}\\
+0 & \quand \text{If FALSE}
+\]
+$$
 
-In this case the **Bayes error rate** is the **irreducible error** for
-classifications.
+In this case the **Bayes Error Rate** is the **irreducible error** for
+classifications, as we don’t know the distribution of Y given X.
 
-<img src="img/09-bayes-error-rate.png" width="200" height="55" />
+<img src="img/09-bayes-error-rate.png" width="257" height="50"/>
 
 **Cross-validation** is a method for estimating test MSE using the
 training data.
 
 - **Training data**: Data used to train, or teach, our method how to
-  estimate f. 
+  estimate f.
 - **Overﬁtting**: Models follow the errors
