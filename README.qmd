@@ -60,13 +60,13 @@ we may have access to a set of observations that were not used to train the stat
 
 -   **Test Error rate**
 
-<img src="img/08-test-error-rate.png" width="180" height="32"/>
+<img src="img/08-test-error-rate.png" width="196" height="37"/>
 
 *if yi!=ˆyi -\> 1 and if yi==ˆyi -\> 0*.
 
 In this case the **Bayes Error Rate** is the **irreducible error** for classifications, as we don't know the distribution of Y given X.
 
-<img src="img/09-bayes-error-rate.png" width="232" height="55"/>
+<img src="img/09-bayes-error-rate.png" width="257" height="50"/>
 
 **Cross-validation** is a method for estimating test MSE using the training data.
 

@@ -42,7 +42,7 @@ error.
   we record proﬁt, number of employees, industry and the CEO salary. We
   are interested in understanding which factors aﬀect CEO salary.**
 
-Regression, inference, \[500, 4\]
+Regression, inference, 500, 4
 
 - **We are considering launching a new product and wish to know whether
   it will be a success or a failure. We collect data on 20 similar
@@ -51,7 +51,7 @@ Regression, inference, \[500, 4\]
   product, marketing budget, competition price, and ten other
   variables.**
 
-Classification, prediction, \[20, 14\]
+Classification, prediction, 20, 14
 
 - **We are interested in predicting the % change in the USD/Euro
   exchange rate in relation to the weekly changes in the world stock
@@ -60,7 +60,7 @@ Classification, prediction, \[20, 14\]
   the % change in the British market, and the % change in the German
   market.**
 
-Regression, prediction, \[52, 4\]
+Regression, prediction, 52, 4
 
 3.  **We now revisit the bias-variance decomposition.**
 
@@ -71,3 +71,49 @@ Regression, prediction, \[52, 4\]
   amount of ﬂexibility in the method, and the y-axis should represent
   the values for each curve. There should be ﬁve curves. Make sure to
   label each one.**
+
+<img src="01-sketch.png" width="400" height="350" />
+
+- **Explain why each of the ﬁve curves has the shape displayed in part
+  (a).**
+
+In the example f isn’t lineal, so the the **test error** lower as we add
+flexibility until the point the models starts to overfit. The **training
+error** always goes down as we increase the flexibility. As we make the
+model more flexible **variance** always increase as the model is more
+likely to change as we change the training data and the **bias** always
+goes down as a more flexible model has fewer assumptions. The **Bayes
+error** is the irreducible error we can not change it.
+
+4.  **You will now think of some real-life applications for statistical
+    learning.**
+
+- **Describe three real-life applications in which classiﬁcation might
+  be useful. Describe the response, as well as the predictors. Is the
+  goal of each application inference or prediction? Explain your
+  answer.**
+
+| Description                                                                        | Response        | Predictors                                                                                                                                             |
+|:-----------------------------------------------------------------------------------|:----------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Predicting which customer are more likely to churn in next 3 months from the tower | Churn (0 or 1)  | Annual Rent, Tower Lat, Tower Log, Tower Type, Number of sites around 10 km, Population around 10 km, Average Annual Salary in the city                |
+| Predicting which employee are more likely to churn in next 3 months                | Churn (0 or 1)  | Months in company, Salary, Number of positions, Major, Sex, Total Salary Change, Bono, Wellness Expend, Number of depends                              |
+| Predict which employee will be absent                                              | Absent (0 or 1) | Salary, Rain?, Number of uniforms, distance from home to work place, Months in company, Home with median salary, number of depends, number of marriage |
+
+- **Describe three real-life applications in which regression might be
+  useful. Describe the response, as well as the predictors. Is the goal
+  of each application inference or prediction? Explain your answer.**
+
+| Description | Response | Predictors |
+|:------------|:---------|:-----------|
+|             |          |            |
+|             |          |            |
+|             |          |            |
+
+- **Describe three real-life applications in which cluster analysis
+  might be useful.**
+
+| Description | Response | Predictors |
+|:------------|:---------|:-----------|
+|             |          |            |
+|             |          |            |
+|             |          |            |
