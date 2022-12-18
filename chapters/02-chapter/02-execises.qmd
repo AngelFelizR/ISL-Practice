@@ -68,7 +68,7 @@ In the example f isn't lineal, so the the **test error** lower as we add flexibi
 | Goal | Response | Predictors |
 |:----:|:---------|:-----------|
 |Inference|Number of likes|Words, Has a video?, Has a picture?, Post time, hashtag used|
-|Predict|||
+|Inference|Velocidad de picheo|Edad, Altura, Peso, Horas de corrida, Cantidad de sentadillas, cantidad de practicas por semana, Años practicando el deporte|
 ||||
 
   - **Describe three real-life applications in which cluster analysis might be useful.**

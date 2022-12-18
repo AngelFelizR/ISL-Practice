@@ -103,11 +103,11 @@ error** is the irreducible error we can not change it.
   useful. Describe the response, as well as the predictors. Is the goal
   of each application inference or prediction? Explain your answer.**
 
-|   Goal    | Response        | Predictors                                                   |
-|:---------:|:----------------|:-------------------------------------------------------------|
-| Inference | Number of likes | Words, Has a video?, Has a picture?, Post time, hashtag used |
-|  Predict  |                 |                                                              |
-|           |                 |                                                              |
+|   Goal    | Response            | Predictors                                                                                                                   |
+|:---------:|:--------------------|:-----------------------------------------------------------------------------------------------------------------------------|
+| Inference | Number of likes     | Words, Has a video?, Has a picture?, Post time, hashtag used                                                                 |
+| Inference | Velocidad de picheo | Edad, Altura, Peso, Horas de corrida, Cantidad de sentadillas, cantidad de practicas por semana, Años practicando el deporte |
+|           |                     |                                                                                                                              |
 
 - **Describe three real-life applications in which cluster analysis
   might be useful.**
