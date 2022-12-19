@@ -27,7 +27,7 @@ $$
 Y = f(X) + \epsilon
 $$
 
-- **\$f\$ unknown function** of X<sub>1</sub> , …, X<sub>p</sub>
+- **\$f\$ unknown function** of X\~1\~ , …, X\~p\~
 - **Random error (ϵ)**: independent of X and has mean zero. It also
   correspond to the **irreducible error** as it cannot be predicted
   using X. If the mean of ϵ isn’t zero it may contain unmeasured

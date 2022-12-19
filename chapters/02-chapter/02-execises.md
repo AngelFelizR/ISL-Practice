@@ -103,11 +103,11 @@ error** is the irreducible error we can not change it.
   useful. Describe the response, as well as the predictors. Is the goal
   of each application inference or prediction? Explain your answer.**
 
-|   Goal    | Response            | Predictors                                                                                                                   |
-|:---------:|:--------------------|:-----------------------------------------------------------------------------------------------------------------------------|
-| Inference | Number of likes     | Words, Has a video?, Has a picture?, Post time, hashtag used                                                                 |
-| Inference | Velocidad de picheo | Edad, Altura, Peso, Horas de corrida, Cantidad de sentadillas, cantidad de practicas por semana, Años practicando el deporte |
-|           |                     |                                                                                                                              |
+|   Goal    | Response                          | Predictors                                                                                                                   |
+|:---------:|:----------------------------------|:-----------------------------------------------------------------------------------------------------------------------------|
+| Inference | Number of likes                   | Words, Has a video?, Has a picture?, Post time, hashtag used                                                                 |
+| Inference | Velocidad de picheo               | Edad, Altura, Peso, Horas de corrida, Cantidad de sentadillas, cantidad de practicas por semana, Años practicando el deporte |
+|  Infere   | Food Satisfaction level (0 to 10) | Country, City, Height, Weight, Salary (US \$), Salt, Spacy Level, Sugar (gr), Meat Type, Cheese (gr), Cheese Type            |
 
 - **Describe three real-life applications in which cluster analysis
   might be useful.**
@@ -117,3 +117,255 @@ error** is the irreducible error we can not change it.
 |              Classify costumer to improve advertising              | Words searched, products clicked, Explored image, Seconds spent on each product, start time, end time, customer location                             |
 |        Classify company towers to see patterns in customers        | Tower Lat, Tower Log, Tower Type, Number of sites around 10 km, Population around 10 km, Average Annual Salary in the city, BTS?, start date, Height |
 | Classify football players check which players have similar results | Number of passes on each game, Number of meters run on each game, Position Played, Number of goals, Number of stolen balls, total time played        |
+
+5.  **What are the advantages and disadvantages of a very ﬂexible
+    (versus a less ﬂexible) approach for regression or classiﬁcation?
+    Under what circumstances might a more ﬂexible approach be preferred
+    to a less ﬂexible approach? When might a less ﬂexible approach be
+    preferred?**
+
+- Flexible model advantages
+  - They have the potential to accurately ﬁt a wider range of possible
+    shapes for f
+- Flexible model disadvantages
+  - They do not reduce the problem of estimating f to a small number of
+    parameters.
+  - A very large number of observations is required in order to obtain
+    an accurate estimate for f.
+  - They are harder to interpret
+
+It is preferred when we have a lot of data to train the model and the
+goal is to get accurate predictions rather than good interpretations.
+
+A less flexible approach is preferred when we don’t have a lot data to
+train the model or when the main goal is to make inferences to
+understand business rules.
+
+6.  **Describe the diﬀerences between a parametric and a non-parametric
+    statistical learning approach. What are the advantages of a
+    parametric approach to regression or classiﬁcation (as opposed to a
+    nonparametric approach)? What are its disadvantages?**
+
+| Parametric                                                 | Non-parametric                                                                                                |
+|:-----------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------|
+| Make an assumption about the functional form               | Don’t make an assumption about the functional form, to accurately ﬁt a wider range of possible shapes for $f$ |
+| Estimates a small number parameters based on training data | Estimates a large number parameters based on training data                                                    |
+| Can be trained with few examples                           | Needs many examples to be trained                                                                             |
+| Smoothness level is fixed                                  | Data analyst needs define a level of smoothness                                                               |
+
+- Parametric model advantages
+  - Reduce the problem of estimating f to a small number of parameters.
+  - Can be trained with few examples.
+  - They are easy to interpret.
+- Parametric model disadvantages
+  - In many times $f$ doesn’t have the assumed shape adding a lot of
+    bias to the model.
+
+7.  **The table below provides a training data set containing six
+    observations, three predictors, and one qualitative response
+    variable.**
+
+``` r
+DF_07 <-
+  data.frame(X1 = c(0,2,0,0,-1,1),
+             X2 = c(3,0,1,1,0,0),
+             X3 = c(0,0,3,2,1,1),
+             Y = c("Red","Red","Red","Green","Green","Red"))
+
+DF_07
+```
+
+      X1 X2 X3     Y
+    1  0  3  0   Red
+    2  2  0  0   Red
+    3  0  1  3   Red
+    4  0  1  2 Green
+    5 -1  0  1 Green
+    6  1  0  1   Red
+
+**Suppose we wish to use this data set to make a prediction for Y when
+X1 = X2 = X3 = 0 using K-nearest neighbors.**
+
+- **Compute the Euclidean distance between each observation and the test
+  point, X1 = X2 = X3 = 0.**
+
+``` r
+# As (C - 0)^2 = C^2
+
+DF_07 <- transform(DF_07, dist = sqrt(X1^2+X2^2+X3^2))
+```
+
+- **What is our prediction with K = 1? Why?**
+
+``` r
+DF_07[order(DF_07$dist),]
+```
+
+      X1 X2 X3     Y     dist
+    5 -1  0  1 Green 1.414214
+    6  1  0  1   Red 1.414214
+    2  2  0  0   Red 2.000000
+    4  0  1  2 Green 2.236068
+    1  0  3  0   Red 3.000000
+    3  0  1  3   Red 3.162278
+
+In the is case, the point would be in the Bayes decision boundary as
+there are two points of different colors at the same distance.
+
+- **What is our prediction with K = 3? Why?**
+
+In this case, the point would be a **Red** one as 2 of 3 of them are
+from that color.
+
+- **If the Bayes decision boundary in this problem is highly nonlinear,
+  then would we expect the best value for K to be large or small? Why?**
+
+As flexibility decrease as K gets bigger, for highly nonlinear Bayes
+decision boundary the best K value should be a small one.
+
+8.  **This exercise relates to the College data set, which can be found
+    in the ﬁle College.csv on the book website. It contains a number of
+    variables for 777 diﬀerent universities and colleges in the US**
+
+**Before reading the data into R, it can be viewed in Excel or a text
+editor.**
+
+- **Use the read.csv() function to read the data into R. Call the loaded
+  data college. Make sure that you have the directory set to the correct
+  location for the data. You should notice that the ﬁrst column is just
+  the name of each university. We don’t really want R to treat this as
+  data.**
+
+``` r
+college <- 
+  read.csv(here::here("chapters/02-chapter/College.csv"), 
+           row.names = 1, stringsAsFactors = TRUE)
+```
+
+- **Use the summary() function to produce a numerical summary of the
+  variables in the data set.**
+
+``` r
+summary(college)
+```
+
+     Private        Apps           Accept          Enroll       Top10perc    
+     No :212   Min.   :   81   Min.   :   72   Min.   :  35   Min.   : 1.00  
+     Yes:565   1st Qu.:  776   1st Qu.:  604   1st Qu.: 242   1st Qu.:15.00  
+               Median : 1558   Median : 1110   Median : 434   Median :23.00  
+               Mean   : 3002   Mean   : 2019   Mean   : 780   Mean   :27.56  
+               3rd Qu.: 3624   3rd Qu.: 2424   3rd Qu.: 902   3rd Qu.:35.00  
+               Max.   :48094   Max.   :26330   Max.   :6392   Max.   :96.00  
+       Top25perc      F.Undergrad     P.Undergrad         Outstate    
+     Min.   :  9.0   Min.   :  139   Min.   :    1.0   Min.   : 2340  
+     1st Qu.: 41.0   1st Qu.:  992   1st Qu.:   95.0   1st Qu.: 7320  
+     Median : 54.0   Median : 1707   Median :  353.0   Median : 9990  
+     Mean   : 55.8   Mean   : 3700   Mean   :  855.3   Mean   :10441  
+     3rd Qu.: 69.0   3rd Qu.: 4005   3rd Qu.:  967.0   3rd Qu.:12925  
+     Max.   :100.0   Max.   :31643   Max.   :21836.0   Max.   :21700  
+       Room.Board       Books           Personal         PhD        
+     Min.   :1780   Min.   :  96.0   Min.   : 250   Min.   :  8.00  
+     1st Qu.:3597   1st Qu.: 470.0   1st Qu.: 850   1st Qu.: 62.00  
+     Median :4200   Median : 500.0   Median :1200   Median : 75.00  
+     Mean   :4358   Mean   : 549.4   Mean   :1341   Mean   : 72.66  
+     3rd Qu.:5050   3rd Qu.: 600.0   3rd Qu.:1700   3rd Qu.: 85.00  
+     Max.   :8124   Max.   :2340.0   Max.   :6800   Max.   :103.00  
+        Terminal       S.F.Ratio      perc.alumni        Expend     
+     Min.   : 24.0   Min.   : 2.50   Min.   : 0.00   Min.   : 3186  
+     1st Qu.: 71.0   1st Qu.:11.50   1st Qu.:13.00   1st Qu.: 6751  
+     Median : 82.0   Median :13.60   Median :21.00   Median : 8377  
+     Mean   : 79.7   Mean   :14.09   Mean   :22.74   Mean   : 9660  
+     3rd Qu.: 92.0   3rd Qu.:16.50   3rd Qu.:31.00   3rd Qu.:10830  
+     Max.   :100.0   Max.   :39.80   Max.   :64.00   Max.   :56233  
+       Grad.Rate     
+     Min.   : 10.00  
+     1st Qu.: 53.00  
+     Median : 65.00  
+     Mean   : 65.46  
+     3rd Qu.: 78.00  
+     Max.   :118.00  
+
+- **Use the pairs() function to produce a scatterplot matrix of the ﬁrst
+  ten columns or variables of the data. **
+
+``` r
+pairs(college[,1:10])
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-6-1.png)
+
+- **Use the plot() function to produce side-by-side boxplots of Outstate
+  versus Private.**
+
+``` r
+plot(college$Private, college$Outstate)
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-7-1.png)
+
+- **Create a new qualitative variable, called Elite, by binning the
+  Top10perc variable. We are going to divide universities into two
+  groups based on whether or not the proportion of students coming from
+  the top 10 % of their high school classes exceeds 50 %.**
+
+``` r
+college$Elite <- ifelse(college$Top10perc > 50, "Yes", "No") |> as.factor()
+```
+
+- **Then Use the summary() function to see how many elite universities
+  there are.**
+
+``` r
+summary(college$Elite)
+```
+
+     No Yes 
+    699  78 
+
+- **Now use the plot() function to produce side-by-side boxplots of
+  Outstate versus Elite.**
+
+``` r
+plot(college$Elite, college$Outstate)
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-10-1.png)
+
+- **Use the hist() function to produce some histograms with diﬀering
+  numbers of bins for a few of the quantitative variables. You may ﬁnd
+  the command par(mfrow = c(2, 2)) useful: it will divide the print
+  window into four regions so that four plots can be made
+  simultaneously. Modifying the arguments to this function will divide
+  the screen in other ways.**
+
+``` r
+par(mfrow = c(3, 1))
+
+hist(college$Apps)
+hist(college$Accept)
+hist(college$Enroll)
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-11-1.png)
+
+- **Continue exploring the data, and provide a brief summary of what you
+  discover.**
+
+``` r
+par(mfrow = c(2, 2))
+
+plot(college$S.F.Ratio, college$Expend)
+plot(college$S.F.Ratio, college$Outstate)
+plot(college$Top10perc, college$Terminal)
+plot(college$Top10perc, college$Room.Board)
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-12-1.png)
+
+As students have more resources like teaching, supervision, curriculum
+development, and pastoral support institutions tend to expend less on
+each student and quest less money from out state students.
+
+We also can see that students from top 10 % of high school class tend to
+go to universities where most the professors have the highest academic
+level available for each field or the highest room and board costs
