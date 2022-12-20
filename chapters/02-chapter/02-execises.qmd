@@ -69,7 +69,7 @@ In the example f isn't lineal, so the the **test error** lower as we add flexibi
 |:----:|:---------|:-----------|
 |Inference|Number of likes|Words, Has a video?, Has a picture?, Post time, hashtag used|
 |Inference|Velocidad de picheo|Edad, Altura, Peso, Horas de corrida, Cantidad de sentadillas, cantidad de practicas por semana, Años practicando el deporte|
-|Infere|Food Satisfaction level (0 to 10)|Country, City, Height, Weight, Salary (US $), Salt, Spacy Level, Sugar (gr), Meat Type, Cheese (gr), Cheese Type|
+|Inference|Food Satisfaction level (0 to 10)|Country, City, Height, Weight, Salary (US $), Salt, Spacy Level, Sugar (gr), Meat Type, Cheese (gr), Cheese Type|
 
   - **Describe three real-life applications in which cluster analysis might be useful.**
 
@@ -155,6 +155,9 @@ In this case, the point would be a **Red** one as 2 of 3 of them are from that c
 
 As flexibility decrease as K gets bigger, for highly nonlinear Bayes decision boundary the best K value should be a small one.
 
+
+## Applied
+
 8. **This exercise relates to the College data set, which can be found in the ﬁle College.csv on the book website. It contains a number of variables for 777 diﬀerent universities and colleges in the US**
 
 **Before reading the data into R, it can be viewed in Excel or a text editor.**
@@ -230,4 +233,91 @@ plot(college$Top10perc, college$Room.Board)
 As students have more resources like teaching, supervision, curriculum development, and pastoral support institutions tend to expend less on each student and quest less money from out state students. 
 
 We also can see that students from top 10 % of high school class tend to go to universities where most the professors have the highest academic level available for each field or the highest room and board costs
+
+9. **This exercise involves the Auto data set studied in the lab. Make sure that the missing values have been removed from the data.**
+
+- **Which of the predictors are quantitative, and which are qualitative?**
+
+```{r}
+library(ISLR2)
+
+quantitative_vars <-
+  sapply(Auto, is.numeric) |>
+  (\(x) names(x)[x])()
+
+qualitative_vars <- setdiff(names(Auto), quantitative_vars)
+
+```
+
+- **What is the range of each quantitative predictor? You can answer this using the range() function.**
+
+```{r}
+
+sapply(quantitative_vars, \(var) range(Auto[[var]]))
+
+```
+
+- **What is the mean and standard deviation of each quantitative predictor?**
+
+```{r}
+
+sapply(quantitative_vars, \(var) c(mean(Auto[[var]]), sd(Auto[[var]])))
+
+```
+
+- **Now remove the 10th through 85th observations. What is the range, mean, and standard deviation of each predictor in the subset of the data that remains?**
+
+```{r}
+
+AutoFiltered <-Auto[-c(10:85),]
+
+sapply(quantitative_vars, \(var) c(mean(AutoFiltered[[var]]), sd(AutoFiltered[[var]])))
+
+```
+
+- **Using the full data set, investigate the predictors graphically, using scatterplots or other tools of your choice. Create some plots highlighting the relationships among the predictors. Comment on your ﬁndings.**
+
+Cars with 4 or 5 cylinders are more efficient than others.
+
+```{r}
+
+plot(factor(Auto$cylinders) ,Auto$mpg,
+     xlab = "cylinders", ylab = "mpg", col = 2)
+
+```
+
+
+Cars have improved their efficiency each year.
+
+```{r}
+
+plot(factor(Auto$year) ,Auto$mpg,
+     xlab = "year", ylab = "mpg", col = "blue")
+
+```
+
+
+- **Suppose that we wish to predict gas mileage (mpg) on the basis of the other variables. Do your plots suggest that any of the other variables might be useful in predicting mpg? Justify your answer.**
+
+```{r}
+
+pairs(Auto[, quantitative_vars])
+
+```
+
+*cylinders*,  *horsepower* and *year* are good candidates as they have correlations with the *mpg* variable.
+
+
+10. **This exercise involves the Boston housing data set.**
+
+- **How many rows are in this data set? How many columns? What do the rows and columns represent?**
+
+The data has **`r nrow(Boston)`** rows where each one represent a suburb of Boston and **`r ncol(Boston)`** columns where each one represent a summary indicator of each suburb. 
+
+- **Make some pairwise scatterplots of the predictors (columns) in this data set. Describe your ﬁndings.**
+
+```{r}
+pairs(Boston)
+```
+
 
