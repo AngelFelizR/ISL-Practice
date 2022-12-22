@@ -630,9 +630,9 @@ VarsToPlot <-
   names(Boston) |>
   setdiff("crim")
 
-par(mfrow=c(3,1))
+par(mfrow=c(2,1))
 
-for(variable in names(Boston)){
+for(variable in VarsToPlot){
   
   hist(Boston[[variable]],
        main = paste("Histogram of" , variable), xlab = variable)
@@ -650,6 +650,8 @@ for(variable in names(Boston)){
 ![](02-execises_files/figure-gfm/unnamed-chunk-30-4.png)
 
 ![](02-execises_files/figure-gfm/unnamed-chunk-30-5.png)
+
+![](02-execises_files/figure-gfm/unnamed-chunk-30-6.png)
 
 - **In this data set, how many of the census tracts average more than
   seven rooms per dwelling? More than eight rooms per dwelling? Comment

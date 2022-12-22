@@ -413,9 +413,9 @@ VarsToPlot <-
   names(Boston) |>
   setdiff("crim")
 
-par(mfrow=c(3,1))
+par(mfrow=c(2,1))
 
-for(variable in names(Boston)){
+for(variable in VarsToPlot){
   
   hist(Boston[[variable]],
        main = paste("Histogram of" , variable), xlab = variable)
