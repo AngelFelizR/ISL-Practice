@@ -413,8 +413,6 @@ VarsToPlot <-
   names(Boston) |>
   setdiff("crim")
 
-par(mfrow=c(2,1))
-
 for(variable in VarsToPlot){
   
   hist(Boston[[variable]],
