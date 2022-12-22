@@ -228,6 +228,7 @@ plot(college$S.F.Ratio, college$Outstate)
 plot(college$Top10perc, college$Terminal)
 plot(college$Top10perc, college$Room.Board)
 
+par(mfrow = c(1, 1))
 ```
 
 As students have more resources like teaching, supervision, curriculum development, and pastoral support institutions tend to expend less on each student and quest less money from out state students. 
@@ -312,12 +313,142 @@ pairs(Auto[, quantitative_vars])
 
 - **How many rows are in this data set? How many columns? What do the rows and columns represent?**
 
-The data has **`r nrow(Boston)`** rows where each one represent a suburb of Boston and **`r ncol(Boston)`** columns where each one represent a summary indicator of each suburb. 
+A data frame with 506 rows and 13 variables. Suburbs are represented as rows and columns represent different indicators.
 
 - **Make some pairwise scatterplots of the predictors (columns) in this data set. Describe your ﬁndings.**
 
+As all the data is numeric, let's get the highest correlations.
+
 ```{r}
-pairs(Boston)
+
+BostonRelations <-
+  cor(Boston) |>
+  (\(m) data.frame(row = rownames(m)[row(m)[upper.tri(m)]], 
+                   col = colnames(m)[col(m)[upper.tri(m)]], 
+                   cor = m[upper.tri(m)]))() |>
+  (\(DF) DF[order(-abs(DF$cor)),])() 
+
+head(BostonRelations,3)
+
 ```
 
+As we can see, if a suburb has high accessibility to radial highways the house value also increase.
+
+```{r}
+
+with(Boston, plot(rad, tax, 
+                  col = rgb(0 , 0, 1, alpha = 0.1),
+                  pch = 16, cex = 1.5))
+
+```
+
+```{r}
+with(Boston, plot(dis, nox, 
+                  col = rgb(0 , 0, 1, alpha = 0.2),
+                  pch = 16, cex = 1.5))
+```
+
+```{r}
+with(Boston, plot(indus, nox, 
+                  col = rgb(0 , 0, 1, alpha = 0.1),
+                  pch = 16, cex = 1.5))
+
+```
+
+- **Are any of the predictors associated with per capita crime rate? If so, explain the relationship.**
+
+```{r}
+with(BostonRelations, BostonRelations[row == "crim", ])
+```
+
+```{r}
+with(Boston, plot(rad, crim, 
+                  col = rgb(0 , 0, 1, alpha = 0.1),
+                  pch = 16, cex = 1.5))
+```
+
+```{r}
+
+with(Boston, plot(tax, crim, 
+                  col = rgb(0 , 0, 1, alpha = 0.1),
+                  pch = 16, cex = 1.5))
+
+```
+
+- **Do any of the census tracts of Boston appear to have particularly high crime rates? Tax rates? Pupil-teacher ratios? Comment on the range of each predictor.**
+
+```{r}
+par(mfrow=c(3,1))
+
+boxplot(Boston$crim, horizontal = TRUE)
+hist(Boston$tax)
+hist(Boston$ptratio)
+
+par(mfrow=c(1,1))
+
+```
+
+- **How many of the census tracts in this data set bound the Charles river?**
+
+```{r}
+sum(Boston$chas)
+```
+
+- **What is the median pupil-teacher ratio among the towns in this data set?**
+
+```{r}
+median(Boston$ptratio)
+```
+
+- **Which census tract of Boston has lowest median value of owner-occupied homes? What are the values of the other predictors for that census tract, and how do those values compare to the overall ranges for those predictors? Comment on your ﬁndings.**
+
+```{r}
+which.min(Boston$age)
+
+MinOwnerOccupiedHomes <- Boston[which.min(Boston$age),]
+
+MinOwnerOccupiedHomes
+
+VarsToPlot <-
+  names(Boston) |>
+  setdiff("crim")
+
+par(mfrow=c(3,1))
+
+for(variable in names(Boston)){
+  
+  hist(Boston[[variable]],
+       main = paste("Histogram of" , variable), xlab = variable)
+  abline(v=MinOwnerOccupiedHomes[[variable]],col="blue",lwd=2)
+  
+}
+
+```
+
+- **In this data set, how many of the census tracts average more than seven rooms per dwelling? More than eight rooms per dwelling? Comment on the census tracts that average more than eight rooms per dwelling.**
+
+```{r}
+
+sum(Boston$rm > 7)
+
+sum(Boston$rm > 8)
+
+BostonRelations[BostonRelations$row == "rm" | BostonRelations$col == "rm",]
+
+
+par(mfrow=c(1,2))
+with(Boston, plot(rm, medv, 
+                  col = rgb(0 , 0, 1, alpha = 0.2),
+                  pch = 16, cex = 1.5))
+abline(v=8,col="red",lwd=2)
+ 
+
+with(Boston, plot(rm, lstat, 
+                  col = rgb(0 , 0, 1, alpha = 0.2),
+                  pch = 16, cex = 1.5))
+abline(v=8,col="red",lwd=2)
+
+par(mfrow=c(1,1))
+
+```
 

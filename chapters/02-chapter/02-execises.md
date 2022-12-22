@@ -366,6 +366,10 @@ plot(college$Top10perc, college$Room.Board)
 
 ![](02-execises_files/figure-gfm/unnamed-chunk-12-1.png)
 
+``` r
+par(mfrow = c(1, 1))
+```
+
 As students have more resources like teaching, supervision, curriculum
 development, and pastoral support institutions tend to expend less on
 each student and quest less money from out state students.
@@ -477,15 +481,227 @@ correlations with the *mpg* variable.
 - **How many rows are in this data set? How many columns? What do the
   rows and columns represent?**
 
-The data has **506** rows where each one represent a suburb of Boston
-and **13** columns where each one represent a summary indicator of each
-suburb.
+A data frame with 506 rows and 13 variables. Suburbs are represented as
+rows and columns represent different indicators.
 
 - **Make some pairwise scatterplots of the predictors (columns) in this
   data set. Describe your ﬁndings.**
 
+As all the data is numeric, let’s get the highest correlations.
+
 ``` r
-pairs(Boston)
+BostonRelations <-
+  cor(Boston) |>
+  (\(m) data.frame(row = rownames(m)[row(m)[upper.tri(m)]], 
+                   col = colnames(m)[col(m)[upper.tri(m)]], 
+                   cor = m[upper.tri(m)]))() |>
+  (\(DF) DF[order(-abs(DF$cor)),])() 
+
+head(BostonRelations,3)
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-20-1.png)
+         row col        cor
+    45   rad tax  0.9102282
+    26   nox dis -0.7692301
+    9  indus nox  0.7636514
+
+As we can see, if a suburb has high accessibility to radial highways the
+house value also increase.
+
+``` r
+with(Boston, plot(rad, tax, 
+                  col = rgb(0 , 0, 1, alpha = 0.1),
+                  pch = 16, cex = 1.5))
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-21-1.png)
+
+``` r
+with(Boston, plot(dis, nox, 
+                  col = rgb(0 , 0, 1, alpha = 0.2),
+                  pch = 16, cex = 1.5))
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-22-1.png)
+
+``` r
+with(Boston, plot(indus, nox, 
+                  col = rgb(0 , 0, 1, alpha = 0.1),
+                  pch = 16, cex = 1.5))
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-23-1.png)
+
+- **Are any of the predictors associated with per capita crime rate? If
+  so, explain the relationship.**
+
+``` r
+with(BostonRelations, BostonRelations[row == "crim", ])
+```
+
+        row     col         cor
+    29 crim     rad  0.62550515
+    37 crim     tax  0.58276431
+    56 crim   lstat  0.45562148
+    7  crim     nox  0.42097171
+    2  crim   indus  0.40658341
+    67 crim    medv -0.38830461
+    22 crim     dis -0.37967009
+    16 crim     age  0.35273425
+    46 crim ptratio  0.28994558
+    11 crim      rm -0.21924670
+    1  crim      zn -0.20046922
+    4  crim    chas -0.05589158
+
+``` r
+with(Boston, plot(rad, crim, 
+                  col = rgb(0 , 0, 1, alpha = 0.1),
+                  pch = 16, cex = 1.5))
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-25-1.png)
+
+``` r
+with(Boston, plot(tax, crim, 
+                  col = rgb(0 , 0, 1, alpha = 0.1),
+                  pch = 16, cex = 1.5))
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-26-1.png)
+
+- **Do any of the census tracts of Boston appear to have particularly
+  high crime rates? Tax rates? Pupil-teacher ratios? Comment on the
+  range of each predictor.**
+
+``` r
+par(mfrow=c(3,1))
+
+boxplot(Boston$crim, horizontal = TRUE)
+hist(Boston$tax)
+hist(Boston$ptratio)
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-27-1.png)
+
+``` r
+par(mfrow=c(1,1))
+```
+
+- **How many of the census tracts in this data set bound the Charles
+  river?**
+
+``` r
+sum(Boston$chas)
+```
+
+    [1] 35
+
+- **What is the median pupil-teacher ratio among the towns in this data
+  set?**
+
+``` r
+median(Boston$ptratio)
+```
+
+    [1] 19.05
+
+- **Which census tract of Boston has lowest median value of
+  owner-occupied homes? What are the values of the other predictors for
+  that census tract, and how do those values compare to the overall
+  ranges for those predictors? Comment on your ﬁndings.**
+
+``` r
+which.min(Boston$age)
+```
+
+    [1] 42
+
+``` r
+MinOwnerOccupiedHomes <- Boston[which.min(Boston$age),]
+
+MinOwnerOccupiedHomes
+```
+
+          crim zn indus chas   nox   rm age    dis rad tax ptratio lstat medv
+    42 0.12744  0  6.91    0 0.448 6.77 2.9 5.7209   3 233    17.9  4.84 26.6
+
+``` r
+VarsToPlot <-
+  names(Boston) |>
+  setdiff("crim")
+
+par(mfrow=c(3,1))
+
+for(variable in names(Boston)){
+  
+  hist(Boston[[variable]],
+       main = paste("Histogram of" , variable), xlab = variable)
+  abline(v=MinOwnerOccupiedHomes[[variable]],col="blue",lwd=2)
+  
+}
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-30-1.png)
+
+![](02-execises_files/figure-gfm/unnamed-chunk-30-2.png)
+
+![](02-execises_files/figure-gfm/unnamed-chunk-30-3.png)
+
+![](02-execises_files/figure-gfm/unnamed-chunk-30-4.png)
+
+![](02-execises_files/figure-gfm/unnamed-chunk-30-5.png)
+
+- **In this data set, how many of the census tracts average more than
+  seven rooms per dwelling? More than eight rooms per dwelling? Comment
+  on the census tracts that average more than eight rooms per
+  dwelling.**
+
+``` r
+sum(Boston$rm > 7)
+```
+
+    [1] 64
+
+``` r
+sum(Boston$rm > 8)
+```
+
+    [1] 13
+
+``` r
+BostonRelations[BostonRelations$row == "rm" | BostonRelations$col == "rm",]
+```
+
+         row     col         cor
+    72    rm    medv  0.69535995
+    61    rm   lstat -0.61380827
+    13 indus      rm -0.39167585
+    51    rm ptratio -0.35550149
+    12    zn      rm  0.31199059
+    15   nox      rm -0.30218819
+    42    rm     tax -0.29204783
+    21    rm     age -0.24026493
+    11  crim      rm -0.21924670
+    34    rm     rad -0.20984667
+    27    rm     dis  0.20524621
+    14  chas      rm  0.09125123
+
+``` r
+par(mfrow=c(1,2))
+with(Boston, plot(rm, medv, 
+                  col = rgb(0 , 0, 1, alpha = 0.2),
+                  pch = 16, cex = 1.5))
+abline(v=8,col="red",lwd=2)
+ 
+
+with(Boston, plot(rm, lstat, 
+                  col = rgb(0 , 0, 1, alpha = 0.2),
+                  pch = 16, cex = 1.5))
+abline(v=8,col="red",lwd=2)
+```
+
+![](02-execises_files/figure-gfm/unnamed-chunk-31-1.png)
+
+``` r
+par(mfrow=c(1,1))
+```
