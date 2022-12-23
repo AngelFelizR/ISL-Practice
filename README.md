@@ -16,6 +16,30 @@ An Introduction to Statistical Learning
   - <a href="#evaluating-model-performance"
     id="toc-evaluating-model-performance"><span
     class="toc-section-number">1.4</span> Evaluating model performance</a>
+  - <a href="#other-concepts" id="toc-other-concepts"><span
+    class="toc-section-number">1.5</span> Other concepts</a>
+- <a href="#linear-regresion" id="toc-linear-regresion"><span
+  class="toc-section-number">2</span> Linear regresion</a>
+  - <a href="#getting-least-squares-line-minimizing-the-least-squares"
+    id="toc-getting-least-squares-line-minimizing-the-least-squares"><span
+    class="toc-section-number">2.1</span> Getting Least Squares Line
+    (minimizing the least squares)</a>
+  - <a
+    href="#how-close-are-the-hatbeta_0-and-hatbeta_1-to-their-true-values"
+    id="toc-how-close-are-the-hatbeta_0-and-hatbeta_1-to-their-true-values"><span
+    class="toc-section-number">2.2</span> How close are the <span
+    class="math inline"><em>β̂</em><sub>0</sub></span> and <span
+    class="math inline"><em>β̂</em><sub>1</sub></span> to their true
+    values?</a>
+  - <a href="#accuracy-of-the-model" id="toc-accuracy-of-the-model"><span
+    class="toc-section-number">2.3</span> Accuracy of the Model</a>
+  - <a
+    href="#why-fitting-a-simple-linear-model-for-each-predictor-isnt-satisfactory"
+    id="toc-why-fitting-a-simple-linear-model-for-each-predictor-isnt-satisfactory"><span
+    class="toc-section-number">2.4</span> Why fitting a simple linear model
+    for each predictor isn’t satisfactory?</a>
+  - <a href="#questions-to-solve" id="toc-questions-to-solve"><span
+    class="toc-section-number">2.5</span> Questions to solve</a>
 
 # Basic concepts
 
@@ -102,16 +126,16 @@ $$
 
 - **Test Error rate**
 
-  $$
-  Ave(I(y_{0} \neq \hat{y}_{0}))
-  $$ $$
-   I(y_{0} \neq \hat{y}_{0}) = 
-  \begin{cases}
-  1 & \text{If } 
-  y_{0} \neq \hat{y}_{0} \\
-  0 & \text{If } y_{0} = \hat{y}_{0}
-  \end{cases}
-  $$
+$$
+    Ave(I(y_{0} \neq \hat{y}_{0}))
+$$ $$
+     I(y_{0} \neq \hat{y}_{0}) = 
+    \begin{cases}
+    1 & \text{If } 
+    y_{0} \neq \hat{y}_{0} \\
+    0 & \text{If } y_{0} = \hat{y}_{0}
+    \end{cases}
+$$
 
 In this case the **Bayes Error Rate** is the **irreducible error** for
 classifications, as we don’t know the distribution of Y given X.
@@ -123,9 +147,138 @@ E\left(
 \right)
 $$
 
-**Cross-validation** is a method for estimating test MSE using the
-training data.
+## Other concepts
+
+- **Cross-validation** Is a method for estimating test MSE using the
+  training data.
 
 - **Training data**: Data used to train, or teach, our method how to
   estimate f.
-- **Overﬁtting**: Models follow the errors
+
+- **Overﬁtting**: Models follow the errors.
+
+# Linear regresion
+
+## Getting Least Squares Line (minimizing the least squares)
+
+As the *population regression line* is unobserved the *least squares
+line* is a good estimation.
+
+**Simple function**
+
+$$
+\hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1} x
+$$
+
+**Residual** $$
+e_{i} = y_{i} - \hat{y}_{i}
+$$
+
+**Residual sum of squares (RSS)**
+
+$$
+RSS = e_{1}^2 + e_{2}^2 + \dots + e_{n}^2
+$$
+
+## How close are the $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ to their true values?
+
+To answer that, we need to estimate the **standard error** and create
+**conﬁdence intervals**.
+
+> If we want to use 95% of confidence we need to know that after taking
+> many samples only 95% of the intervals produced with this confident
+> level would have the true value (parameter).
+
+It’s also important to know that if 0 is between of $\hat{\beta}_{1}$
+that variable **doesn’t have relationship** with Y and *can not reject
+the null hypothesis*.
+
+To estimate the *standard error* of each parameter by using formulas we
+need to meet the following assumptions:
+
+1.  The errors $\epsilon_{i}$ for each observation have common variance
+    $\sigma^2$.
+2.  The errors $\epsilon_{i}$ are uncorrelated.
+
+$$
+\sigma^2 = Var(\epsilon)
+$$
+
+But as we don’t know sigma we can estimate it with **residual standard
+error**.
+
+$$
+\sigma \approx RSE = \sqrt{\frac{RSS}{(n-2)}}
+$$
+
+$$
+SE(\hat{\beta_{0}})^2 = \sigma^2 
+                       \left[\frac{1}{n}+
+                             \frac{\overline{x}^2}
+                                  {\Sigma_{i=1}^n (x_{i}-\overline{x})^2} 
+                       \right]
+$$
+
+$$
+SE(\hat{\beta_{1}})^2 = \frac{\sigma^2}
+                             {\Sigma_{i=1}^n (x_{i} - \overline{x})^2}
+$$
+
+For example, we can see a positive correlation between the TV budget in
+the residuals, so this regression doesn’t meet the second assumption
+needed to check how far is our *least squares line* to the *population
+regression line*.
+
+<img src="img/02-residuals-sales-tv.png" data-fig-align="center" />
+
+An alternative way to answer this question is using **bootstrapping**.
+
+## Accuracy of the Model
+
+If we want to know how well the model fits to the data we have two
+options:
+
+- **Residual standard error (RSE)**: Even if the model were correct, the
+  actual values of $\hat{y}$ would differ from the true regression line
+  by approximately *this units*, on average.
+
+- **The $R^2$ statistic**: The proportion of variance explained by
+  taking as a reference the *total sum of squares* (total variance in
+  the response Y).
+
+$$
+TSS = \Sigma(y_{i} - \overline{y})^2 , \quad R^2 = \frac{TSS - RSS}{TSS}
+$$
+
+## Why fitting a simple linear model for each predictor isn’t satisfactory?
+
+1.  It is unclear how to make a single prediction of **Y** given the
+    different **Xs**.
+2.  Each simple regression equations ignores the other predictors to
+    calculate regression coeﬃcients.
+
+In this case if trying to fit a **Multiple Linear Regression** with
+following form:
+
+$$
+\hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1} x_{1} + \hat{\beta}_{2} x_{2} +
+          \dots + \hat{\beta}_{n} x_{n}
+$$
+
+## Questions to solve
+
+1.  Is There a Relationship Between the Response and Predictors?
+
+- Use the regression **P-value** (based on the F-statistic).
+
+$$
+H_{0}: \beta_{0} = \beta_{2} = \dots = \beta_{p} = 0 \\
+H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
+$$
+
+2.  How strong is the relationship?
+3.  Which **Xs** are associated with **Y**?
+4.  How large is each association?
+5.  How accurately can we predict **Y**?
+6.  Is the relationship linear?
+7.  Is there an interaction eﬀect among the **Xs**?
