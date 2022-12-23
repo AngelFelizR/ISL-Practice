@@ -170,7 +170,9 @@ $$
 \hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1} x
 $$
 
-**Residual** $$
+**Residual**
+
+$$
 e_{i} = y_{i} - \hat{y}_{i}
 $$
 
