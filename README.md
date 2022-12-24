@@ -14,14 +14,14 @@ An Introduction to Statistical Learning
     class="toc-section-number">1.3</span> Evaluating model performance</a>
 - <a href="#linear-regresion" id="toc-linear-regresion"><span
   class="toc-section-number">2</span> Linear regresion</a>
-  - <a href="#getting-least-squares-line-minimizing-the-least-squares"
-    id="toc-getting-least-squares-line-minimizing-the-least-squares"><span
-    class="toc-section-number">2.1</span> Getting Least Squares Line
-    (minimizing the least squares)</a>
-  - <a href="#how-close-are-the-estimated-coefficient-to-their-true-values"
-    id="toc-how-close-are-the-estimated-coefficient-to-their-true-values"><span
-    class="toc-section-number">2.2</span> How close are the estimated
-    coefficient to their true values?</a>
+  - <a href="#getting-the-least-squares-line-of-a-sample"
+    id="toc-getting-the-least-squares-line-of-a-sample"><span
+    class="toc-section-number">2.1</span> Getting the Least Squares Line of
+    a sample</a>
+  - <a href="#getting-confident-intervarls-of-coeffients"
+    id="toc-getting-confident-intervarls-of-coeffients"><span
+    class="toc-section-number">2.2</span> Getting confident intervarls of
+    coeffients</a>
   - <a href="#accuracy-of-the-model" id="toc-accuracy-of-the-model"><span
     class="toc-section-number">2.3</span> Accuracy of the Model</a>
   - <a
@@ -45,16 +45,17 @@ Y = f(X) + \epsilon
 $$
 
 **$\epsilon$** represent the **random error** and correspond to the
-**irreducible error** as it cannot be predicted using the Predictors. It
-would have a mean of 0 unless are missing some relevant Predictors. In
-classification models, the **irreducible error** is represented by the
-**Bayes Error Rate**.
+**irreducible error** as it cannot be predicted using the Predictors in
+regression models. It would have a mean of 0 unless are missing some
+relevant Predictors.
+
+In classification models, the **irreducible error** is represented by
+the **Bayes Error Rate**.
 
 $$
-1 - 
-E\left( 
-\underset{j}{max}Pr(Y = j|X)
-\right)
+1 -  E\left( 
+     \underset{j}{max}Pr(Y = j|X)
+     \right)
 $$
 
 An error is **reducible** if we can improve the accuracy of $\hat{f}$ by
@@ -136,94 +137,105 @@ $$
 $$
 I(y_{0} \neq \hat{y}_{0}) = 
 \begin{cases}
-1 & \text{If } 
-y_{0} \neq \hat{y}_{0} \\
-0 & \text{If } y_{0} = \hat{y}_{0}
+    1 & \text{If } y_{0} \neq \hat{y}_{0} \\
+    0 & \text{If } y_{0} = \hat{y}_{0}
 \end{cases}
 $$
 
 $$
-    Ave(I(y_{0} \neq \hat{y}_{0}))
+Ave(I(y_{0} \neq \hat{y}_{0}))
 $$
 
 # Linear regresion
 
-## Getting Least Squares Line (minimizing the least squares)
+## Getting the Least Squares Line of a sample
 
 As the *population regression line* is unobserved the *least squares
-line* is a good estimation. To use this method $n \geq p$, in the
-opposite case *forward selection* can be used.
+line* of a sample is a good estimation. To get it we need to follow the
+next steps:
 
-**Simple function**
+1.  Define the function to fit.
 
 $$
 \hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1} x
 $$
 
-**Residual**
+2.  Define how to calculate **residuals**.
 
 $$
 e_{i} = y_{i} - \hat{y}_{i}
 $$
 
-**Residual sum of squares (RSS)**
+3.  Define the **residual sum of squares (RSS)**.
 
 $$
 RSS = e_{1}^2 + e_{2}^2 + \dots + e_{n}^2
 $$
 
-## How close are the estimated coefficient to their true values?
+4.  Use calculus or make estimation with a computer to find the
+    coefficients that minimize the RSS.
 
-To answer that, we need to estimate the **standard error** and create
-**conﬁdence intervals**.
+$$
+\hat{\beta}_{1} = \frac{\sum_{i=1}^n(x_{i}-\overline{x})(y_{i}-\overline{y})}
+                       {\sum_{i=1}^n(x_{i}-\overline{x})}
+, \quad
+\hat{\beta}_{0} = \overline{y} - \hat{\beta}_{1}\overline{x}
+$$
+
+## Getting confident intervarls of coeffients
+
+To estimate the **population regression line** we can calculate
+**conﬁdence intervals** for sample coefficients, to define range where
+we can find the population values with a defined **confidence level**
+based on the sample data.
 
 > If we want to use 95% of confidence we need to know that after taking
-> many samples only 95% of the intervals produced with this confident
-> level would have the true value (parameter).
+> many samples only 95% of the intervals produced with this **confident
+> level** would have the true value (parameter).
 
-It’s also important to know that if 0 is between of $\hat{\beta}_{1}$
-that variable **doesn’t have relationship** with Y and *can not reject
-the null hypothesis*.
+To achieve this, we would need to know the population variance, but we
+can not calculate it as we don’t know the **random error**.
 
-To estimate the *standard error* of each parameter by using formulas we
-need to meet the following assumptions:
+$$
+\sigma^2 = Var(\epsilon)
+$$
+
+To solve this problem we can estimate its square root (standard
+deviation) based on the RSS if:
 
 1.  The errors $\epsilon_{i}$ for each observation have common variance
     $\sigma^2$.
 2.  The errors $\epsilon_{i}$ are uncorrelated.
 
 $$
-\sigma^2 = Var(\epsilon)
-$$
-
-But as we don’t know sigma we can estimate it with **residual standard
-error**.
-
-$$
 \sigma \approx RSE = \sqrt{\frac{RSS}{(n-p-1)}}
 $$
 
-$$
-SE(\hat{\beta_{0}})^2 = \sigma^2 
-                       \left[\frac{1}{n}+
-                             \frac{\overline{x}^2}
-                                  {\Sigma_{i=1}^n (x_{i}-\overline{x})^2} 
-                       \right]
-$$
+<img src="img/02-residuals-sales-tv.png" data-fig-align="center" />
 
-$$
-SE(\hat{\beta_{1}})^2 = \frac{\sigma^2}
-                             {\Sigma_{i=1}^n (x_{i} - \overline{x})^2}
-$$
+An alternative way to answer this question is using **bootstrapping**.
+
+Now we can calculate the **standard error** of each coefficient.
+
+\$\$ SE()^2 = ^2
+
+,
+
+SE()^2 = {*{i=1}^n (x*{i} - )^2} \$\$
+
+Then use the *standard error* of each coefficient to calculate the 95%
+confident interval.
+
+\$\$
+
+SE() , SE()
+
+\$\$
 
 For example, we can see a positive correlation between the TV budget in
 the residuals, so this regression doesn’t meet the second assumption
 needed to check how far is our *least squares line* to the *population
 regression line*.
-
-<img src="img/02-residuals-sales-tv.png" data-fig-align="center" />
-
-An alternative way to answer this question is using **bootstrapping**.
 
 ## Accuracy of the Model
 
@@ -239,7 +251,7 @@ options:
   the response Y).
 
 $$
-TSS = \Sigma(y_{i} - \overline{y})^2 , \quad R^2 = \frac{TSS - RSS}{TSS}
+TSS = \sum(y_{i} - \overline{y})^2 , \quad R^2 = \frac{TSS - RSS}{TSS}
 $$
 
 $$
