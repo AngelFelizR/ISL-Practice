@@ -24,20 +24,15 @@ An Introduction to Statistical Learning
     coeffients</a>
   - <a href="#accuracy-of-the-model" id="toc-accuracy-of-the-model"><span
     class="toc-section-number">2.3</span> Accuracy of the Model</a>
-  - <a
-    href="#why-fitting-a-simple-linear-model-for-each-predictor-isnt-satisfactory"
-    id="toc-why-fitting-a-simple-linear-model-for-each-predictor-isnt-satisfactory"><span
-    class="toc-section-number">2.4</span> Why fitting a simple linear model
-    for each predictor isn’t satisfactory?</a>
-  - <a href="#questions-to-solve" id="toc-questions-to-solve"><span
-    class="toc-section-number">2.5</span> Questions to solve</a>
+  - <a href="#insights-to-extract" id="toc-insights-to-extract"><span
+    class="toc-section-number">2.4</span> Insights to extract</a>
 
 # Basic concepts
 
 ## Reducible and irreducible error
 
-When we are analyzing data are trying to find the function that based on
-some Predictors and some random noise could describe the Response
+The goal when we are analyzing data is to find a function that based on
+some Predictors and some random noise could explain the Response
 variable.
 
 $$
@@ -59,11 +54,10 @@ $$
 $$
 
 An error is **reducible** if we can improve the accuracy of $\hat{f}$ by
-using the most appropriate statistical learning technique to estimate
-$f$.
+using a most appropriate statistical learning technique to estimate $f$.
 
-The challenge, when are making sense of data it’s that we don’t at the
-beginning much of the error correspond to each type.
+The challenge to achieve that goal it’s that we don’t at the beginning
+how much of the error correspond to each type.
 
 $$
 E(Y-\hat{Y})^2 = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
@@ -101,8 +95,8 @@ $$
 ## Types of models
 
 - **Parametric methods**
-  1.  Make an assumption about the functional form. For example assuming
-      linearity.
+  1.  Make an assumption about the functional form. For example,
+      assuming linearity.
   2.  Estimate a small number parameters based on training data.
   3.  Are easy to interpret.
 - **Non-parametric methods**
@@ -185,57 +179,56 @@ $$
 ## Getting confident intervarls of coeffients
 
 To estimate the **population regression line** we can calculate
-**conﬁdence intervals** for sample coefficients, to define range where
-we can find the population values with a defined **confidence level**
-based on the sample data.
+**conﬁdence intervals** for sample coefficients, to define a range where
+we can find the population values with a defined **confidence level**.
 
 > If we want to use 95% of confidence we need to know that after taking
 > many samples only 95% of the intervals produced with this **confident
 > level** would have the true value (parameter).
 
-To achieve this, we would need to know the population variance, but we
-can not calculate it as we don’t know the **random error**.
+To generate confident intervals we would need to calculate the variance
+of the *random error*.
 
 $$
 \sigma^2 = Var(\epsilon)
 $$
 
-To solve this problem we can estimate its square root (standard
-deviation) based on the RSS if:
+But as we can not calculate that variance an alternative can be to
+estimate it based on residuals if they meet the next conditions:
 
-1.  The errors $\epsilon_{i}$ for each observation have common variance
-    $\sigma^2$.
-2.  The errors $\epsilon_{i}$ are uncorrelated.
+1.  Each residual have common variance $\sigma^2$.
+2.  Residuals are uncorrelated.
 
 $$
 \sigma \approx RSE = \sqrt{\frac{RSS}{(n-p-1)}}
 $$
 
+In the next chart we can see how residuals are bigger as the TV budget
+increases. So the regression doesn’t meet the second condition, but we
+can use bootstrap as an alternative way to calculate confident
+intervals.
+
 <img src="img/02-residuals-sales-tv.png" data-fig-align="center" />
 
-An alternative way to answer this question is using **bootstrapping**.
+Now we can calculate the **standard error** of each coefficient and
+calculate the confident intervals.
 
-Now we can calculate the **standard error** of each coefficient.
+$$
+SE(\hat{\beta_{0}})^2 = \sigma^2 
+                       \left[\frac{1}{n}+
+                             \frac{\overline{x}^2}
+                                  {\sum_{i=1}^n (x_{i}-\overline{x})^2} 
+                       \right]
+$$
 
-\$\$ SE()^2 = ^2
+$$
+SE(\hat{\beta_{1}})^2 = \frac{\sigma^2}
+                             {\sum_{i=1}^n (x_{i} - \overline{x})^2}
+$$
 
-,
-
-SE()^2 = {*{i=1}^n (x*{i} - )^2} \$\$
-
-Then use the *standard error* of each coefficient to calculate the 95%
-confident interval.
-
-\$\$
-
-SE() , SE()
-
-\$\$
-
-For example, we can see a positive correlation between the TV budget in
-the residuals, so this regression doesn’t meet the second assumption
-needed to check how far is our *least squares line* to the *population
-regression line*.
+$$
+\hat{\beta_{1}} \pm 2 \cdot SE(\hat{\beta_{1}}), \quad \hat{\beta_{0}} \pm 2 \cdot SE(\hat{\beta_{0}})
+$$
 
 ## Accuracy of the Model
 
@@ -247,44 +240,28 @@ options:
   by approximately *this units*, on average.
 
 - **The $R^2$ statistic**: The proportion of variance explained by
-  taking as a reference the *total sum of squares* (total variance in
-  the response Y).
+  taking as a reference the **total sum of squares (TSS)**.
 
 $$
 TSS = \sum(y_{i} - \overline{y})^2 , \quad R^2 = \frac{TSS - RSS}{TSS}
 $$
 
 $$
-    R^2 = 
-    \begin{cases}
+R^2 = 
+\begin{cases}
     Cor(X, Y)^2  & \text{Simple Lineal Regresion} \\
     Cor(Y,\hat{Y})^2 & \text{Multipline Lineal Regresion}
-    \end{cases}
+\end{cases}
 $$
 
-## Why fitting a simple linear model for each predictor isn’t satisfactory?
-
-1.  It is unclear how to make a single prediction of **Y** given the
-    different **Xs**.
-2.  Each simple regression equations ignores the other predictors to
-    calculate regression coeﬃcients.
-
-In this case if trying to fit a **Multiple Linear Regression** with
-following form:
-
-$$
-\hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1} x_{1} + \hat{\beta}_{2} x_{2} +
-          \dots + \hat{\beta}_{n} x_{n}
-$$
-
-## Questions to solve
+## Insights to extract
 
 **1. Is there a relationship between the Response and Predictors?**
 
 Use the regression **overall P-value** (based on the F-statistic) to
 confirm that at **least one predictor** is related with the Response and
-avoid interpretative problems associated with the number of
-**observations (*n*)** or **predictors (*p*)**
+avoid interpretative problems associated with the number of observations
+(*n*) or predictors (*p*).
 
 $$
 H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
@@ -296,8 +273,8 @@ $$
 
 **2. Which Predictors are related with the Response?**
 
-To answer that we can test if a particular subset of q of the coeﬃcients
-are zero.
+To answer that we can test if a particular subset of q of the
+cofficients are zero.
 
 $$
 H_{0}: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_{p} = 0
