@@ -7,17 +7,11 @@ An Introduction to Statistical Learning
     id="toc-reducible-and-irreducible-error"><span
     class="toc-section-number">1.1</span> Reducible and irreducible
     error</a>
-  - <a href="#statistical-learning-methods"
-    id="toc-statistical-learning-methods"><span
-    class="toc-section-number">1.2</span> Statistical learning methods</a>
-  - <a href="#accuracy-vs-interpretability"
-    id="toc-accuracy-vs-interpretability"><span
-    class="toc-section-number">1.3</span> Accuracy vs interpretability</a>
+  - <a href="#types-of-models" id="toc-types-of-models"><span
+    class="toc-section-number">1.2</span> Types of models</a>
   - <a href="#evaluating-model-performance"
     id="toc-evaluating-model-performance"><span
-    class="toc-section-number">1.4</span> Evaluating model performance</a>
-  - <a href="#other-concepts" id="toc-other-concepts"><span
-    class="toc-section-number">1.5</span> Other concepts</a>
+    class="toc-section-number">1.3</span> Evaluating model performance</a>
 - <a href="#linear-regresion" id="toc-linear-regresion"><span
   class="toc-section-number">2</span> Linear regresion</a>
   - <a href="#getting-least-squares-line-minimizing-the-least-squares"
@@ -42,100 +36,19 @@ An Introduction to Statistical Learning
 
 ## Reducible and irreducible error
 
-It is to estimate the next:
+When we are analyzing data are trying to find the function that based on
+some Predictors and some random noise could describe the Response
+variable.
 
 $$
 Y = f(X) + \epsilon
 $$
 
-- **\$f\$ unknown function** of X\~1\~ , …, X\~p\~
-- **Random error (ϵ)**: independent of X and has mean zero. It also
-  correspond to the **irreducible error** as it cannot be predicted
-  using X. If the mean of ϵ isn’t zero it may contain unmeasured
-  variables that are useful in predicting.
-
-An error is **reducible** if we can improve the accuracy of \$\hat{f}\$
-by using the most appropriate statistical learning technique to estimate
-f.
-
-$$
-E(Y-\hat{Y})^2 = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
-= \underbrace{[f(X)- \hat{f}(x)]^2}_\text{Reducible} + 
-  \underbrace{Var(\epsilon)}_\text{Irredicible}
-$$
-
-When general we don’t have any way to know how much of the error comes
-from each source.
-
-## Statistical learning methods
-
-- **Parametric methods**
-  1.  Make an assumption about the functional form. For example assuming
-      linearity.
-  2.  Estimates a small number parameters based on training data.
-- **Non-parametric methods**
-  1.  Don’t make an assumption about the functional form, to accurately
-      ﬁt a wider range of possible shapes for f.
-  2.  Need a large number of observations in order to obtain an accurate
-      estimate for f.
-  3.  The data analyst must select a level of smoothness (degrees of
-      freedom).
-
-## Accuracy vs interpretability
-
-<img src="img/01-accuracy-vs-interpretability.png"
-data-fig-align="center" />
-
-## Evaluating model performance
-
-we may have access to a set of observations that were not used to train
-the statistical learning method. We can then simply evaluate on the test
-observations, and select the learning method for which the **test MSE**
-is smallest.
-
-- **Test mean squared error (MSE)**
-
-$$
-Ave(y_{0}-\hat{f}(x_{0}))^2
-$$
-
-- **Bias-variance trade-oﬀ**
-
-*The challenge lies in ﬁnding a method for which both the variance and
-the squared bias are low.*
-
-$$
-E(y_{0} - \hat{f}(x_{0}))^2 = 
-Var(\hat{f}(x_{0})) + 
-[Bias(\hat{f}(x_{0}))]^2 + 
-Var(\epsilon)
-$$
-
-- - **Variance** refers to the amount by which ^f would change if we
-    estimated it using a diﬀerent training data set. If a method has
-    high variance then small changes in the training data can result in
-    large changes in ^f.
-
-  - **Squared bias** refers to the error that is introduced by
-    approximating a real-life problem, which may be extremely
-    complicated, by a much simpler model, like happens with linear
-    models.
-
-- **Test Error rate**
-
-$$
-    Ave(I(y_{0} \neq \hat{y}_{0}))
-$$ $$
-     I(y_{0} \neq \hat{y}_{0}) = 
-    \begin{cases}
-    1 & \text{If } 
-    y_{0} \neq \hat{y}_{0} \\
-    0 & \text{If } y_{0} = \hat{y}_{0}
-    \end{cases}
-$$
-
-In this case the **Bayes Error Rate** is the **irreducible error** for
-classifications, as we don’t know the distribution of Y given X.
+**$\epsilon$** represent the **random error** and correspond to the
+**irreducible error** as it cannot be predicted using the Predictors. It
+would have a mean of 0 unless are missing some relevant Predictors. In
+classification models, the **irreducible error** is represented by the
+**Bayes Error Rate**.
 
 $$
 1 - 
@@ -144,15 +57,94 @@ E\left(
 \right)
 $$
 
-## Other concepts
+An error is **reducible** if we can improve the accuracy of $\hat{f}$ by
+using the most appropriate statistical learning technique to estimate
+$f$.
 
-- **Cross-validation** Is a method for estimating test MSE using the
-  training data.
+The challenge, when are making sense of data it’s that we don’t at the
+beginning much of the error correspond to each type.
 
-- **Training data**: Data used to train, or teach, our method how to
-  estimate f.
+$$
+E(Y-\hat{Y})^2 = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
+= \underbrace{[f(X)- \hat{f}(x)]^2}_\text{Reducible} + 
+  \underbrace{Var(\epsilon)}_\text{Irredicible}
+$$
 
-- **Overﬁtting**: Models follow the errors.
+The reducible error can be also spitted in two parts:
+
+- **Variance** refers to the amount by which $\hat{f}$ would change if
+  we estimate it using a different **training data set**. If a method
+  has high variance then small changes in the training data can result
+  in large changes of $\hat{f}$.
+
+- **Squared bias** refers to the error that is introduced by
+  approximating a real-life problem, which may be extremely complicated,
+  by a much simpler model as for example a linear model.
+
+$$
+E(y_{0} - \hat{f}(x_{0}))^2 = 
+Var(\hat{f}(x_{0})) + 
+[Bias(\hat{f}(x_{0}))]^2 + 
+Var(\epsilon)
+$$
+
+<div>
+
+> **Note**
+>
+> Our challenge lies in ﬁnding a method for which both the variance and
+> the squared bias are low.
+
+</div>
+
+## Types of models
+
+- **Parametric methods**
+  1.  Make an assumption about the functional form. For example assuming
+      linearity.
+  2.  Estimate a small number parameters based on training data.
+  3.  Are easy to interpret.
+- **Non-parametric methods**
+  1.  Don’t make an assumption about the functional form, to accurately
+      ﬁt a wider range of possible shapes for $f$.
+  2.  Need a large number of observations in order to obtain an accurate
+      estimate for $f$.
+  3.  The data analyst must select a level of smoothness (degrees of
+      freedom).
+
+<img src="img/01-accuracy-vs-interpretability.png"
+data-fig-align="center" />
+
+## Evaluating model performance
+
+To evaluate how good works a models we need to split the available data
+in two parts.
+
+- **Training data**: Used to fit the model.
+- **Test data**: Used to confirm how well the model works with new data.
+
+Some measurements to evaluate our test data are:
+
+- **Test mean squared error (MSE)**
+
+$$
+Ave(y_{0}-\hat{f}(x_{0}))^2
+$$
+
+- **Test Error rate**
+
+$$
+I(y_{0} \neq \hat{y}_{0}) = 
+\begin{cases}
+1 & \text{If } 
+y_{0} \neq \hat{y}_{0} \\
+0 & \text{If } y_{0} = \hat{y}_{0}
+\end{cases}
+$$
+
+$$
+    Ave(I(y_{0} \neq \hat{y}_{0}))
+$$
 
 # Linear regresion
 
