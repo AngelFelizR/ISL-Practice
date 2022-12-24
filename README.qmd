@@ -129,8 +129,8 @@ $$
 4. Use calculus or make estimation with a computer to find the coefficients that minimize the RSS.
 
 $$
-\hat{\beta}_{1} = \frac{\sum_{i=1}^{n}(x_{i}-\overline{x})(y_{i}-\overline{y})}
-                       {\sum_{i=1}^{n}(x_{i}-\overline{x})}
+\hat{\beta}_{1} = \frac{\Sigma_{i=1}^{n}(x_{i}-\overline{x})(y_{i}-\overline{y})}
+                       {\Sigma_{i=1}^{n}(x_{i}-\overline{x})}
 , \quad
 \hat{\beta}_{0} = \overline{y} - \hat{\beta}_{1}\overline{x}
 $$
@@ -166,13 +166,13 @@ $$
 SE(\hat{\beta_{0}})^2 = \sigma^2 
                        \left[\frac{1}{n}+
                              \frac{\overline{x}^2}
-                                  {\sum_{i=1}^{n} (x_{i}-\overline{x})^2} 
+                                  {\Sigma_{i=1}^{n} (x_{i}-\overline{x})^2} 
                        \right]
 $$
 
 $$
 SE(\hat{\beta_{1}})^2 = \frac{\sigma^2}
-                             {\sum_{i=1}^{n} (x_{i} - \overline{x})^2}
+                             {\Sigma_{i=1}^{n} (x_{i} - \overline{x})^2}
 $$
 
 
@@ -189,7 +189,7 @@ If we want to know how well the model fits to the data we have two options:
 - **The $R^2$ statistic**: The proportion of variance explained by taking as a reference the **total sum of squares (TSS)**.
 
 $$
-TSS = \sum(y_{i} - \overline{y})^2 , \quad R^2 = \frac{TSS - RSS}{TSS}
+TSS = \Sigma(y_{i} - \overline{y})^2 , \quad R^2 = \frac{TSS - RSS}{TSS}
 $$
 
 
