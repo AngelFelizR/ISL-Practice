@@ -108,7 +108,7 @@ $$
 
 ## Getting Least Squares Line (minimizing the least squares)
 
-As the *population regression line* is unobserved the *least squares line* is a good estimation.
+As the *population regression line* is unobserved the *least squares line* is a good estimation. To use this method $n \geq p$, in the opposite case *forward selection* can be used.
 
 **Simple function**
 
@@ -128,7 +128,7 @@ $$
 RSS = e_{1}^2 + e_{2}^2 + \dots + e_{n}^2
 $$
 
-## How close are the $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ to their true values?
+## How close are the estimated coefficient to their true values?
 
 To answer that, we need to estimate the **standard error** and create **conﬁdence intervals**.
 
@@ -148,7 +148,7 @@ $$
 But as we don't know sigma we can estimate it with **residual standard error**.
 
 $$
-\sigma \approx RSE = \sqrt{\frac{RSS}{(n-2)}}
+\sigma \approx RSE = \sqrt{\frac{RSS}{(n-p-1)}}
 $$
 
 $$
@@ -184,6 +184,16 @@ $$
 TSS = \Sigma(y_{i} - \overline{y})^2 , \quad R^2 = \frac{TSS - RSS}{TSS}
 $$
 
+
+$$
+    R^2 = 
+    \begin{cases}
+    Cor(X, Y)^2  & \text{Simple Lineal Regresion} \\
+    Cor(Y,\hat{Y})^2 & \text{Multipline Lineal Regresion}
+    \end{cases}
+$$
+
+
 ## Why fitting a simple linear model for each predictor isn't satisfactory?
 
 1. It is unclear how to make a single prediction of **Y** given the different **Xs**.
@@ -198,18 +208,45 @@ $$
 
 ## Questions to solve
 
-1. Is There a Relationship Between the Response and Predictors?
-  - Use the regression **P-value** (based on the F-statistic).
+**1. Is there a relationship between the Response and Predictors?**
+
+Use the regression **overall P-value** (based on the F-statistic) to confirm that at **least one predictor** is related with the Response and avoid interpretative problems associated with the number of **observations (_n_)** or **predictors (_p_)**
+  
   
 $$
-H_{0}: \beta_{0} = \beta_{2} = \dots = \beta_{p} = 0 \\
+H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
+$$
+
+$$
 H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
 $$
 
+
+**2. Which Predictors are related with the Response?**
+
+To answer that we can test if a particular subset of q of the coeﬃcients are zero. 
   
-2. How strong is the relationship?
-3. Which **Xs** are associated with **Y**?
-4. How large is each association?
-5. How accurately can we predict **Y**?
-6. Is the relationship linear?
-7. Is there an interaction eﬀect among the **Xs**?
+$$
+H_{0}: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_{p} = 0
+$$
+
+In this case, F-statistic reports the **partial eﬀect** of adding a extra variable to the model (the order matters) to apply a *variable selection* technique. The classical approach is to:
+
+1. Fit a model for each variable combination ($2^p$).
+2. Select the best model based on *Mallow’s Cp*, *Akaike information criterion (AIC)*, *Bayesian information criterion (BIC)*, and *adjusted* $R^2$ or plot various model outputs, such as the residuals, in order to search for patterns.
+
+But just think that if we have $p = 30$ we will have $2^{30} = =1,073,741,824\ models$ to fit, that it's too much. Some alternative approaches for this task:
+
+- Forward selection
+- Backward selection (cannot be used if p >n)
+- Mixed selection
+
+**3. How well does the model ﬁt the data?**
+
+To achieve this we can use **residual standard error**, the **$R^2$** and **plotting** the data.
+
+
+**4. How accurate is our prediction?**
+
+We use prediction intervals to answer this question. Prediction intervals are always wider than conﬁdence intervals, because they incorporate both the error in the estimate for $f(x)$ (the reducible error) and the uncertainty as to how much an individual point will diﬀer from the population regression plane (the irreducible error).
+
