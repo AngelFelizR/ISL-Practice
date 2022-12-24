@@ -170,8 +170,8 @@ $$
     coefficients that minimize the RSS.
 
 $$
-\hat{\beta}_{1} = \frac{\sum_{i=1}^n(x_{i}-\overline{x})(y_{i}-\overline{y})}
-                       {\sum_{i=1}^n(x_{i}-\overline{x})}
+\hat{\beta}_{1} = \frac{\sum_{i=1}^{n}(x_{i}-\overline{x})(y_{i}-\overline{y})}
+                       {\sum_{i=1}^{n}(x_{i}-\overline{x})}
 , \quad
 \hat{\beta}_{0} = \overline{y} - \hat{\beta}_{1}\overline{x}
 $$
@@ -217,16 +217,16 @@ $$
 SE(\hat{\beta_{0}})^2 = \sigma^2 
                        \left[\frac{1}{n}+
                              \frac{\overline{x}^2}
-                                  {\sum_{i=1}^n (x_{i}-\overline{x})^2} 
+                                  {\sum_{i=1}^{n} (x_{i}-\overline{x})^2} 
                        \right]
 $$
 
 $$
 SE(\hat{\beta_{1}})^2 = \frac{\sigma^2}
-                             {\sum_{i=1}^n (x_{i} - \overline{x})^2}
+                             {\sum_{i=1}^{n} (x_{i} - \overline{x})^2}
 $$
 
-$$
+$$  
 \hat{\beta_{1}} \pm 2 \cdot SE(\hat{\beta_{1}}), \quad \hat{\beta_{0}} \pm 2 \cdot SE(\hat{\beta_{0}})
 $$
 
@@ -284,7 +284,7 @@ In this case, F-statistic reports the **partial eﬀect** of adding a
 extra variable to the model (the order matters) to apply a *variable
 selection* technique. The classical approach is to:
 
-1.  Fit a model for each variable combination ($2^p$).
+1.  Fit a model for each variable combination $2^p$.
 2.  Select the best model based on *Mallow’s Cp*, *Akaike information
     criterion (AIC)*, *Bayesian information criterion (BIC)*, and
     *adjusted* $R^2$ or plot various model outputs, such as the
