@@ -32,9 +32,11 @@ An error is **reducible** if we can improve the accuracy of $\hat{f}$ by using a
 The challenge to achieve that goal it's that we don't at the beginning how much of the error correspond to each type.
 
 $$
-E(Y-\hat{Y})^2 = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
-= \underbrace{[f(X)- \hat{f}(x)]^2}_\text{Reducible} + 
-  \underbrace{Var(\epsilon)}_\text{Irredicible}
+\begin{split}
+E(Y-\hat{Y})^2 & = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
+               & = \underbrace{[f(X)- \hat{f}(x)]^2}_\text{Reducible} +
+                   \underbrace{Var(\epsilon)}_\text{Irredicible}
+\end{split}
 $$
 
 The reducible error can be also spitted in two parts:
@@ -149,16 +151,14 @@ $$
 
 But as we can not calculate that variance an alternative can be to estimate it based on residuals if they meet the next conditions:
 
-1. Each residual have common variance $\sigma^2$.
-2. Residuals are uncorrelated.
+1. Each residual have common variance $\sigma^2$, so the variances of the error terms shouldn't have any relation with the value of the response.
+2. Residuals are uncorrelated. For example, if $\epsilon_{i}$ is positive, that provides little or no information about the sign of $\epsilon_{i+1}$. 
+
+If not, we would end underestimating the true standard errors, reducing the probability a given confident level to contain the true value of the parameter and underrating the *p-values* associated with the model.
 
 $$
 \sigma \approx RSE = \sqrt{\frac{RSS}{(n-p-1)}}
 $$
-
-In the next chart we can see how residuals are bigger as the TV budget increases. So the regression doesn't meet the second condition, but we can use bootstrap as an alternative way to calculate confident intervals.
-
-![](img/02-residuals-sales-tv.png){fig-align="center"}
 
 Now we can calculate the **standard error** of each coefficient and calculate the confident intervals.
 
@@ -189,7 +189,11 @@ If we want to know how well the model fits to the data we have two options:
 - **The $R^2$ statistic**: The proportion of variance explained by taking as a reference the **total sum of squares (TSS)**.
 
 $$
-TSS = \Sigma(y_{i} - \overline{y})^2 , \quad R^2 = \frac{TSS - RSS}{TSS}
+TSS = \Sigma(y_{i} - \overline{y})^2
+$$
+
+$$
+R^2 = \frac{TSS - RSS}{TSS}
 $$
 
 
@@ -244,4 +248,91 @@ To achieve this we can use **residual standard error**, the **$R^2$** and **plot
 **4. How accurate is our prediction?**
 
 We use prediction intervals to answer this question. Prediction intervals are always wider than conﬁdence intervals, because they incorporate both the error in the estimate for $f(x)$ (the reducible error) and the uncertainty as to how much an individual point will diﬀer from the population regression plane (the irreducible error).
+
+
+## Standard linear regression model assumptions
+  
+- The **additivity assumption** means that the association between a predictor $X_{j}$ and the response $Y$ does not depend on the values of the other predictors, as it happens when there is a *interaction (synergy) effect*
+
+- The **linearity assumption** states that the change in the response Y associated with a one-unit change in $X_{j}$ is constant, regardless of the value of $X_{j}$.
+
+### Including an interaction term
+
+This approach relax the *additivity assumption* that models usually have. 
+
+- **2 quantitative variables**
+
+It consist in adding an extra coefficient which multiplies two or more variables.
+
+$$
+\begin{split}
+Y & = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} + \beta_{3} X_{1} X_{2} + \epsilon \\
+  & = \beta_{0} + (\beta_{1} + \beta_{3} X_{2}) X_{1} + \beta_{2} X_{2} + \epsilon \\
+  & = \beta_{0} + \tilde{\beta}_{1} X_{1} + \beta_{2} X_{2} + \epsilon
+\end{split}
+$$
+
+After adding the interaction term we could interpret the change as making one of the original coefficient a function of the another variable. Now we could say that *$\beta_{3}$ represent __the change of $X_{1}$ effectiveness__ associated with a one-unit increase in $X_{2}$*.
+
+It very important that we keep **hierarchical principle**, which states that if we include an interaction in a model, we should also include the main effects, even if the p-values associated with their coefficients are not significant as ***it would alter the meaning of the interaction***.
+
+- **1 quantitative and 1 qualitative variable**
+
+If $X_{1}$ is quantitative and $X_{2}$ is qualitative:
+
+$$
+\hat{Y} = 
+\begin{cases}
+    (\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{3})X_{1} & \text{if }X_{2} \text{ is TRUE}\\
+    \beta_{0} + \beta_{1}X_{1}                             & \text{if }X_{2} \text{ is FALSE}
+\end{cases}
+$$
+
+Adding the $\beta_{3}$ interaction allow the line to change the line slope based on $X_{2}$ and not just a different intercept.
+
+![](img/03-factor-interaction.png){fig-align="center"}
+
+### Polynomial regression
+
+This approach relax the *linearity assumption* that models usually have. It consist in including transformed versions of the predictors.
+
+$$
+\begin{split}
+Y & = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} \\
+  & = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{1}^2 
+\end{split}
+$$
+
+
+## Possible problems
+
+**1. Non-linearity of the response-predictor relationships.**
+
+|Detection method|Solutions|
+|:---------------|:--------|
+|Plot the **residuals versus predicted values** $\hat{y}_{i}$. Ideally, the residual plot will show no discernible pattern. The presence of a pattern may indicate a problem with some aspect of the linear model.|A simple approach is to use non-linear transformations of the predictors, such as $\log{X}$, $\sqrt{X}$, and $X^2$, in the regression model|
+
+![](img/04-residuals-predicted-values.png){fig-align="center"}
+
+**2. Correlation of error terms.**
+
+|Detection method|Solutions|
+|:---------------|:--------|
+|1. Plot the residuals from our model as a function of time or execution order. If the errors are uncorrelated, then there should be no discernible pattern. </br> </br> 2. Check if some observation have been exposed to the same environmental factors|Good experimental design is crucial in order to mitigate these problems|
+
+**3. Non-constant variance (heteroscedasticity) of error terms**
+
+|Detection method|Solutions|
+|:---------------|:--------|
+|Plot the residual plot en check if you can see a funnel shape|When faced with this problem, one possible solution is to transform the response Y using a concave function such as $\log{Y}$ or $\sqrt{Y}$|
+
+![](img/05-non-constance-variance.png){fig-align="center"}
+
+**4. Outliers.**
+
+**5. High-leverage points.**
+
+**6. Collinearity.**
+
+
 
