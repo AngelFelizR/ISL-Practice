@@ -401,7 +401,7 @@ $$
 
 ## Possible problems
 
-**1. Non-linearity of the response-predictor relationships.**
+**1. Non-linearity of the response-predictor relationships**
 
 | Detection method                                                                                                                                                                                                  | Solutions                                                                                                                                   |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
@@ -410,7 +410,7 @@ $$
 <img src="img/04-residuals-predicted-values.png"
 data-fig-align="center" />
 
-**2. Correlation of error terms.**
+**2. Correlation of error terms**
 
 | Detection method                                                                                                                                                                                                                                          | Solutions                                                               |
 |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------|
@@ -418,14 +418,53 @@ data-fig-align="center" />
 
 **3. Non-constant variance (heteroscedasticity) of error terms**
 
-| Detection method                                              | Solutions                                                                                                                                   |
-|:--------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
-| Plot the residual plot en check if you can see a funnel shape | When faced with this problem, one possible solution is to transform the response Y using a concave function such as $\log{Y}$ or $\sqrt{Y}$ |
+| Detection method                                              | Solutions                                                                              |
+|:--------------------------------------------------------------|:---------------------------------------------------------------------------------------|
+| Plot the residual plot en check if you can see a funnel shape | We can transform the response using a concave function such as $\log{Y}$ or $\sqrt{Y}$ |
 
 <img src="img/05-non-constance-variance.png" data-fig-align="center" />
 
-**4. Outliers.**
+**4. Outliers**
 
-**5. High-leverage points.**
+An outlier is a point for which $y_{i}$ is far from the value predicted
+by the model. Sometimes, they have little effect on the least squares
+line, but *over estimate the RSE* making bigger p-values of the model
+and *under estimate the $R^2$*.
 
-**6. Collinearity.**
+| Detection method                                                                                                                                                              | Solutions                                                                                                                                                         |
+|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Plot the **studentized residuals**, computed by dividing each residual $e_{i}$ by its estimated standard error. Then search for points which absolute value is greater than 3 | They can be removed if it has occurred due to an error in data collection. Otherwise, they may indicate a deficiency with the model, such as a missing predictor. |
+
+<img src="img/06-studentized-residuals-plot.png"
+data-fig-align="center" />
+
+**5. High-leverage points**
+
+Observations with **high leverage** have an unusual value for $x_{i}$.
+High leverage observations tend to have a sizable impact on the
+estimated regression line and any problems with these points may
+invalidate the entire fit.
+
+| Detection method                                                                                                                                              | Solutions                                                             |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------|
+| Compute the leverage statistic. Find an observation with higher value than mean, represented by $(p + 1)/n$. Leverage values are always between $1/n$ and $1$ | Make sure that the value is correct and not a data collection problem |
+
+$$
+h_{i} = \frac{1}{n} + 
+        \frac{(x_{i} - \overline{x})^2}
+              {\Sigma_{i'=1}^n(x_{i'} - \overline{x})^2}
+$$
+
+In a *multiple linear regression*, it is possible to have an observation
+that is well within the range of each individual predictor’s values, but
+that is unusual in terms of the full set of predictors.
+
+<img src="img/07-studentized-residuals-leverage-plot.png"
+data-fig-align="center" />
+
+**6. Collinearity**
+
+**Collinearity** refers to the situation in which two or more predictor
+variables are closely related (highly correlated) to one another. They
+make difficult to determine how each one separately is associated with
+the response.
