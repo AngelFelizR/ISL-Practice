@@ -38,6 +38,23 @@ An Introduction to Statistical Learning
       class="toc-section-number">2.5.2</span> Polynomial regression</a>
   - <a href="#possible-problems" id="toc-possible-problems"><span
     class="toc-section-number">2.6</span> Possible problems</a>
+    - <a href="#non-linearity-of-the-response-predictor-relationships"
+      id="toc-non-linearity-of-the-response-predictor-relationships"><span
+      class="toc-section-number">2.6.1</span> Non-linearity of the
+      response-predictor relationships</a>
+    - <a href="#correlation-of-error-terms"
+      id="toc-correlation-of-error-terms"><span
+      class="toc-section-number">2.6.2</span> Correlation of error terms</a>
+    - <a href="#non-constant-variance-heteroscedasticity-of-error-terms"
+      id="toc-non-constant-variance-heteroscedasticity-of-error-terms"><span
+      class="toc-section-number">2.6.3</span> Non-constant variance
+      (heteroscedasticity) of error terms</a>
+    - <a href="#outliers" id="toc-outliers"><span
+      class="toc-section-number">2.6.4</span> Outliers</a>
+    - <a href="#high-leverage-points" id="toc-high-leverage-points"><span
+      class="toc-section-number">2.6.5</span> High-leverage points</a>
+    - <a href="#collinearity" id="toc-collinearity"><span
+      class="toc-section-number">2.6.6</span> Collinearity</a>
 
 # Basic concepts
 
@@ -401,7 +418,7 @@ $$
 
 ## Possible problems
 
-**1. Non-linearity of the response-predictor relationships**
+### Non-linearity of the response-predictor relationships
 
 | Detection method                                                                                                                                                                                                  | Solutions                                                                                                                                   |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
@@ -410,13 +427,13 @@ $$
 <img src="img/04-residuals-predicted-values.png"
 data-fig-align="center" />
 
-**2. Correlation of error terms**
+### Correlation of error terms
 
 | Detection method                                                                                                                                                                                                                                          | Solutions                                                               |
 |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------|
 | 1\. Plot the residuals from our model as a function of time or execution order. If the errors are uncorrelated, then there should be no discernible pattern. </br> </br> 2. Check if some observation have been exposed to the same environmental factors | Good experimental design is crucial in order to mitigate these problems |
 
-**3. Non-constant variance (heteroscedasticity) of error terms**
+### Non-constant variance (heteroscedasticity) of error terms
 
 | Detection method                                              | Solutions                                                                              |
 |:--------------------------------------------------------------|:---------------------------------------------------------------------------------------|
@@ -424,7 +441,7 @@ data-fig-align="center" />
 
 <img src="img/05-non-constance-variance.png" data-fig-align="center" />
 
-**4. Outliers**
+### Outliers
 
 An outlier is a point for which $y_{i}$ is far from the value predicted
 by the model. Sometimes, they have little effect on the least squares
@@ -438,7 +455,7 @@ and *under estimate the $R^2$*.
 <img src="img/06-studentized-residuals-plot.png"
 data-fig-align="center" />
 
-**5. High-leverage points**
+### High-leverage points
 
 Observations with **high leverage** have an unusual value for $x_{i}$.
 High leverage observations tend to have a sizable impact on the
@@ -462,7 +479,7 @@ that is unusual in terms of the full set of predictors.
 <img src="img/07-studentized-residuals-leverage-plot.png"
 data-fig-align="center" />
 
-**6. Collinearity**
+### Collinearity
 
 **Collinearity** refers to the situation in which two or more predictor
 variables are closely related (highly correlated) to one another. They
