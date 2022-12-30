@@ -66,6 +66,8 @@ Our challenge lies in ﬁnding a method for which both the variance and the squa
     1. Make an assumption about the functional form. For example, assuming linearity.
     2. Estimate a small number parameters based on training data.
     3. Are easy to interpret.
+    4. Tend to outperform non-parametric approaches when there is a small number of observations per predictor.
+
     
 - **Non-parametric methods**
     1.  Don't make an assumption about the functional form, to accurately ﬁt a wider range of possible shapes for $f$.
@@ -90,7 +92,7 @@ $$
 Ave(y_{0}-\hat{f}(x_{0}))^2
 $$
 
-- **Test Error rate**
+- **Test error rate**
 
 $$
 I(y_{0} \neq \hat{y}_{0}) = 
@@ -180,11 +182,27 @@ $$
 \hat{\beta_{1}} \pm 2 \cdot SE(\hat{\beta_{1}}), \quad \hat{\beta_{0}} \pm 2 \cdot SE(\hat{\beta_{0}})
 $$
 
-## Accuracy of the Model
+## Insights to extract
+
+### Confirm the relationship between the Response and Predictors
+
+Use the regression **overall P-value** (based on the F-statistic) to confirm that at **least one predictor** is related with the Response and avoid interpretative problems associated with the number of observations (_n_) or predictors (_p_).
+  
+  
+$$
+H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
+$$
+
+$$
+H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
+$$
+
+
+### Accuracy of the model (relationship strength)
 
 If we want to know how well the model fits to the data we have two options:
 
-- **Residual standard error (RSE)**: Even if the model were correct, the actual values of $\hat{y}$ would differ from the true regression line by approximately *this units*, on average.
+- **Residual standard error (RSE)**: Even if the model were correct, the actual values of $\hat{y}$ would differ from the true regression line by approximately *this units*, on average. To get the percentage error we can calculate $RSE/\overline{x}$
 
 - **The $R^2$ statistic**: The proportion of variance explained by taking as a reference the **total sum of squares (TSS)**.
 
@@ -205,25 +223,10 @@ R^2 =
 \end{cases}
 $$
 
-## Insights to extract
 
-**1. Is there a relationship between the Response and Predictors?**
+### Confirm the relationship between the Response and each predictor
 
-Use the regression **overall P-value** (based on the F-statistic) to confirm that at **least one predictor** is related with the Response and avoid interpretative problems associated with the number of observations (_n_) or predictors (_p_).
-  
-  
-$$
-H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
-$$
-
-$$
-H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
-$$
-
-
-**2. Which Predictors are related with the Response?**
-
-To answer that we can test if a particular subset of q of the cofficients are zero. 
+To answer that we can test if a particular subset of q of the coefficients are zero. 
   
 $$
 H_{0}: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_{p} = 0
@@ -240,14 +243,13 @@ But just think that if we have $p = 30$ we will have $2^{30} = =1,073,741,824\ m
 - Backward selection (cannot be used if p >n)
 - Mixed selection
 
-**3. How well does the model ﬁt the data?**
+### Size of association between each predictor and the response.
 
-To achieve this we can use **residual standard error**, the **$R^2$** and **plotting** the data.
+To check that we need to see the $\hat{\beta}_{j}$ confident intervals as the real $\beta_{j}$ is in that range.
 
+### Predicting future values
 
-**4. How accurate is our prediction?**
-
-We use prediction intervals to answer this question. Prediction intervals are always wider than conﬁdence intervals, because they incorporate both the error in the estimate for $f(x)$ (the reducible error) and the uncertainty as to how much an individual point will diﬀer from the population regression plane (the irreducible error).
+If we want to predict the average response $f(X)$ we can use the confident intervals, but if we want to predict an individual response $Y = f(X) + \epsilon$ we need to use prediction intervals as they account for the uncertainty associated with $\epsilon$, the irreducible error.
 
 
 ## Standard linear regression model assumptions
@@ -358,5 +360,58 @@ In a *multiple linear regression*, it is possible to have an observation that is
 
 ### Collinearity
 
-**Collinearity** refers to the situation in which two or more predictor variables are closely related (highly correlated) to one another. They make difficult to determine how each one separately is associated with the response.
+**Collinearity** refers to the situation in which two or more predictor variables are closely related (highly correlated) to one another. It reduces the accuracy of the estimates of the regression coeﬃcients and causes the standard error for $\hat{\beta}_{j}$ to grow. That reduce the **power of the hypothesis test**,that is, the probability of correctly detecting a non-zero coeﬃcient.
+
+Looking at the correlation matrix of the predictors could be usefull, but it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation (**multicollinearity**). 
+
+|Detection method|Solutions|
+|:---------------|:--------|
+|The best way to assess multicollinearity is to compute the **variance inﬂation factor (VIF)**, which is the ratio of the variance of $\hat{\beta}_{j}$ when ﬁtting the full model divided by the variance of $\hat{\beta}_{j}$ if ﬁt on its own with 1 as its lowest value and 5 or 10 as problematic values of collinearity|1. Drop one of the problematic variables from the regression. </br> </br> 2. Combine the collinear variables together into a single predictor|
+
+
+$$
+\text{VIF}(\hat{\beta}_{j}) = \frac{1}
+                                   {1 - R_{X_{j}|X_{-j}}^2}
+$$
+
+Where $R_{X_{j}|X_{-j}}^2$ is the $R^2$ from a regression of $X_{j}$ onto all of the other predictors.
+
+# K-nearest neighbors (KNN) 
+
+This method performs worst than a parametric as we starting adding *noise* predictors. In fact, we will get in the situation where for a given observation has no *nearby neighbors*, known as **curse of dimensionality** and leading to a
+very poor prediction of $f(x_{0})$.
+
+## Classiﬁer
+
+The next function estimates the conditional probability for class $j$ as the fraction of points in $N_{0}$ whose response values equal $j$.
+
+$$
+\text{Pr}(Y = j|X = x_{0}) = \frac{1}{K} 
+                      \displaystyle\sum_{i \in N_{0}} I(y_{i} = j)
+$$
+
+- Where
+  - $j$ response value to test
+  - $x_{0}$ is the test observation
+  - $K$ the number of points in the training data that are closest to $x_{0}$ and reduce the model flexibility
+  - $N_{0}$ points in the training data that are closest to $x_{0}$
+  
+Then KNN classiﬁes the test observation $x_{0}$ to the class with the largest probability.
+
+![](img/08-knn-classifier.png){fig-align="center"}
+
+## Regression
+
+KNN regression estimates f(x0) using the average of all the training responses in $N_{0}$.
+ 
+$$
+\hat{f}(x_{0}) = \frac{1}{K} 
+                      \displaystyle\sum_{i \in N_{0}} y_{i}
+$$
+
+- Where
+  - $x_{0}$ is the test observation
+  - $K$ the number of points in the training data that are closest to $x_{0}$ and reduce the model flexibility
+  - $N_{0}$ points in the training data that are closest to $x_{0}$
+  
 

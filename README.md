@@ -22,39 +22,64 @@ An Introduction to Statistical Learning
     id="toc-getting-confident-intervarls-of-coeffients"><span
     class="toc-section-number">2.2</span> Getting confident intervarls of
     coeffients</a>
-  - <a href="#accuracy-of-the-model" id="toc-accuracy-of-the-model"><span
-    class="toc-section-number">2.3</span> Accuracy of the Model</a>
   - <a href="#insights-to-extract" id="toc-insights-to-extract"><span
-    class="toc-section-number">2.4</span> Insights to extract</a>
+    class="toc-section-number">2.3</span> Insights to extract</a>
+    - <a href="#confirm-the-relationship-between-the-response-and-predictors"
+      id="toc-confirm-the-relationship-between-the-response-and-predictors"><span
+      class="toc-section-number">2.3.1</span> Confirm the relationship between
+      the Response and Predictors</a>
+    - <a href="#accuracy-of-the-model-relationship-strength"
+      id="toc-accuracy-of-the-model-relationship-strength"><span
+      class="toc-section-number">2.3.2</span> Accuracy of the model
+      (relationship strength)</a>
+    - <a
+      href="#confirm-the-relationship-between-the-response-and-each-predictor"
+      id="toc-confirm-the-relationship-between-the-response-and-each-predictor"><span
+      class="toc-section-number">2.3.3</span> Confirm the relationship between
+      the Response and each predictor</a>
+    - <a href="#size-of-association-between-each-predictor-and-the-response."
+      id="toc-size-of-association-between-each-predictor-and-the-response."><span
+      class="toc-section-number">2.3.4</span> Size of association between each
+      predictor and the response.</a>
+    - <a href="#predicting-future-values"
+      id="toc-predicting-future-values"><span
+      class="toc-section-number">2.3.5</span> Predicting future values</a>
   - <a href="#standard-linear-regression-model-assumptions"
     id="toc-standard-linear-regression-model-assumptions"><span
-    class="toc-section-number">2.5</span> Standard linear regression model
+    class="toc-section-number">2.4</span> Standard linear regression model
     assumptions</a>
     - <a href="#including-an-interaction-term"
       id="toc-including-an-interaction-term"><span
-      class="toc-section-number">2.5.1</span> Including an interaction
+      class="toc-section-number">2.4.1</span> Including an interaction
       term</a>
     - <a href="#polynomial-regression" id="toc-polynomial-regression"><span
-      class="toc-section-number">2.5.2</span> Polynomial regression</a>
+      class="toc-section-number">2.4.2</span> Polynomial regression</a>
   - <a href="#possible-problems" id="toc-possible-problems"><span
-    class="toc-section-number">2.6</span> Possible problems</a>
+    class="toc-section-number">2.5</span> Possible problems</a>
     - <a href="#non-linearity-of-the-response-predictor-relationships"
       id="toc-non-linearity-of-the-response-predictor-relationships"><span
-      class="toc-section-number">2.6.1</span> Non-linearity of the
+      class="toc-section-number">2.5.1</span> Non-linearity of the
       response-predictor relationships</a>
     - <a href="#correlation-of-error-terms"
       id="toc-correlation-of-error-terms"><span
-      class="toc-section-number">2.6.2</span> Correlation of error terms</a>
+      class="toc-section-number">2.5.2</span> Correlation of error terms</a>
     - <a href="#non-constant-variance-heteroscedasticity-of-error-terms"
       id="toc-non-constant-variance-heteroscedasticity-of-error-terms"><span
-      class="toc-section-number">2.6.3</span> Non-constant variance
+      class="toc-section-number">2.5.3</span> Non-constant variance
       (heteroscedasticity) of error terms</a>
     - <a href="#outliers" id="toc-outliers"><span
-      class="toc-section-number">2.6.4</span> Outliers</a>
+      class="toc-section-number">2.5.4</span> Outliers</a>
     - <a href="#high-leverage-points" id="toc-high-leverage-points"><span
-      class="toc-section-number">2.6.5</span> High-leverage points</a>
+      class="toc-section-number">2.5.5</span> High-leverage points</a>
     - <a href="#collinearity" id="toc-collinearity"><span
-      class="toc-section-number">2.6.6</span> Collinearity</a>
+      class="toc-section-number">2.5.6</span> Collinearity</a>
+- <a href="#k-nearest-neighbors-knn"
+  id="toc-k-nearest-neighbors-knn"><span
+  class="toc-section-number">3</span> K-nearest neighbors (KNN)</a>
+  - <a href="#classiﬁer" id="toc-classiﬁer"><span
+    class="toc-section-number">3.1</span> Classiﬁer</a>
+  - <a href="#regression" id="toc-regression"><span
+    class="toc-section-number">3.2</span> Regression</a>
 
 # Basic concepts
 
@@ -130,6 +155,8 @@ $$
       assuming linearity.
   2.  Estimate a small number parameters based on training data.
   3.  Are easy to interpret.
+  4.  Tend to outperform non-parametric approaches when there is a small
+      number of observations per predictor.
 - **Non-parametric methods**
   1.  Don’t make an assumption about the functional form, to accurately
       ﬁt a wider range of possible shapes for $f$.
@@ -157,7 +184,7 @@ $$
 Ave(y_{0}-\hat{f}(x_{0}))^2
 $$
 
-- **Test Error rate**
+- **Test error rate**
 
 $$
 I(y_{0} \neq \hat{y}_{0}) = 
@@ -262,14 +289,32 @@ $$
 \hat{\beta_{1}} \pm 2 \cdot SE(\hat{\beta_{1}}), \quad \hat{\beta_{0}} \pm 2 \cdot SE(\hat{\beta_{0}})
 $$
 
-## Accuracy of the Model
+## Insights to extract
+
+### Confirm the relationship between the Response and Predictors
+
+Use the regression **overall P-value** (based on the F-statistic) to
+confirm that at **least one predictor** is related with the Response and
+avoid interpretative problems associated with the number of observations
+(*n*) or predictors (*p*).
+
+$$
+H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
+$$
+
+$$
+H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
+$$
+
+### Accuracy of the model (relationship strength)
 
 If we want to know how well the model fits to the data we have two
 options:
 
 - **Residual standard error (RSE)**: Even if the model were correct, the
   actual values of $\hat{y}$ would differ from the true regression line
-  by approximately *this units*, on average.
+  by approximately *this units*, on average. To get the percentage error
+  we can calculate $RSE/\overline{x}$
 
 - **The $R^2$ statistic**: The proportion of variance explained by
   taking as a reference the **total sum of squares (TSS)**.
@@ -290,27 +335,10 @@ R^2 =
 \end{cases}
 $$
 
-## Insights to extract
-
-**1. Is there a relationship between the Response and Predictors?**
-
-Use the regression **overall P-value** (based on the F-statistic) to
-confirm that at **least one predictor** is related with the Response and
-avoid interpretative problems associated with the number of observations
-(*n*) or predictors (*p*).
-
-$$
-H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
-$$
-
-$$
-H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
-$$
-
-**2. Which Predictors are related with the Response?**
+### Confirm the relationship between the Response and each predictor
 
 To answer that we can test if a particular subset of q of the
-cofficients are zero.
+coefficients are zero.
 
 $$
 H_{0}: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_{p} = 0
@@ -334,18 +362,18 @@ alternative approaches for this task:
 - Backward selection (cannot be used if p \>n)
 - Mixed selection
 
-**3. How well does the model ﬁt the data?**
+### Size of association between each predictor and the response.
 
-To achieve this we can use **residual standard error**, the **$R^2$**
-and **plotting** the data.
+To check that we need to see the $\hat{\beta}_{j}$ confident intervals
+as the real $\beta_{j}$ is in that range.
 
-**4. How accurate is our prediction?**
+### Predicting future values
 
-We use prediction intervals to answer this question. Prediction
-intervals are always wider than conﬁdence intervals, because they
-incorporate both the error in the estimate for $f(x)$ (the reducible
-error) and the uncertainty as to how much an individual point will diﬀer
-from the population regression plane (the irreducible error).
+If we want to predict the average response $f(X)$ we can use the
+confident intervals, but if we want to predict an individual response
+$Y = f(X) + \epsilon$ we need to use prediction intervals as they
+account for the uncertainty associated with $\epsilon$, the irreducible
+error.
 
 ## Standard linear regression model assumptions
 
@@ -482,6 +510,70 @@ data-fig-align="center" />
 ### Collinearity
 
 **Collinearity** refers to the situation in which two or more predictor
-variables are closely related (highly correlated) to one another. They
-make difficult to determine how each one separately is associated with
-the response.
+variables are closely related (highly correlated) to one another. It
+reduces the accuracy of the estimates of the regression coeﬃcients and
+causes the standard error for $\hat{\beta}_{j}$ to grow. That reduce the
+**power of the hypothesis test**,that is, the probability of correctly
+detecting a non-zero coeﬃcient.
+
+Looking at the correlation matrix of the predictors could be usefull,
+but it is possible for collinearity to exist between three or more
+variables even if no pair of variables has a particularly high
+correlation (**multicollinearity**).
+
+| Detection method                                                                                                                                                                                                                                                                                                             | Solutions                                                                                                                                      |
+|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------|
+| The best way to assess multicollinearity is to compute the **variance inﬂation factor (VIF)**, which is the ratio of the variance of $\hat{\beta}_{j}$ when ﬁtting the full model divided by the variance of $\hat{\beta}_{j}$ if ﬁt on its own with 1 as its lowest value and 5 or 10 as problematic values of collinearity | 1\. Drop one of the problematic variables from the regression. </br> </br> 2. Combine the collinear variables together into a single predictor |
+
+$$
+\text{VIF}(\hat{\beta}_{j}) = \frac{1}
+                                   {1 - R_{X_{j}|X_{-j}}^2}
+$$
+
+Where $R_{X_{j}|X_{-j}}^2$ is the $R^2$ from a regression of $X_{j}$
+onto all of the other predictors.
+
+# K-nearest neighbors (KNN)
+
+This method performs worst than a parametric as we starting adding
+*noise* predictors. In fact, we will get in the situation where for a
+given observation has no *nearby neighbors*, known as **curse of
+dimensionality** and leading to a very poor prediction of $f(x_{0})$.
+
+## Classiﬁer
+
+The next function estimates the conditional probability for class $j$ as
+the fraction of points in $N_{0}$ whose response values equal $j$.
+
+$$
+\text{Pr}(Y = j|X = x_{0}) = \frac{1}{K} 
+                      \displaystyle\sum_{i \in N_{0}} I(y_{i} = j)
+$$
+
+- Where
+  - $j$ response value to test
+  - $x_{0}$ is the test observation
+  - $K$ the number of points in the training data that are closest to
+    $x_{0}$ and reduce the model flexibility
+  - $N_{0}$ points in the training data that are closest to $x_{0}$
+
+Then KNN classiﬁes the test observation $x_{0}$ to the class with the
+largest probability.
+
+<img src="img/08-knn-classifier.png" data-fig-align="center" />
+
+## Regression
+
+KNN regression estimates f(x0) using the average of all the training
+responses in $N_{0}$.
+
+$$
+\hat{f}(x_{0}) = \frac{1}{K} 
+                      \displaystyle\sum_{i \in N_{0}} y_{i}
+$$
+
+- Where
+  - $x_{0}$ is the test observation
+  - $K$ the number of points in the training data that are closest to
+    $x_{0}$ and reduce the model flexibility
+  - $N_{0}$ points in the training data that are closest to $x_{0}$
