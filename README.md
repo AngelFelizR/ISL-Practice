@@ -116,7 +116,7 @@ how much of the error correspond to each type.
 $$
 \begin{split}
 E(Y-\hat{Y})^2 & = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
-               & = \underbrace{[f(X)- \hat{f}(x)]^2}_\text{Reducible} +
+               & = \underbrace{[f(X)- \hat{f}(X)]^2}_\text{Reducible} +
                    \underbrace{Var(\epsilon)}_\text{Irredicible}
 \end{split}
 $$
@@ -564,8 +564,8 @@ largest probability.
 
 ## Regression
 
-KNN regression estimates f(x0) using the average of all the training
-responses in $N_{0}$.
+KNN regression estimates $f(x_{0})$ using the average of all the
+training responses in $N_{0}$.
 
 $$
 \hat{f}(x_{0}) = \frac{1}{K} 

@@ -296,7 +296,7 @@ summary(college)
 pairs(college[,1:10])
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-6-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-6-1.png)
 
 - **Use the plot() function to produce side-by-side boxplots of Outstate
   versus Private.**
@@ -305,7 +305,7 @@ pairs(college[,1:10])
 plot(college$Private, college$Outstate)
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-7-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-7-1.png)
 
 - **Create a new qualitative variable, called Elite, by binning the
   Top10perc variable. We are going to divide universities into two
@@ -333,7 +333,7 @@ summary(college$Elite)
 plot(college$Elite, college$Outstate)
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-10-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-10-1.png)
 
 - **Use the hist() function to produce some histograms with diﬀering
   numbers of bins for a few of the quantitative variables. You may ﬁnd
@@ -350,7 +350,7 @@ hist(college$Accept)
 hist(college$Enroll)
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-11-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-11-1.png)
 
 - **Continue exploring the data, and provide a brief summary of what you
   discover.**
@@ -364,7 +364,7 @@ plot(college$Top10perc, college$Terminal)
 plot(college$Top10perc, college$Room.Board)
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-12-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-12-1.png)
 
 ``` r
 par(mfrow = c(1, 1))
@@ -386,11 +386,7 @@ level available for each field or the highest room and board costs
 
 ``` r
 library(ISLR2)
-```
 
-    Warning: package 'ISLR2' was built under R version 4.2.2
-
-``` r
 quantitative_vars <-
   sapply(Auto, is.numeric) |>
   (\(x) names(x)[x])()
@@ -452,7 +448,7 @@ plot(factor(Auto$cylinders) ,Auto$mpg,
      xlab = "cylinders", ylab = "mpg", col = 2)
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-17-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-17-1.png)
 
 Cars have improved their efficiency each year.
 
@@ -461,7 +457,7 @@ plot(factor(Auto$year) ,Auto$mpg,
      xlab = "year", ylab = "mpg", col = "blue")
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-18-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-18-1.png)
 
 - **Suppose that we wish to predict gas mileage (mpg) on the basis of
   the other variables. Do your plots suggest that any of the other
@@ -471,7 +467,7 @@ plot(factor(Auto$year) ,Auto$mpg,
 pairs(Auto[, quantitative_vars])
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-19-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-19-1.png)
 
 *cylinders*, *horsepower* and *year* are good candidates as they have
 correlations with the *mpg* variable.
@@ -514,7 +510,7 @@ with(Boston, plot(rad, tax,
                   pch = 16, cex = 1.5))
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-21-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-21-1.png)
 
 ``` r
 with(Boston, plot(dis, nox, 
@@ -522,7 +518,7 @@ with(Boston, plot(dis, nox,
                   pch = 16, cex = 1.5))
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-22-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-22-1.png)
 
 ``` r
 with(Boston, plot(indus, nox, 
@@ -530,7 +526,7 @@ with(Boston, plot(indus, nox,
                   pch = 16, cex = 1.5))
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-23-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-23-1.png)
 
 - **Are any of the predictors associated with per capita crime rate? If
   so, explain the relationship.**
@@ -559,7 +555,7 @@ with(Boston, plot(rad, crim,
                   pch = 16, cex = 1.5))
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-25-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-25-1.png)
 
 ``` r
 with(Boston, plot(tax, crim, 
@@ -567,7 +563,7 @@ with(Boston, plot(tax, crim,
                   pch = 16, cex = 1.5))
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-26-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-26-1.png)
 
 - **Do any of the census tracts of Boston appear to have particularly
   high crime rates? Tax rates? Pupil-teacher ratios? Comment on the
@@ -581,7 +577,7 @@ hist(Boston$tax)
 hist(Boston$ptratio)
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-27-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-27-1.png)
 
 ``` r
 par(mfrow=c(1,1))
@@ -639,29 +635,29 @@ for(variable in VarsToPlot){
 }
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-1.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-2.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-2.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-3.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-3.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-4.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-4.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-5.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-5.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-6.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-6.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-7.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-7.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-8.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-8.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-9.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-9.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-10.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-10.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-11.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-11.png)
 
-![](02-execises_files/figure-gfm/unnamed-chunk-30-12.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-30-12.png)
 
 - **In this data set, how many of the census tracts average more than
   seven rooms per dwelling? More than eight rooms per dwelling? Comment
@@ -712,7 +708,7 @@ with(Boston, plot(rm, lstat,
 abline(v=8,col="red",lwd=2)
 ```
 
-![](02-execises_files/figure-gfm/unnamed-chunk-31-1.png)
+![](02-execises_files/figure-commonmark/unnamed-chunk-31-1.png)
 
 ``` r
 par(mfrow=c(1,1))
