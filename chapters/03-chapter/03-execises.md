@@ -3,6 +3,8 @@
 
 - <a href="#conceptual" id="toc-conceptual"><span
   class="toc-section-number">1</span> Conceptual</a>
+- <a href="#applied" id="toc-applied"><span
+  class="toc-section-number">2</span> Applied</a>
 
 ## Conceptual
 
@@ -121,12 +123,132 @@ $$
 
 $$
 \hat{y}_{i} = \sum_{i'=1}^{n}{a_{i'}y_{i'}}
-$$ Let’s do it
+$$ I am not sure about this execise as I don’t understand the difference
+between $i$ and $i'$.
 
 $$
 \begin{split}
-\sum_{i'=1}^{n}{a_{i'}x_{i'}} & = x_{i}\hat{\beta} \\
-\sum_{i'=1}^{n}{a_{i'}x_{i'}} & = x_{i}\frac{\sum_{i=1}^{n}{x_{i}y_{i}}}
-                                            {\sum_{i'=1}^{n}{x_{i'}^2} }
+\sum_{i'=1}^{n}{a_{i'}y_{i'}} & = x_{i}\hat{\beta} \\
+\sum_{i'=1}^{n}{a_{i'}y_{i'}} & = x_{i}\frac{\sum_{i=1}^{n}{x_{i}y_{i}}}
+                                            {\sum_{i'=1}^{n}{x_{i'}^2} } \\
+\sum_{i'=1}^{n}{a_{i'}} \sum_{i'=1}^{n}{y_{i'}} & = \frac{x_{i}\sum_{i=1}^{n}{x_{i}}}
+                                                         {\sum_{i'=1}^{n}{x_{i'}^2} } 
+                                                    \sum_{i=1}^{n} {y_{i}} \\
+\sum_{i'=1}^{n}{a_{i'}} & = \frac{x_{i}\sum_{i=1}^{n}{x_{i}}}
+                                                         {\sum_{i'=1}^{n}{x_{i'}^2} }
 \end{split}
 $$
+
+6.  ***Using (3.4), argue that in the case of simple linear regression,
+    the least squares line always passes through the point
+    $(\overline{x},\overline{x})$.***
+
+As you can see bellow the intercept it’s the responsible for that
+property.
+
+$$
+\begin{split}
+\hat{y} & = \left( \hat{\beta}_{0} \right) + \hat{\beta}_{1} \overline{x} \\
+\hat{y} & = \overline{y} - \hat{\beta}_{1}\overline{x} + \hat{\beta}_{1} \overline{x} \\
+\hat{y} & = \overline{y}
+\end{split}
+$$
+
+## Applied
+
+7.  **This question involves the use of simple linear regression on the
+    Auto data set.**
+
+- ***Use the lm() function to perform a simple linear regression with
+  mpg as the response and horsepower as the predictor. Use the summary()
+  function to print the results. Comment on the output.***
+
+``` r
+library(ISLR2)
+
+AutoModel1 <- lm(mpg ~ horsepower, data = Auto)
+
+summary(AutoModel1)
+```
+
+
+    Call:
+    lm(formula = mpg ~ horsepower, data = Auto)
+
+    Residuals:
+         Min       1Q   Median       3Q      Max 
+    -13.5710  -3.2592  -0.3435   2.7630  16.9240 
+
+    Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+    (Intercept) 39.935861   0.717499   55.66   <2e-16 ***
+    horsepower  -0.157845   0.006446  -24.49   <2e-16 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 4.906 on 390 degrees of freedom
+    Multiple R-squared:  0.6059,    Adjusted R-squared:  0.6049 
+    F-statistic: 599.7 on 1 and 390 DF,  p-value: < 2.2e-16
+
+As we see the regression p-value is much lower than 0.05 and we can
+reject the null hypotheses to conclude that there is a **strong
+relationship** between the response en the predictor. The coefficient of
+horsepower is negative, so we know that as the predictor increase the
+response decrease.
+
+- ***What is the predicted mpg associated with a horsepower of 98? What
+  are the associated 95 % confidence and prediction intervals.***
+
+``` r
+predict(AutoModel1, newdata = data.frame(horsepower = 98), interval = "confidence")
+```
+
+           fit      lwr      upr
+    1 24.46708 23.97308 24.96108
+
+``` r
+predict(AutoModel1, newdata = data.frame(horsepower = 98), interval = "prediction")
+```
+
+           fit     lwr      upr
+    1 24.46708 14.8094 34.12476
+
+- ***Plot the response and the predictor. Use the abline() function to
+  display the least squares regression line.***
+
+``` r
+plot(Auto$horsepower,Auto$mpg)
+abline(AutoModel1)
+```
+
+![](03-execises_files/figure-commonmark/unnamed-chunk-3-1.png)
+
+- ***Use the plot() function to produce diagnostic plots of the least
+  squares regression fit. Comment on any problems you see with the
+  fit.***
+
+``` r
+par(mfrow = c(2, 2))
+plot(AutoModel1)
+```
+
+![](03-execises_files/figure-commonmark/unnamed-chunk-4-1.png)
+
+``` r
+par(mfrow = c(1, 1))
+```
+
+The *Residuals vs Fitted* shows that the relation is not linear and
+variance isn’t constant.
+
+9.  ***This question involves the use of multiple linear regression on
+    the Auto data set.***
+
+- ***Produce a scatterplot matrix which includes all of the variables in
+  the data set.***
+
+``` r
+pairs(Auto)
+```
+
+![](03-execises_files/figure-commonmark/unnamed-chunk-5-1.png)
