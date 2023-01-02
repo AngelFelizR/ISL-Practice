@@ -123,9 +123,9 @@ $$
 ```{r}
 library(ISLR2)
 
-AutoModel1 <- lm(mpg ~ horsepower, data = Auto)
+AutoSimpleModel <- lm(mpg ~ horsepower, data = Auto)
 
-summary(AutoModel1)
+summary(AutoSimpleModel)
 
 ```
 
@@ -134,24 +134,31 @@ As we see the regression p-value is much lower than 0.05 and we can reject the n
   - ***What is the predicted mpg associated with a horsepower of 98? What are the associated 95 % confidence and prediction intervals.***
 
 ```{r}
-predict(AutoModel1, newdata = data.frame(horsepower = 98), interval = "confidence")
-predict(AutoModel1, newdata = data.frame(horsepower = 98), interval = "prediction")
+predict(AutoSimpleModel, newdata = data.frame(horsepower = 98), interval = "confidence")
+predict(AutoSimpleModel, newdata = data.frame(horsepower = 98), interval = "prediction")
 ```
 
 - ***Plot the response and the predictor. Use the abline() function to display the least squares regression line.***
 
 ```{r}
 plot(Auto$horsepower,Auto$mpg)
-abline(AutoModel1)
+abline(AutoSimpleModel)
 ```
 
 - ***Use the plot() function to produce diagnostic plots of the least squares regression fit. Comment on any problems you see with the fit.***
 
 ```{r}
 par(mfrow = c(2, 2))
-plot(AutoModel1)
+plot(AutoSimpleModel)
+```
+
+```{r}
+#| echo: false
+#| include: false
+
 par(mfrow = c(1, 1))
 ```
+
 
 The *Residuals vs Fitted* shows that the relation is not linear and variance isn't constant.
 
@@ -163,4 +170,100 @@ The *Residuals vs Fitted* shows that the relation is not linear and variance isn
 pairs(Auto)
 ```
 
+- ***Compute the matrix of correlations between the variables using the function cor(). You will need to exclude the name variable, which is qualitative.***
 
+```{r}
+Auto |>
+  subset(select = -name)|>
+  cor()
+```
+
+- ***Use the lm() function to perform a multiple linear regression with mpg as the response and all other variables except name as the predictors. Use the summary() function to print the results. Comment on the output. For instance***
+
+```{r}
+AutoModelNoInteraction <- 
+  lm(mpg ~ . -name, data = Auto)
+
+AutoModelNoInteractionummary <- 
+  summary(AutoModelNoInteraction)
+
+AutoModelNoInteractionummary
+
+```
+
+  - ***Is there a relationship between the predictors and the response?***
+  
+  As the regression p-value is bellow 0.05 we can reject the null hypothesis and conclude that at least one of the predictors have a relation with the response.
+  
+  - ***Which predictors appear to have a statistically significant relationship to the response?***
+  
+```{r}
+AutoModelNoInteractionummary |>
+  coefficients() |>
+  as.data.frame() |>
+  subset(`Pr(>|t|)` < 0.05)
+```
+  
+  - ***What does the coefficient for the year variable suggest?***
+  
+  It suggests that cars in average cars can drive 0.75 more miles per gallon every year.
+  
+- ***Use the plot() function to produce diagnostic plots of the linear regression fit. Comment on any problems you see with the fit. Do the residual plots suggest any unusually large outliers? Does the leverage plot identify any observations with unusually high leverage?***
+
+  - Non-linearity of the response-predictor relationships
+  - Non-constant variance
+  - High-leverage points
+
+```{r}
+par(mfrow = c(2, 2))
+plot(AutoModelNoInteraction)
+```
+
+```{r}
+#| echo: false
+#| include: false
+
+par(mfrow = c(1, 1))
+```
+
+- ___Use the \* and : symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?___
+
+
+```{r}
+AutoModelInteraction <-
+  names(Auto) |>
+  setdiff(c("mpg","name")) |>
+  (\(x) c(x,
+          combn(x, m = 2, 
+                FUN = \(y) paste0(y,collapse =":"))))() |>
+  paste0(collapse = "+") |>
+  paste0("mpg ~ ", predictors = _) |>
+  lm(data = Auto)
+
+AutoModelInteractionSummary <- summary(AutoModelInteraction) 
+
+AutoModelInteractionSummary
+
+```
+
+
+```{r}
+remove_rownames <- function(DF){
+  
+  DF <- cbind(name = row.names(DF), DF)
+  rownames(DF) <- NULL
+  return(DF)
+  
+}
+
+AutoModelInteractionSummary |>
+  coefficients() |>
+  as.data.frame() |>
+  remove_rownames() |>
+  subset(`Pr(>|t|)` < 0.05 | name == "year")
+
+
+```
+
+
+  
