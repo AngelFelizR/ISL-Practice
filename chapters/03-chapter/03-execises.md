@@ -367,70 +367,6 @@ plot(AutoModelNoInteraction)
   significant?***
 
 ``` r
-AutoModelInteraction <-
-  names(Auto) |>
-  setdiff(c("mpg","name")) |>
-  (\(x) c(x,
-          combn(x, m = 2, 
-                FUN = \(y) paste0(y,collapse =":"))))() |>
-  paste0(collapse = "+") |>
-  paste0("mpg ~ ", predictors = _) |>
-  lm(data = Auto)
-
-AutoModelInteractionSummary <- summary(AutoModelInteraction) 
-
-AutoModelInteractionSummary
-```
-
-
-    Call:
-    lm(formula = paste0("mpg ~ ", predictors = paste0((function(x) c(x, 
-        combn(x, m = 2, FUN = function(y) paste0(y, collapse = ":"))))(setdiff(names(Auto), 
-        c("mpg", "name"))), collapse = "+")), data = Auto)
-
-    Residuals:
-        Min      1Q  Median      3Q     Max 
-    -7.6303 -1.4481  0.0596  1.2739 11.1386 
-
-    Coefficients:
-                                Estimate Std. Error t value Pr(>|t|)   
-    (Intercept)                3.548e+01  5.314e+01   0.668  0.50475   
-    cylinders                  6.989e+00  8.248e+00   0.847  0.39738   
-    displacement              -4.785e-01  1.894e-01  -2.527  0.01192 * 
-    horsepower                 5.034e-01  3.470e-01   1.451  0.14769   
-    weight                     4.133e-03  1.759e-02   0.235  0.81442   
-    acceleration              -5.859e+00  2.174e+00  -2.696  0.00735 **
-    year                       6.974e-01  6.097e-01   1.144  0.25340   
-    origin                    -2.090e+01  7.097e+00  -2.944  0.00345 **
-    cylinders:displacement    -3.383e-03  6.455e-03  -0.524  0.60051   
-    cylinders:horsepower       1.161e-02  2.420e-02   0.480  0.63157   
-    cylinders:weight           3.575e-04  8.955e-04   0.399  0.69000   
-    cylinders:acceleration     2.779e-01  1.664e-01   1.670  0.09584 . 
-    cylinders:year            -1.741e-01  9.714e-02  -1.793  0.07389 . 
-    cylinders:origin           4.022e-01  4.926e-01   0.816  0.41482   
-    displacement:horsepower   -8.491e-05  2.885e-04  -0.294  0.76867   
-    displacement:weight        2.472e-05  1.470e-05   1.682  0.09342 . 
-    displacement:acceleration -3.479e-03  3.342e-03  -1.041  0.29853   
-    displacement:year          5.934e-03  2.391e-03   2.482  0.01352 * 
-    displacement:origin        2.398e-02  1.947e-02   1.232  0.21875   
-    horsepower:weight         -1.968e-05  2.924e-05  -0.673  0.50124   
-    horsepower:acceleration   -7.213e-03  3.719e-03  -1.939  0.05325 . 
-    horsepower:year           -5.838e-03  3.938e-03  -1.482  0.13916   
-    horsepower:origin          2.233e-03  2.930e-02   0.076  0.93931   
-    weight:acceleration        2.346e-04  2.289e-04   1.025  0.30596   
-    weight:year               -2.245e-04  2.127e-04  -1.056  0.29182   
-    weight:origin             -5.789e-04  1.591e-03  -0.364  0.71623   
-    acceleration:year          5.562e-02  2.558e-02   2.174  0.03033 * 
-    acceleration:origin        4.583e-01  1.567e-01   2.926  0.00365 **
-    year:origin                1.393e-01  7.399e-02   1.882  0.06062 . 
-    ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-    Residual standard error: 2.695 on 363 degrees of freedom
-    Multiple R-squared:  0.8893,    Adjusted R-squared:  0.8808 
-    F-statistic: 104.2 on 28 and 363 DF,  p-value: < 2.2e-16
-
-``` r
 remove_rownames <- function(DF){
   
   DF <- cbind(name = row.names(DF), DF)
@@ -439,8 +375,17 @@ remove_rownames <- function(DF){
   
 }
 
-AutoModelInteractionSummary |>
-  coefficients() |>
+
+names(Auto) |>
+  setdiff(c("mpg","name")) |>
+  (\(x) c(x,
+          combn(x, m = 2, 
+                FUN = \(y) paste0(y,collapse =":"))))() |>
+  paste0(collapse = " + ") |>
+  paste0("mpg ~ ", predictors = _) |>
+  lm(data = Auto) |>
+  summary() |>
+  coef() |>
   as.data.frame() |>
   remove_rownames() |>
   subset(`Pr(>|t|)` < 0.05 | name == "year")
@@ -454,3 +399,50 @@ AutoModelInteractionSummary |>
     18   displacement:year   0.005933802 0.002390716  2.482019 0.013515633
     27   acceleration:year   0.055621508 0.025581747  2.174265 0.030330641
     28 acceleration:origin   0.458316099 0.156659694  2.925552 0.003654670
+
+- ***Try a few different transformations of the variables, such as
+  $\log{x}$, $\sqrt{x}$, $x^2$. Comment on your findings.***
+
+As we can see bellow we can explain 3% more of the variability by
+applying log to some variables.
+
+``` r
+library(data.table)
+
+check_fun_lm <- function(DF, trans_vars, remove_vars, FUN){
+  
+    as.data.table(DF
+    )[, (trans_vars) := lapply(.SD, FUN), .SDcols = trans_vars
+    ][, !remove_vars, with = FALSE
+    ][, lm(mpg ~ . , data = .SD)] |>
+    summary() |>
+    (\(x) data.table(adj.r.squared = x$adj.r.squared,
+                     sigma = x$sigma,
+                     p.value = pf(x$fstatistic["value"], 
+                                  x$fstatistic["numdf"], 
+                                  x$fstatistic["dendf"], 
+                                  lower.tail = FALSE)))()
+  
+}
+
+
+data.table(function_name = c("original","log", "sqrt","x^2"),
+           fun = list(\(x) x,log, sqrt, \(x) x^2)
+)[, data :=  lapply(fun, FUN = function(x){
+  
+  check_fun_lm(Auto, 
+               trans_vars = c("displacement", "horsepower", 
+                        "weight", "acceleration"),
+               remove_vars = "name", 
+               FUN = x) 
+  
+})][, data[[1]],
+    by = function_name]
+```
+
+       function_name adj.r.squared    sigma       p.value
+              <char>         <num>    <num>         <num>
+    1:      original     0.8182238 3.327682 2.037106e-139
+    2:           log     0.8474528 3.048425 5.352738e-154
+    3:          sqrt     0.8312704 3.206041 1.304165e-145
+    4:           x^2     0.7986663 3.502124 6.372862e-131

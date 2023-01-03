@@ -230,24 +230,6 @@ par(mfrow = c(1, 1))
 
 
 ```{r}
-AutoModelInteraction <-
-  names(Auto) |>
-  setdiff(c("mpg","name")) |>
-  (\(x) c(x,
-          combn(x, m = 2, 
-                FUN = \(y) paste0(y,collapse =":"))))() |>
-  paste0(collapse = "+") |>
-  paste0("mpg ~ ", predictors = _) |>
-  lm(data = Auto)
-
-AutoModelInteractionSummary <- summary(AutoModelInteraction) 
-
-AutoModelInteractionSummary
-
-```
-
-
-```{r}
 remove_rownames <- function(DF){
   
   DF <- cbind(name = row.names(DF), DF)
@@ -256,13 +238,62 @@ remove_rownames <- function(DF){
   
 }
 
-AutoModelInteractionSummary |>
-  coefficients() |>
+
+names(Auto) |>
+  setdiff(c("mpg","name")) |>
+  (\(x) c(x,
+          combn(x, m = 2, 
+                FUN = \(y) paste0(y,collapse =":"))))() |>
+  paste0(collapse = " + ") |>
+  paste0("mpg ~ ", predictors = _) |>
+  lm(data = Auto) |>
+  summary() |>
+  coef() |>
   as.data.frame() |>
   remove_rownames() |>
   subset(`Pr(>|t|)` < 0.05 | name == "year")
 
 
+```
+
+  - ***Try a few different transformations of the variables, such as $\log{x}$, $\sqrt{x}$, $x^2$. Comment on your findings.***
+  
+  As we can see bellow we can explain 3% more of the variability by applying log to some variables.
+  
+```{r}
+library(data.table)
+
+check_fun_lm <- function(DF, trans_vars, remove_vars, FUN){
+  
+    as.data.table(DF
+    )[, (trans_vars) := lapply(.SD, FUN), .SDcols = trans_vars
+    ][, !remove_vars, with = FALSE
+    ][, lm(mpg ~ . , data = .SD)] |>
+    summary() |>
+    (\(x) data.table(adj.r.squared = x$adj.r.squared,
+                     sigma = x$sigma,
+                     p.value = pf(x$fstatistic["value"], 
+                                  x$fstatistic["numdf"], 
+                                  x$fstatistic["dendf"], 
+                                  lower.tail = FALSE)))()
+  
+}
+
+
+data.table(function_name = c("original","log", "sqrt","x^2"),
+           fun = list(\(x) x,log, sqrt, \(x) x^2)
+)[, data :=  lapply(fun, FUN = function(x){
+  
+  check_fun_lm(Auto, 
+               trans_vars = c("displacement", "horsepower", 
+                        "weight", "acceleration"),
+               remove_vars = "name", 
+               FUN = x) 
+  
+})][, data[[1]],
+    by = function_name]
+
+  
 ```
 
 
