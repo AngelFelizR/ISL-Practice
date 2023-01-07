@@ -165,7 +165,11 @@ $$
 
 ``` r
 library(ISLR2)
+```
 
+    Warning: package 'ISLR2' was built under R version 4.2.2
+
+``` r
 AutoSimpleModel <- lm(mpg ~ horsepower, data = Auto)
 
 summary(AutoSimpleModel)
@@ -221,7 +225,7 @@ plot(Auto$horsepower,Auto$mpg)
 abline(AutoSimpleModel)
 ```
 
-![](03-execises_files/figure-commonmark/unnamed-chunk-3-1.png)
+![](03-execises_files/figure-gfm/unnamed-chunk-3-1.png)
 
 - ***Use the plot() function to produce diagnostic plots of the least
   squares regression fit. Comment on any problems you see with the
@@ -232,7 +236,7 @@ par(mfrow = c(2, 2))
 plot(AutoSimpleModel)
 ```
 
-![](03-execises_files/figure-commonmark/unnamed-chunk-4-1.png)
+![](03-execises_files/figure-gfm/unnamed-chunk-4-1.png)
 
 The *Residuals vs Fitted* shows that the relation is not linear and
 variance isn’t constant.
@@ -247,7 +251,7 @@ variance isn’t constant.
 pairs(Auto)
 ```
 
-![](03-execises_files/figure-commonmark/unnamed-chunk-6-1.png)
+![](03-execises_files/figure-gfm/unnamed-chunk-6-1.png)
 
 - ***Compute the matrix of correlations between the variables using the
   function cor(). You will need to exclude the name variable, which is
@@ -360,7 +364,7 @@ par(mfrow = c(2, 2))
 plot(AutoModelNoInteraction)
 ```
 
-![](03-execises_files/figure-commonmark/unnamed-chunk-10-1.png)
+![](03-execises_files/figure-gfm/unnamed-chunk-10-1.png)
 
 - ***Use the \* and : symbols to fit linear regression models with
   interaction effects. Do any interactions appear to be statistically
@@ -409,7 +413,7 @@ applying log to some variables.
 ``` r
 library(data.table)
 
-check_fun_lm <- function(DF, trans_vars, remove_vars, FUN){
+apply_fun_lm <- function(FUN,DF, trans_vars, remove_vars){
   
     as.data.table(DF
     )[, (trans_vars) := lapply(.SD, FUN), .SDcols = trans_vars
@@ -427,22 +431,208 @@ check_fun_lm <- function(DF, trans_vars, remove_vars, FUN){
 
 
 data.table(function_name = c("original","log", "sqrt","x^2"),
-           fun = list(\(x) x,log, sqrt, \(x) x^2)
-)[, data :=  lapply(fun, FUN = function(x){
-  
-  check_fun_lm(Auto, 
-               trans_vars = c("displacement", "horsepower", 
-                        "weight", "acceleration"),
-               remove_vars = "name", 
-               FUN = x) 
-  
-})][, data[[1]],
-    by = function_name]
+           function_list = list(\(x) x,log, sqrt, \(x) x^2)
+)[, data :=  
+    lapply(function_list, 
+           FUN = apply_fun_lm,
+           DF = Auto, 
+           trans_vars = c("displacement", "horsepower", 
+                          "weight", "acceleration"),
+           remove_vars = "name")
+][, rbindlist(data) |> cbind(function_name, end = _)]
 ```
 
-       function_name adj.r.squared    sigma       p.value
-              <char>         <num>    <num>         <num>
-    1:      original     0.8182238 3.327682 2.037106e-139
-    2:           log     0.8474528 3.048425 5.352738e-154
-    3:          sqrt     0.8312704 3.206041 1.304165e-145
-    4:           x^2     0.7986663 3.502124 6.372862e-131
+       function_name end.adj.r.squared end.sigma   end.p.value
+              <char>             <num>     <num>         <num>
+    1:      original         0.8182238  3.327682 2.037106e-139
+    2:           log         0.8474528  3.048425 5.352738e-154
+    3:          sqrt         0.8312704  3.206041 1.304165e-145
+    4:           x^2         0.7986663  3.502124 6.372862e-131
+
+10. ***This question should be answered using the Carseats data set.***
+
+- ***Fit a multiple regression model to predict Sales using Price,
+  Urban, and US.***
+
+``` r
+CarseatsModel <-
+  lm(Sales~Price+Urban+US, data = Carseats)
+
+CarseatsModelSummary <-  
+  summary(CarseatsModel)
+
+CarseatsModelSummary
+```
+
+
+    Call:
+    lm(formula = Sales ~ Price + Urban + US, data = Carseats)
+
+    Residuals:
+        Min      1Q  Median      3Q     Max 
+    -6.9206 -1.6220 -0.0564  1.5786  7.0581 
+
+    Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+    (Intercept) 13.043469   0.651012  20.036  < 2e-16 ***
+    Price       -0.054459   0.005242 -10.389  < 2e-16 ***
+    UrbanYes    -0.021916   0.271650  -0.081    0.936    
+    USYes        1.200573   0.259042   4.635 4.86e-06 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 2.472 on 396 degrees of freedom
+    Multiple R-squared:  0.2393,    Adjusted R-squared:  0.2335 
+    F-statistic: 41.52 on 3 and 396 DF,  p-value: < 2.2e-16
+
+- ***Provide an interpretation of each coeﬃcient in the model. Be
+  careful—some of the variables in the model are qualitative!***
+
+``` r
+CarseatsInterationModel <-
+  lm(Sales~Price*Urban*US, data = Carseats)
+
+CarseatsInterationModelSummary <-  
+  summary(CarseatsInterationModel)
+
+CarseatsInterationModelSummary
+```
+
+
+    Call:
+    lm(formula = Sales ~ Price * Urban * US, data = Carseats)
+
+    Residuals:
+        Min      1Q  Median      3Q     Max 
+    -6.7952 -1.6659 -0.0984  1.6119  7.2433 
+
+    Coefficients:
+                          Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)          13.456350   1.727210   7.791 6.03e-14 ***
+    Price                -0.061657   0.014875  -4.145 4.17e-05 ***
+    UrbanYes             -0.651545   2.071401  -0.315    0.753    
+    USYes                 2.049051   2.322591   0.882    0.378    
+    Price:UrbanYes        0.010793   0.017796   0.606    0.545    
+    Price:USYes          -0.001567   0.019972  -0.078    0.937    
+    UrbanYes:USYes       -1.122034   2.759662  -0.407    0.685    
+    Price:UrbanYes:USYes  0.001288   0.023619   0.055    0.957    
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 2.473 on 392 degrees of freedom
+    Multiple R-squared:  0.2467,    Adjusted R-squared:  0.2333 
+    F-statistic: 18.34 on 7 and 392 DF,  p-value: < 2.2e-16
+
+- ***Write out the model in equation form, being careful to handle the
+  qualitative variables properly.***
+
+``` r
+coef(CarseatsInterationModel) |>
+  round(3) |>
+  (\(x) paste0(ifelse(x < 0, " - "," + "), abs(x)," \text{ ", names(x),"}"))() |>
+  sub(pattern = " \text{ (Intercept)}",replacement = "", fixed = TRUE) |>
+  paste0(collapse = "") |>
+  sub(pattern = "^ \\+ ", replacement = "") |>
+  sub(pattern = "^ - ", replacement = "") |>
+  paste0("hat{Y} = ", FUN = _)
+```
+
+    [1] "hat{Y} = 13.456 - 0.062 \text{ Price} - 0.652 \text{ UrbanYes} + 2.049 \text{ USYes} + 0.011 \text{ Price:UrbanYes} - 0.002 \text{ Price:USYes} - 1.122 \text{ UrbanYes:USYes} + 0.001 \text{ Price:UrbanYes:USYes}"
+
+$$
+\begin{split}
+\hat{Sales} & = 13.456 - 0.062 \text{ Price} - 0.652 \text{ UrbanYes} \\
+            & \quad + 2.049 \text{ USYes} + 0.011 \text{ Price:UrbanYes} \\
+            & \quad - 0.002 \text{ Price:USYes} - 1.122 \text{ UrbanYes:USYes} \\
+            & \quad + 0.001 \text{ Price:UrbanYes:USYes}
+\end{split}
+$$
+
+- ***For which of the predictors can you reject the null hypothesis H0 :
+  βj = 0?***
+
+``` r
+coef(CarseatsInterationModelSummary) |>
+  as.data.frame() |>
+  (\(DF) DF[DF$`Pr(>|t|)` < 0.05,])()
+```
+
+                   Estimate Std. Error   t value     Pr(>|t|)
+    (Intercept) 13.45634952 1.72720976  7.790802 6.030364e-14
+    Price       -0.06165717 0.01487479 -4.145079 4.165536e-05
+
+- ***On the basis of your response to the previous question, ﬁt a
+  smaller model that only uses the predictors for which there is
+  evidence of association with the outcome.***
+
+``` r
+CarseatsPriceModel <-
+  lm(Sales~Price, data = Carseats)
+
+CarseatsPriceModelSummary <-
+  summary(CarseatsPriceModel)
+
+CarseatsPriceModelSummary
+```
+
+
+    Call:
+    lm(formula = Sales ~ Price, data = Carseats)
+
+    Residuals:
+        Min      1Q  Median      3Q     Max 
+    -6.5224 -1.8442 -0.1459  1.6503  7.5108 
+
+    Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+    (Intercept) 13.641915   0.632812  21.558   <2e-16 ***
+    Price       -0.053073   0.005354  -9.912   <2e-16 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 2.532 on 398 degrees of freedom
+    Multiple R-squared:  0.198, Adjusted R-squared:  0.196 
+    F-statistic: 98.25 on 1 and 398 DF,  p-value: < 2.2e-16
+
+- ***How well do the models in (a) and (e) ﬁt the data?***
+
+**Model a** fits better to the data with 0.23 against 0.2 of **model
+e**.
+
+- ***Using the model from (e), obtain 95 % conﬁdence intervals for the
+  coeﬃcient(s).***
+
+``` r
+confint(CarseatsPriceModel, level = 0.95)
+```
+
+                     2.5 %      97.5 %
+    (Intercept) 12.3978438 14.88598655
+    Price       -0.0635995 -0.04254653
+
+- ***Is there evidence of outliers or high leverage observations in the
+  model from (e)?***
+
+``` r
+par(mfrow = c(2,2))
+plot(CarseatsPriceModel)
+```
+
+![](03-execises_files/figure-gfm/unnamed-chunk-20-1.png)
+
+``` r
+par(mfrow = c(1,1))
+```
+
+There is a leverage point.
+
+11. ***In this problem we will investigate the t-statistic for the null
+    hypothesis H0 : β = 0 in simple linear regression without an
+    intercept. To begin, we generate a predictor x and a response y as
+    follows.***
+
+``` r
+set.seed(1)
+x<-rnorm(100)
+y<-2*x+rnorm(100)
+```
