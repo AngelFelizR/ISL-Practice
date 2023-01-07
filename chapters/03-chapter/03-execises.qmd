@@ -394,8 +394,285 @@ There is a leverage point.
 
 ```{r}
 set.seed(1)
-x<-rnorm(100)
-y<-2*x+rnorm(100)
+
+x <- rnorm(100)
+y <- 2*x+rnorm(100)
+
+SimulatedData <- data.frame(x, y) 
+
 ```
 
 
+  - ***Perform a simple linear regression of y onto x, without an intercept. Report the coeﬃcient estimate ˆβ, the standard error of this coeﬃcient estimate, and the t-statistic and p-value associated with the null hypothesis H0 : β = 0. Comment on these results. (You can perform regression without an intercept using the command lm(y∼x+0).)***
+  
+As we can see below we can reject the null hypothesis and conclude that **y** increases ***1.99*** for each unit of **x**  explaining 78% of the variability.
+
+```{r}
+lm(y~ x+0, data = SimulatedData) |>
+  summary()
+```
+
+  - ***Now perform a simple linear regression of x onto y without an intercept, and report the coeﬃcient estimate, its standard error, and the corresponding t-statistic and p-values associated with the null hypothesis H0 : β = 0. Comment on these results.***
+
+As we can see below we can reject the null hypothesis and conclude that **x** increases ***0.39*** for each unit of **y**  explaining 78% of the variability.
+
+```{r}
+lm(x~ y+0, data = SimulatedData) |>
+  summary()
+```
+
+  - ***What is the relationship between the results obtained in (a) and (b)?***
+**y** can explain **x** as well a **x** explains **y**.
+
+  - ***In R, show that when regression is performed with an intercept, the t-statistic for H0 : β1 = 0 is the same for the regression of y onto x as it is for the regression of x onto y.***
+  
+As you can see below the t-statistic for $\beta_{1}$ is t-statistic for both regressions is 18.56.
+  
+```{r}
+lm(y~ x, data = SimulatedData) |>
+  summary()
+```
+
+```{r}
+lm(x~ y, data = SimulatedData) |>
+  summary()
+```
+
+12. ***This problem involves simple linear regression without an intercept.***
+
+  - ***Recall that the coeﬃcient estimate β for the linear regression of Y onto X without an intercept is given by (3.38). Under what circumstance is the coeﬃcient estimate for the regression of X onto Y the same as the coeﬃcient estimate for the regression of Y onto X?***
+
+The coefficient would be different between y~x and x~y.
+
+  - ***Generate an example in R with n = 100 observations in which the coeﬃcient estimate for the regression of X onto Y is diﬀerent from the coeﬃcient estimate for the regression of Y onto X.***
+  
+```{r}
+set.seed(5)
+SimulatedData2 <- 
+  data.frame(x = rnorm(100, mean = 8, sd = 4))
+
+set.seed(8)
+SimulatedData2$y <- 
+  10*SimulatedData2$x + rnorm(100, sd = 10) 
+
+plot(SimulatedData2$x, SimulatedData2$y)
+
+lm(y~ x+0, data = SimulatedData2) |>
+  summary()
+
+lm(x~ y+0, data = SimulatedData2) |>
+  summary()
+
+```
+  
+  - ***Generate an example in R with n = 100 observations in which the coeﬃcient estimate for the regression of X onto Y is the same as the coeﬃcient estimate for the regression of Y onto X.***
+
+```{r}
+set.seed(5)
+SimulatedData3 <- 
+  data.frame(x = rnorm(100, mean = 8, sd = 4))
+
+set.seed(8)
+SimulatedData3$y <- 
+  SimulatedData3$x + rnorm(100, sd = 1) 
+
+plot(SimulatedData3$x, SimulatedData3$y)
+
+lm(y~ x+0, data = SimulatedData3) |>
+  summary()
+
+lm(x~ y+0, data = SimulatedData3) |>
+  summary()
+
+```
+
+13. ***In this exercise you will create some simulated data and will ﬁt simple linear regression models to it. Make sure to use set.seed(1) prior to starting part (a) to ensure consistent results.***
+
+  - ***Using the rnorm() function, create a vector, x, containing 100 observations drawn from a N(0, 1) distribution. This represents a feature, X.***
+
+```{r}
+set.seed(1)
+
+x <- rnorm(100)
+
+```
+
+  - ***Using the rnorm() function, create a vector, eps, containing 100 observations drawn from a N(0, 0.25) distribution—a normal distribution with mean zero and variance 0.25.***
+
+```{r}
+eps <- rnorm(100, sd = sqrt(0.25))
+```
+  
+  - ***Using x and eps, generate a vector y according to the model.***
+  
+$$
+Y = -1 + 0.5X + \epsilon
+$$
+  
+```{r}
+y <- -1 + 0.5*x +eps
+```
+  
+    - ***What is the length of the vector y?***
+It has the same length of x.
+
+    - ***What are the values of β0 and β1 in this linear model?***
+$\beta_{0} = -1$ and $\beta_{1} = 0.5$. 
+
+  - ***Create a scatterplot displaying the relationship between x and y. Comment on what you observe.***
+
+```{r}
+plot(x,y)
+```
+
+  - ***Fit a least squares linear model to predict y using x. Comment on the model obtained. How do ˆβ0 and ˆ β1 compare to β0 and β1?***
+  
+After rounding the value to one decimal the coefficients are the same.
+
+```{r}
+SimilatedModel <-lm(y~x)
+
+SimilatedModel |>
+  coef() |>
+  round(1)
+```
+
+  - ***Display the least squares line on the scatterplot obtained in (d). Draw the population regression line on the plot, in a diﬀerent color. Use the legend() command to create an appropriate legend.***
+  
+```{r}
+abline(SimilatedModel, col = "red")
+abline(a = -1, b = 0.5, col = "blue")
+legend(-2.35, 0.40 , 
+       legend = c("Lease Square Line", "Population Line"), 
+       col = c("red","blue"), lty=1, cex=0.8)
+```
+
+  - ***Now ﬁt a polynomial regression model that predicts y using x and x^2. Is there evidence that the quadratic term improves the model ﬁt? Explain your answer.***
+
+There is no evidence that the polynomial model fits better to the data.  
+
+```{r}
+SimilatedPolyModel <-lm(y~x+I(x^2))
+
+anova(SimilatedModel,SimilatedPolyModel)
+```
+
+
+  - ***Repeat (a)–(f) after modifying the data generation process in such a way that there is less noise in the data. The model (3.39) should remain the same. You can do this by decreasing the variance of the normal distribution used to generate the error term ϵ in (b). Describe your results.***
+
+```{r}
+set.seed(1)
+
+x <- rnorm(100)
+eps <- rnorm(100, sd = sqrt(0.10))
+y <- -1 + 0.5*x +eps
+
+plot(x,y)
+```
+
+The coefficients remind the same.
+
+```{r}
+SimilatedModel2 <-lm(y~x)
+
+SimilatedModel2 |>
+  coef() |>
+  round(1)
+```
+
+And the Lease Square Line and the Population Line are closer.
+
+```{r}
+abline(SimilatedModel2, col = "red")
+abline(a = -1, b = 0.5, col = "blue")
+legend(-2.35, 0.40 , 
+       legend = c("Lease Square Line", "Population Line"), 
+       col = c("red","blue"), lty=1, cex=0.8)
+```
+
+  - ***Repeat (a)–(f) after modifying the data generation process in such a way that there is more noise in the data. The model (3.39) should remain the same. You can do this by increasing the variance of the normal distribution used to generate the error term ϵ in (b). Describe your results.***
+  
+```{r}
+set.seed(1)
+
+x <- rnorm(100)
+eps <- rnorm(100, sd = sqrt(1.5))
+y <- -1 + 0.5*x +eps
+
+plot(x,y)
+```
+
+The coefficients remind the same.
+
+```{r}
+SimilatedModel3 <-lm(y~x)
+
+SimilatedModel3 |>
+  coef() |>
+  round(1)
+```
+
+Despite, y has a wider range of values are almost the same.
+
+```{r}
+abline(SimilatedModel3, col = "red")
+abline(a = -1, b = 0.5, col = "blue")
+legend(-2.35, 0.40 , 
+       legend = c("Lease Square Line", "Population Line"), 
+       col = c("red","blue"), lty=1, cex=0.8)
+```
+
+  - ***What are the conﬁdence intervals for β0 and β1 based on the original data set, the noisier data set, and the less noisy data set? Comment on your results.***
+
+```{r}
+
+library(ggplot2)
+
+
+add_source <- function(list.DT, source.name = "source"){
+  
+  table_names <- names(list.DT)
+  
+  for(tb_i in seq_along(list.DT)){
+    list.DT[[tb_i]][, (source.name) := names(list.DT)[tb_i] ] 
+  }
+  
+  return(list.DT)
+}
+
+
+list(original = SimilatedModel,
+     less_noisy = SimilatedModel2,
+     noisier = SimilatedModel3) |>
+ lapply(\(model) cbind(center = coef(model), confint(model)) |> 
+                 as.data.table(keep.rownames = "coef")) |>
+ add_source(source.name = "model") |>
+ rbindlist() |>
+ DT(j = model := factor(model, 
+                        levels = c("less_noisy", "original","noisier"))) |>
+ ggplot(aes(model, center, color = model))+
+  geom_hline(yintercept = 0, linetype = 2, size = 1)+
+  geom_point()+
+  geom_errorbar(aes(ymin = `2.5 %`, ymax = `97.5 %`), width = 0.5)+
+  facet_wrap(~coef, ncol = 2, scales = "free_y")+
+  labs(title = "Coefficient Confident Intervals get wider",
+       subtitle = "as the error increase but it isn't enough to change conclusions")+
+  theme_classic()+
+  theme(legend.position = "none",
+        plot.title = element_text(face = "bold"))
+
+
+```
+
+14. ***This problem focuses on the collinearity problem.***
+
+  - ***Perform the following commands in R:***
+
+```{r}
+set.seed(1)
+x1 <- runif(100)
+x2 <- 0.5*x1+rnorm(100) / 10
+y <- 2+2*x1+0.3*x2+rnorm(100)
+```
+
+  - ***The last line corresponds to creating a linear model in which y is a function of x1 and x2. Write out the form of the linear model. What are the regression coeﬃcients?***
