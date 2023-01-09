@@ -364,7 +364,7 @@ alternative approaches for this task:
 
 ### Size of association between each predictor and the response.
 
-To check that we need to see the $\hat{\beta}_{j}$ confident intervals
+To check that we need to see the $\hat{\beta}_{j}$ *confident intervals*
 as the real $\beta_{j}$ is in that range.
 
 ### Predicting future values
@@ -406,8 +406,9 @@ $$
 
 After adding the interaction term we could interpret the change as
 making one of the original coefficient a function of the another
-variable. Now we could say that *$\beta_{3}$ represent **the change of
-$X_{1}$ effectiveness** associated with a one-unit increase in $X_{2}$*.
+variable. Now we could say that $\beta_{3}$ *represent **the change
+of*** $X_{1}$ ***effectiveness** associated with a one-unit increase in*
+$X_{2}$.
 
 It very important that we keep **hierarchical principle**, which states
 that if we include an interaction in a model, we should also include the
@@ -474,7 +475,7 @@ data-fig-align="center" />
 An outlier is a point for which $y_{i}$ is far from the value predicted
 by the model. Sometimes, they have little effect on the least squares
 line, but *over estimate the RSE* making bigger p-values of the model
-and *under estimate the $R^2$*.
+and *under estimate the* $R^2$.
 
 | Detection method                                                                                                                                                              | Solutions                                                                                                                                                         |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
