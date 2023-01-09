@@ -245,7 +245,7 @@ But just think that if we have $p = 30$ we will have $2^{30} = =1,073,741,824\ m
 
 ### Size of association between each predictor and the response.
 
-To check that we need to see the $\hat{\beta}_{j}$ confident intervals as the real $\beta_{j}$ is in that range.
+To check that we need to see the $\hat{\beta}_{j}$ *confident intervals* as the real $\beta_{j}$ is in that range.
 
 ### Predicting future values
 
@@ -274,7 +274,7 @@ Y & = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} + \beta_{3} X_{1} X_{2} + \e
 \end{split}
 $$
 
-After adding the interaction term we could interpret the change as making one of the original coefficient a function of the another variable. Now we could say that *$\beta_{3}$ represent __the change of $X_{1}$ effectiveness__ associated with a one-unit increase in $X_{2}$*.
+After adding the interaction term we could interpret the change as making one of the original coefficient a function of the another variable. Now we could say that $\beta_{3}$ *represent __the change of__* $X_{1}$ *__effectiveness__ associated with a one-unit increase in* $X_{2}$.
 
 It very important that we keep **hierarchical principle**, which states that if we include an interaction in a model, we should also include the main effects, even if the p-values associated with their coefficients are not significant as ***it would alter the meaning of the interaction***.
 
@@ -332,7 +332,7 @@ $$
 
 ### Outliers
 
-An outlier is a point for which $y_{i}$ is far from the value predicted by the model. Sometimes, they have little effect on the least squares line, but *over estimate the RSE* making bigger p-values of the model and *under estimate the $R^2$*.
+An outlier is a point for which $y_{i}$ is far from the value predicted by the model. Sometimes, they have little effect on the least squares line, but *over estimate the RSE* making bigger p-values of the model and *under estimate the* $R^2$.
 
 |Detection method|Solutions|
 |:---------------|:--------|
