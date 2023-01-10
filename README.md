@@ -609,13 +609,31 @@ p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
             {1+e^{\beta_{0}+\beta_{1}X}}
 $$
 
+The result of the function looks like the below pictore.
+
 <img src="img/09-logistic-function-example.png"
 data-fig-align="center" />
 
-After some manipulations we can solve an **odd** that can take any value
-between 0 and $\infty$, where low probabilities are close to 0 and
-higher ones to $\infty$, it becomes clear that the logistic regression
-model has a **logit** that it’s a lineal combination of X.
+To understand better the meaning of coefficients we can manipulate the
+function to have **log odd** or **logit** of Y on the left side and a
+linear combination on the right side.
 
-\$\$
-\$\$
+\$\$ \_ =
+
+*{0}+*{1}X \$\$
+
+An **odd** can take any value between $0$ and $\infty$, where low
+probabilities are close to $0$ and higher ones to $\infty$. So if
+$\beta_{1}$ increases its value the $p(X)$ also increases, but the
+relationship between each other isn’t any more a linear one. To be
+precise, one-unit increase in $X$ is associated with an increase in the
+log odds of $Y$ by $\beta_{1}$ units.
+
+To estimate $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ the method used is
+called as *maximum likelihood* which consists in maximizing the
+**likelihood function**. It is important to clarify that the *least
+squares approach* is in fact a special case of maximum likelihood.
+
+$$
+\ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
+$$
