@@ -847,10 +847,11 @@ lm(crim~as.factor(chas), data = Boston) |>
 Now we just can reject the null hypothesis for the following predictos:
   
 ```{r}
+BostonModel2 <-
+  lm(formula = crim ~ . , data = Boston)
+
 BostonModelSummary2 <-
-  Boston |>
-  lm(formula = crim~ . ) |>
-  summary() |>
+  summary(BostonModel2) |>
   coef() |>
   as.data.table(keep.rownames = "predictor")
 
@@ -867,15 +868,18 @@ merge(BostonModelSummary, BostonModelSummary2,
   )[, .(predictor,
         Estimate_uni = round(Estimate_uni, 2),
         Estimate_multi = round(Estimate_multi, 2), 
-        change = abs(Estimate_uni / Estimate_multi) |> log10(),
+        coef_change = abs(Estimate_uni / Estimate_multi),
+        vif = car::vif(BostonModel2)[predictor],
         kept_significant = is_significant & `Pr(>|t|)_multi` < 0.05)
-  ][, predictor := reorder(predictor, change)] |>
-  ggplot(aes(change, predictor))+
-  geom_col(aes(fill = kept_significant))+
-  scale_fill_manual(values = c("TRUE" = "dodgerblue4", "FALSE" = "gray80"))+
+  ][, predictor := reorder(predictor, coef_change)] |>
+  ggplot(aes(coef_change,vif))+
+  geom_point(aes(color = kept_significant))+
+  geom_text(aes(label = predictor), vjust = 1.2)+
+  scale_color_manual(values = c("TRUE" = "dodgerblue4", "FALSE" = "gray80"))+
+  scale_x_log10()+
+  scale_y_log10()+
   labs(title = "Significan Predictors Change Less",
-       subtitle = "Predictos Coeﬃcient Change Between Simple and Multiple Lineal Models",
-       x = "Coeﬃcient Change Rate", y = "")+
+       subtitle = "Predictos Coeﬃcient Change Between Simple and Multiple Lineal Models")+
   theme_classic()+
   theme(legend.position = "none",
         plot.title = element_text(face = "bold"))
@@ -920,5 +924,6 @@ for(predictor in SimpleVsPolySummary[change >= 0.1 ,predictor]){
    
 }
 
-
 ```
+
+

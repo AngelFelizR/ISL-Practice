@@ -73,6 +73,10 @@ An Introduction to Statistical Learning
       class="toc-section-number">2.5.5</span> High-leverage points</a>
     - <a href="#collinearity" id="toc-collinearity"><span
       class="toc-section-number">2.5.6</span> Collinearity</a>
+  - <a href="#avoid-using-for-classification-problems"
+    id="toc-avoid-using-for-classification-problems"><span
+    class="toc-section-number">2.6</span> Avoid using for classification
+    problems</a>
 - <a href="#k-nearest-neighbors-knn"
   id="toc-k-nearest-neighbors-knn"><span
   class="toc-section-number">3</span> K-nearest neighbors (KNN)</a>
@@ -80,6 +84,8 @@ An Introduction to Statistical Learning
     class="toc-section-number">3.1</span> Classiﬁer</a>
   - <a href="#regression" id="toc-regression"><span
     class="toc-section-number">3.2</span> Regression</a>
+- <a href="#logistic-regression" id="toc-logistic-regression"><span
+  class="toc-section-number">4</span> Logistic Regression</a>
 
 # Basic concepts
 
@@ -534,6 +540,17 @@ $$
 Where $R_{X_{j}|X_{-j}}^2$ is the $R^2$ from a regression of $X_{j}$
 onto all of the other predictors.
 
+## Avoid using for classification problems
+
+There are better model to achieve that kind of situation. For example,
+he linear **discriminant analysis (LDA)** procedure the same response of
+a linear regression for a binary problem. Other reasons are:
+
+- A regression method cannot accommodate a qualitative response with
+  more than two classes.
+- A regression method will not provide meaningful estimates of $Pr(Y|X)$
+  as some of our estimates might be outside the \[0, 1\] interval.
+
 # K-nearest neighbors (KNN)
 
 This method performs worst than a parametric as we starting adding
@@ -578,3 +595,27 @@ $$
   - $K$ the number of points in the training data that are closest to
     $x_{0}$ and reduce the model flexibility
   - $N_{0}$ points in the training data that are closest to $x_{0}$
+
+# Logistic Regression
+
+It models the **probability** ($p(X) = Pr(Y=1|X)$) that Y belongs to a
+particular category given some predictors. Then after defining a
+**threshold** we can use to model to classify individuals in a
+particular category. To calculate that probability it uses the
+***logistic function***:
+
+$$
+p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
+            {1+e^{\beta_{0}+\beta_{1}X}}
+$$
+
+<img src="img/09-logistic-function-example.png"
+data-fig-align="center" />
+
+After some manipulations we can solve an **odd** that can take any value
+between 0 and $\infty$, where low probabilities are close to 0 and
+higher ones to $\infty$, it becomes clear that the logistic regression
+model has a **logit** that it’s a lineal combination of X.
+
+\$\$
+\$\$
