@@ -86,6 +86,23 @@ An Introduction to Statistical Learning
     class="toc-section-number">3.2</span> Regression</a>
 - <a href="#logistic-regression" id="toc-logistic-regression"><span
   class="toc-section-number">4</span> Logistic Regression</a>
+  - <a href="#estimating-coefficients"
+    id="toc-estimating-coefficients"><span
+    class="toc-section-number">4.1</span> Estimating coefficients</a>
+  - <a href="#multiple-regression" id="toc-multiple-regression"><span
+    class="toc-section-number">4.2</span> Multiple regression</a>
+  - <a href="#interpreting-the-model" id="toc-interpreting-the-model"><span
+    class="toc-section-number">4.3</span> Interpreting the model</a>
+    - <a href="#understanding-a-confounding-paradox"
+      id="toc-understanding-a-confounding-paradox"><span
+      class="toc-section-number">4.3.1</span> Understanding a confounding
+      paradox</a>
+  - <a href="#multinomial-logistic-regression"
+    id="toc-multinomial-logistic-regression"><span
+    class="toc-section-number">4.4</span> Multinomial Logistic
+    Regression</a>
+  - <a href="#model-limitatios" id="toc-model-limitatios"><span
+    class="toc-section-number">4.5</span> Model limitatios</a>
 
 # Basic concepts
 
@@ -599,35 +616,23 @@ $$
 # Logistic Regression
 
 It models the **probability** ($p(X) = Pr(Y=1|X)$) that Y belongs to a
-particular category given some predictors. Then after defining a
-**threshold** we can use to model to classify individuals in a
-particular category. To calculate that probability it uses the
-***logistic function***:
+particular category given some predictors. This model just support
+classifications between to categories and calculate the probability
+using the ***logistic function*** which produce a S form between 0 and
+1:
 
 $$
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
             {1+e^{\beta_{0}+\beta_{1}X}}
 $$
 
-The result of the function looks like the below pictore.
-
 <img src="img/09-logistic-function-example.png"
 data-fig-align="center" />
 
-To understand better the meaning of coefficients we can manipulate the
-function to have **log odd** or **logit** of Y on the left side and a
-linear combination on the right side.
+As the functions returns probabilities is responsibility of the analyst
+to define a **threshold** to make classifications.
 
-\$\$ \_ =
-
-*{0}+*{1}X \$\$
-
-An **odd** can take any value between $0$ and $\infty$, where low
-probabilities are close to $0$ and higher ones to $\infty$. So if
-$\beta_{1}$ increases its value the $p(X)$ also increases, but the
-relationship between each other isn’t any more a linear one. To be
-precise, one-unit increase in $X$ is associated with an increase in the
-log odds of $Y$ by $\beta_{1}$ units.
+## Estimating coefficients
 
 To estimate $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ the method used is
 called as *maximum likelihood* which consists in maximizing the
@@ -637,3 +642,96 @@ squares approach* is in fact a special case of maximum likelihood.
 $$
 \ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
 $$
+
+## Multiple regression
+
+We also can generalize the *logistic function* as you can see bellow.
+
+$$
+p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
+            {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
+$$
+
+## Interpreting the model
+
+To understand how each variable influence the probability $p(X)$, we
+need to manipulate the *logistic function* until having a lineal
+combination on the right site.
+
+$$
+\underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X 
+$$ As we can see, the result of the linear combination is the $\log$ of
+the *odds ratio*, known as **log odd** or **logit**.
+
+An **odds ratio** of an event presents the likelihood that the event
+will occur as a proportion of the likelihood that the event won’t occur.
+It can take any value between $0$ and $\infty$, where low probabilities
+are close to $0$, higher to $\infty$ and equivalents ones are equals
+to 1. For example, if we have an $\text{odds ratio} = 2$, we can say
+that it’s 2 times more likely that the event happens rather than not.
+
+Applying $\log{(\text{odds ratio})}$ makes easier to compare the effect
+of variables as values below 1 become negative numbers of the scale of
+possible numbers and 1 becomes 0 for non-significant ones. To have an
+idea, an odds ratio of 2 has the same effect as 0.5, which it’s hard to
+see at first hand, but if we apply the $\log$ to each value we can see
+that $\log{(2)} = 0.69$ and $\log{(0.5)} = -0.69$.
+
+At end, $p(X)$ will increase as $X$ increases if $\beta_{1}$ is positive
+despite the relationship between each other isn’t a linear one.
+
+### Understanding a confounding paradox
+
+| Simple Regression                                                                                                                                          | Multiple Regression                                                                                                                                   |
+|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <img src="img/10-Default-table-4_2.png" data-fig-align="center" />                                                                                         | <img src="img/11-Default-table-4_3.png" data-fig-align="center" />                                                                                    |
+| The positive coeﬃcient for student indicates that for **over all values of balance and income**, a student is *more* likely to default than a non-student. | The negative coeﬃcient for student indicates that for a **ﬁxed value of balance and income**, a student is less likely to default than a non-student. |
+
+<img src="img/12-Default-multiple-plot-4_3.png"
+style="width:60.0%;height:60.0%" data-fig-align="center" />
+
+The problem relays on the fact that *student* and *balance* are
+**correlated**. In consequence, a student is riskier than a non-student
+if no information about the student’s credit card balance is available.
+However, that student is less risky than a non-student with the *same
+credit card balance*!
+
+<img src="img/13-Default-simple-plot-4_3.png"
+style="width:60.0%;height:60.0%" data-fig-align="center" />
+
+## Multinomial Logistic Regression
+
+We also can generalize the *logistic function* to support more than 2
+categories ($K > 2$) by defining by convention the last category $K$ as
+a **baseline**.
+
+For $k = 1, \dotsc,K-1$ we use function.
+
+$$
+Pr(Y = k|X= x) = \frac{e^{\beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}}}
+                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
+$$
+
+For $k=K$, we use the function.
+
+$$
+Pr(Y = K|X= x) = \frac{1}
+                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
+$$ And after some manipulations we can show that $\log$ of the
+probability of getting $k$ divided by the probability of the *baseline*
+is equivalent to a linear combinations of the functions parameters.
+
+$$
+\log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
+$$
+
+In consequence, each coefficient represent a measure of how much change
+the probability from the baseline probability.
+
+## Model limitatios
+
+There are models that could make better classifications when:
+
+- There is substantial separation between the two classes.
+- The predictors X is approximately normal in each class and the sample
+  size is small.
