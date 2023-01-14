@@ -103,6 +103,13 @@ An Introduction to Statistical Learning
     Regression</a>
   - <a href="#model-limitatios" id="toc-model-limitatios"><span
     class="toc-section-number">4.5</span> Model limitatios</a>
+- <a href="#generative-models-for-classiﬁcation"
+  id="toc-generative-models-for-classiﬁcation"><span
+  class="toc-section-number">5</span> Generative Models for
+  Classiﬁcation</a>
+  - <a href="#linear-discriminant-analysis"
+    id="toc-linear-discriminant-analysis"><span
+    class="toc-section-number">5.1</span> Linear Discriminant Analysis</a>
 
 # Basic concepts
 
@@ -735,3 +742,36 @@ There are models that could make better classifications when:
 - There is substantial separation between the two classes.
 - The predictors X is approximately normal in each class and the sample
   size is small.
+
+# Generative Models for Classiﬁcation
+
+This models instead of trying to predict $Pr(Y=k|X=x)$ directly.
+Instead, they try to estimate $f_{k}(X) = Pr(X|Y=k)$, which it’s the
+*density function* of $X$ for an observation that comes from the $k$th.
+As there isn’t an easy way to estimate $f_{k}$ models make some
+simplifying assumptions to make the estimation.
+
+Then, they use the overall **prior probability** $\pi_{k}$, which the
+estimate the probability of a randomly chosen observation comes from the
+$k$th class and the **Bayes’ Theorem** to calculate **posterior
+probability** that an observation $X = x$ belongs to the $k$th class.
+
+$$
+p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f_{l}(x)}
+$$
+
+## Linear Discriminant Analysis
+
+This model assumes that $\pi_{k}$ follow a **Normal (Gaussian)
+distribution**.
+
+if we just have 1 predictor where $\mu_{k}$ correspond to the
+probational mean and $\sigma_{k}^{2}$ to the probational variance for
+the $k$th class.
+
+$$
+f_{k}(x) = \frac{1}{\sqrt{2\pi}\sigma_{k}}
+           \exp{ \left( 
+                 -\frac{1}{2\sigma_{k}^{2}} (x - \mu_{k})^{2}
+                 \right)}
+$$
