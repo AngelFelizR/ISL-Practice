@@ -512,31 +512,35 @@ In consequence, each coefficient represent a measure of how much change the prob
 
 There are models that could make better classifications when:
 
-- There is substantial separation between the two classes.
-- The predictors X is approximately normal in each class and the sample size is small.
+- There is a substantial separation between the $Y$ classes.
+- The predictors $X$ are approximately normal in each class and the sample size is small.
 
 
 # Generative Models for Classiﬁcation
 
-This models instead of trying to predict $Pr(Y=k|X=x)$ directly. Instead, they try to estimate $f_{k}(X) = Pr(X|Y=k)$, which it's the *density function* of $X$ for an observation that comes from the $k$th. As there isn't an easy way to estimate $f_{k}$ models make some simplifying assumptions to make the estimation.
-
-Then, they use the overall **prior probability** $\pi_{k}$, which the estimate the probability of a randomly chosen observation comes from the $k$th class and the **Bayes' Theorem** to calculate **posterior probability** that an observation $X = x$ belongs to the $k$th class.
+These models instead of trying to predict the **posterior probability** ( $Pr(Y=k|X=x)$ ) directly, they try to estimate the distribution of the predictors $X$ separately in each of the response classes $Y$ ( $f_{k}(X) = Pr(X|Y=k)$ ). Then, they use the **Bayes' Theorem** and the **overall or prior probability** $\pi_{k}$ (probability of a randomly chosen observation comes from the $k$th class) to flip these around into estimates for $Pr(Y=k|X=x)$.
 
 $$
 p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f_{l}(x)}
 $$
+As estimating the density function $f_{k}$ it's challenging models make some simplifying assumptions to estimate it.
 
-## Linear Discriminant Analysis
+## Linear Discriminant Analysis (LDA)
 
-This model assumes that $\pi_{k}$ follow a **Normal (Gaussian) distribution**.
+This model assumes that $f_{k}$ follow a **Normal (Gaussian) distribution** within each class.
 
-if we just have 1 predictor where $\mu_{k}$ correspond to the probational mean and $\sigma_{k}^{2}$ to the probational variance for the $k$th class.
+If we have a problem, where $X = x$ and $\hat{\sigma}_{1}^2 = \dots = \hat{\sigma}_{k}^2$, we can estimate the mean $\hat{\mu}_{k}$ and the variance $\hat{\sigma}^2$ for $x$ and calculate $\hat{\pi}_{k} = n_{k}/ n$ for each $Y$ class. Then we can apply the log of $p_{k}(x)$ to represent the **discriminant function**:
 
 $$
-f_{k}(x) = \frac{1}{\sqrt{2\pi}\sigma_{k}}
-           \exp{ \left( 
-                 -\frac{1}{2\sigma_{k}^{2}} (x - \mu_{k})^{2}
-                 \right)}
+\hat{\delta}_{k} (x) = x \cdot \frac{\hat{\mu}_{k}}{\hat{\sigma}^2} -
+                       \frac{\hat{\mu}_{k}^2}{\hat{\sigma}^2} +
+                       \log{(\hat{\pi}_{k})}
+
 $$
 
+In this functions it's clear that a class has more possibilities to be selected as mean for that particular class increases and its variance decreases.
+
+To use this model with more than one predictor we need to assume that:
+- Each individual predictor follows a one-dimensional normal distribution
+- There is some correlation between each pair of predictors
 
