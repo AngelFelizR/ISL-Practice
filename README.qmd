@@ -7,7 +7,7 @@ format:
 editor: source
 ---
 
-# Basic concepts
+# General concepts
 
 ## Reducible and irreducible error
 
@@ -92,6 +92,7 @@ $$
 Ave(y_{0}-\hat{f}(x_{0}))^2
 $$
 
+
 - **Test error rate**
 
 $$
@@ -105,6 +106,24 @@ $$
 $$
 Ave(I(y_{0} \neq \hat{y}_{0}))
 $$ 
+
+
+- **Confusion Matrix**
+
+It contracts the model's outputs with real values and makes easier to calculate more metrics to validate the model.
+
+![](img/14-confution-matrix.png){fig-align="center"}
+
+-
+  - **Sensitivity**: Represents the percentage of **positive** values that have been correctly identiﬁed $\text{TP}/\text{P}$.
+  - **Specificity**: Represents the percentage of **negative** values that have been correctly identiﬁed $\text{TN}/\text{N}$.
+  
+The **ROC _(receiver operating characteristics)_ Curve** displays the two types of errors for all possible thresholds.
+The **area under the curve (AUC)** the represent overall performance of a classiﬁer, summarized over all possible thresholds and as larger the AUC the better the classiﬁer.
+
+![](img/15-ROC-curve.png){fig-align="center"}
+
+
 
 # Linear regresion
 
@@ -518,29 +537,81 @@ There are models that could make better classifications when:
 
 # Generative Models for Classiﬁcation
 
-These models instead of trying to predict the **posterior probability** ( $Pr(Y=k|X=x)$ ) directly, they try to estimate the distribution of the predictors $X$ separately in each of the response classes $Y$ ( $f_{k}(X) = Pr(X|Y=k)$ ). Then, they use the **Bayes' Theorem** and the **overall or prior probability** $\pi_{k}$ (probability of a randomly chosen observation comes from the $k$th class) to flip these around into estimates for $Pr(Y=k|X=x)$.
+These models instead of trying to predict the **posterior probability** ( $Pr(Y=k|X=x)$ ) directly, they try to estimate the distribution of the predictors $X$ separately in each of the response classes $Y$ ( $f_{k}(X) = Pr(X|Y=k)$ ). Then, they use the **Bayes' Theorem** and the **overall or prior probability** $\pi_{k}$ (probability of a randomly chosen observation comes from the $k$th class) to flip these around into estimates for $Pr(Y=k|X=x)$ by approximating the ***Bayes Classifier***, which has the lowest ***total error rate***.
 
 $$
 p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f_{l}(x)}
 $$
+
 As estimating the density function $f_{k}$ it's challenging models make some simplifying assumptions to estimate it.
 
 ## Linear Discriminant Analysis (LDA)
 
-This model assumes that $f_{k}$ follow a **Normal (Gaussian) distribution** within each class.
+This model assumes that $f_{k}$ follow a **Normal (Gaussian) distribution** within each class, but it is often remarkably robust to model violations like Boolean variables.
 
-If we have a problem, where $X = x$ and $\hat{\sigma}_{1}^2 = \dots = \hat{\sigma}_{k}^2$, we can estimate the mean $\hat{\mu}_{k}$ and the variance $\hat{\sigma}^2$ for $x$ and calculate $\hat{\pi}_{k} = n_{k}/ n$ for each $Y$ class. Then we can apply the log of $p_{k}(x)$ to represent the **discriminant function**:
+If we have a problem, where $X = x$ and $\hat{\sigma}_{1}^2 = \dots = \hat{\sigma}_{k}^2$, we can estimate the mean $\hat{\mu}_{k}$ and the variance $\hat{\sigma}^2$ for $x$ and calculate $\hat{\pi}_{k} = n_{k}/ n$ for each $Y$ class. Then we can apply the $\log$ of $p_{k}(x)$ to represent the **discriminant function**:
 
 $$
-\hat{\delta}_{k} (x) = x \cdot \frac{\hat{\mu}_{k}}{\hat{\sigma}^2} -
+\hat{\delta}_{k}(x) = x \cdot \frac{\hat{\mu}_{k}}{\hat{\sigma}^2} -
                        \frac{\hat{\mu}_{k}^2}{\hat{\sigma}^2} +
                        \log{(\hat{\pi}_{k})}
-
 $$
 
-In this functions it's clear that a class has more possibilities to be selected as mean for that particular class increases and its variance decreases.
+In this functions, it's clear that a class $k$ has more possibilities to be selected as mean of $x$ for that particular class increases and its variance decreases. It is also important to take in consideration the effect of $\log{(\hat{\pi}_{k})}$, in consequence the proportion of classes also influence the results.
 
 To use this model with more than one predictor we need to assume that:
+
 - Each individual predictor follows a one-dimensional normal distribution
 - There is some correlation between each pair of predictors
+
+To represent the *discriminant function* in for many predicts we need to define the next elements:
+
+- $x$ refers to a vector the current value of each $p$ element.
+- $\mu$ refers to a vector with the mean of each predictor.
+- $\Sigma$ refers to the covariance matrix $p \times p$ of $\text{Cov}(X)$.
+
+$$
+\delta_{k}(x) = x^T \Sigma^{-1} \mu_{k} -
+                       \frac{1}{2} \mu_{k}^T \Sigma^{-1} \mu_{k} +
+                       \log{\pi_{k}}
+$$
+
+## Quadratic Discriminant Analysis (QDA) 
+
+Like LDA, the QDA classiﬁer plugs estimates for the parameters into Bayes’ theorem in order to perform prediction results and assumes that:
+
+- The observations from each class are drawn from a Gaussian distribution
+- But, each class has its own covariance matrix, $X \sim N(\mu_{k}, \Sigma_{k})$
+
+Under this assumption, the Bayes classiﬁer assigns an observation $X = x$ to the class for which $\delta_{k}(x)$ is largest.
+
+$$
+\begin{split}
+\delta_{k}(x) = & - \frac{1}{2} x^T \Sigma_{k}^{-1} x +
+                                x^T \Sigma_{k}^{-1} \mu_{k}  \\
+                & - \frac{1}{2} \mu_{k}^T \Sigma_{k}^{-1}\mu_{k} - 
+                    \frac{1}{2} \log{|\Sigma_{k}|} +
+                    \log{\pi_{k}}
+\end{split}                  
+$$
+
+Consequently, LDA is a much less ﬂexible classiﬁer than QDA, and so has substantially lower variance.
+
+## Naive Bayes
+
+To estimate $f_{k}(X)$ this model assumes that *Within the kth class, the p predictors are independent* and as consequence:
+
+$$
+f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
+$$
+
+Even thought the assumption might not be true, the model often leads to pretty decent results, especially in settings where n is not large enough relative to p for us to eﬀectively estimate the joint distribution of the predictors within each class.
+
+To estimate the one-dimensional density function $f_{kj}$ using training data we have the following options:
+
+- We can assume that $X_{j}|Y = k \sim N(\mu_{jk}, \sigma_{jk}^2)$
+- We can estimate the distribution by defining bins and creating a histogram
+- We can estimate the distribution by use a kernel density estimator
+- If $X_{j}$ is **qualitative**, we can count the proportion of training observations for the $j$th predictor corresponding to each class.
+
 
