@@ -543,38 +543,59 @@ $$
 p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f_{l}(x)}
 $$
 
-As estimating the density function $f_{k}$ it's challenging models make some simplifying assumptions to estimate it.
+Estimating the *prior probability* can be as easy calculate $\hat{\pi}_{k} = n_{k}/ n$ for each $Y$ class by assuming that the trainning data its representative of the population, but estimating the density function of $X$ for each class $f_{k}$ it's more challenging, so models need to make more simplifying assumptions to estimate it.
 
 ## Linear Discriminant Analysis (LDA)
 
-This model assumes that $f_{k}$ follow a **Normal (Gaussian) distribution** within each class, but it is often remarkably robust to model violations like Boolean variables.
+This model assumes that:
 
-If we have a problem, where $X = x$ and $\hat{\sigma}_{1}^2 = \dots = \hat{\sigma}_{k}^2$, we can estimate the mean $\hat{\mu}_{k}$ and the variance $\hat{\sigma}^2$ for $x$ and calculate $\hat{\pi}_{k} = n_{k}/ n$ for each $Y$ class. Then we can apply the $\log$ of $p_{k}(x)$ to represent the **discriminant function**:
+- The density function of $X$ for each class $f_{k}$ follows a **Normal (Gaussian) distribution** within each class.Even though, it is often remarkably robust to model violations like Boolean variables.
+- $X$ has a **common variance** across all $Y$ classes $\hat{\sigma}_{1}^2 = \dots = \hat{\sigma}_{k}^2$
+
+To understand how the model calculate its parameters, let's see the **discriminant function** for one predictor and a response with 2 classes.
 
 $$
-\hat{\delta}_{k}(x) = x \cdot \frac{\hat{\mu}_{k}}{\hat{\sigma}^2} -
-                       \frac{\hat{\mu}_{k}^2}{\hat{\sigma}^2} +
-                       \log{(\hat{\pi}_{k})}
+\begin{split}
+\delta_{k}(x) & = \log{(p_{x}(x))} \\ 
+              & = \log{(\pi_{k})} 
+                - \frac{\mu_{k}^2}{\sigma^2} 
+                + x \cdot \frac{\mu_{k}}{\sigma^2} 
+\end{split}
 $$
 
-In this functions, it's clear that a class $k$ has more possibilities to be selected as mean of $x$ for that particular class increases and its variance decreases. It is also important to take in consideration the effect of $\log{(\hat{\pi}_{k})}$, in consequence the proportion of classes also influence the results.
+In this function, it's clear that a class $k$ has more possibilities to be selected as mean of $x$ for that particular class increases and its variance decreases. It is also important to take in consideration the effect of $\log{(\pi_{k})}$, in consequence the proportion of classes also influence the results.
 
 To use this model with more than one predictor we need to assume that:
 
 - Each individual predictor follows a one-dimensional normal distribution
-- There is some correlation between each pair of predictors
+- There is low correlation between each pair of predictors
 
-To represent the *discriminant function* in for many predicts we need to define the next elements:
+To represent the *discriminant function* in for many predictors we need to define the next elements:
 
 - $x$ refers to a vector the current value of each $p$ element.
 - $\mu$ refers to a vector with the mean of each predictor.
 - $\Sigma$ refers to the covariance matrix $p \times p$ of $\text{Cov}(X)$.
 
 $$
-\delta_{k}(x) = x^T \Sigma^{-1} \mu_{k} -
-                       \frac{1}{2} \mu_{k}^T \Sigma^{-1} \mu_{k} +
-                       \log{\pi_{k}}
+\begin{split}
+\delta_{k}(x) & = \log{\pi_{k}}  - \frac{1}{2} \mu_{k}^T \Sigma^{-1} \mu_{k} \\
+                & \quad + x^T \Sigma^{-1} \mu_{k}
+\end{split}                      
 $$
+If we want to use the LDA for $K > 2$ we need to define the class $K$ as a baseline and the *discriminant function* would take the next form:
+
+$$
+\begin{split}
+\delta_{k}(x) & = \log{ \left( 
+                        \frac{Pr(Y = k|K=x)}
+                             {Pr(Y=K|X=x)}
+                      \right)} \\
+              & = \log{ \left( \frac{\pi_{k}}{\pi_{K}} \right)}
+                 - \frac{1}{2} (\mu_{k} + \mu_{K})^T \Sigma^{-1} (\mu_{k} - \mu_{K}) \\
+              & \quad + x^{T} \Sigma^{-1} (\mu_{k} - \mu_{K})
+\end{split}
+$$
+
 
 ## Quadratic Discriminant Analysis (QDA) 
 
@@ -587,8 +608,8 @@ Under this assumption, the Bayes classiﬁer assigns an observation $X = x$ to t
 
 $$
 \begin{split}
-\delta_{k}(x) = & - \frac{1}{2} x^T \Sigma_{k}^{-1} x +
-                                x^T \Sigma_{k}^{-1} \mu_{k}  \\
+\delta_{k}(x) = & - \frac{1}{2} x^T \Sigma_{k}^{-1} x \\
+                & +             x^T \Sigma_{k}^{-1} \mu_{k}  \\
                 & - \frac{1}{2} \mu_{k}^T \Sigma_{k}^{-1}\mu_{k} - 
                     \frac{1}{2} \log{|\Sigma_{k}|} +
                     \log{\pi_{k}}
