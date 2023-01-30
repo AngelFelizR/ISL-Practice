@@ -242,10 +242,17 @@ calculate more metrics to validate the model.
 
 <img src="img/14-confution-matrix.png" data-fig-align="center" />
 
-- - **Sensitivity**: Represents the percentage of **positive** values
+- Some metrics related with the confussion matrix are:
+
+  - **Sensitivity**: Represents the percentage of **positive** values
     that have been correctly identiﬁed $\text{TP}/\text{P}$.
   - **Specificity**: Represents the percentage of **negative** values
     that have been correctly identiﬁed $\text{TN}/\text{N}$.
+
+You can more metrics in the next table.
+
+<img src="img/14-confution-matrix-metrics.png"
+data-fig-align="center" />
 
 The **ROC *(receiver operating characteristics)* Curve** displays the
 two types of errors for all possible thresholds. The **area under the
@@ -609,6 +616,9 @@ This method performs worst than a parametric as we starting adding
 given observation has no *nearby neighbors*, known as **curse of
 dimensionality** and leading to a very poor prediction of $f(x_{0})$.
 
+KNN unlike parametric models does not tell us which predictors are
+important, making it hard to make inferences using this model.
+
 ## Classiﬁer
 
 The next function estimates the conditional probability for class $j$ as
@@ -650,10 +660,9 @@ $$
 # Logistic Regression
 
 It models the **probability** ($p(X) = Pr(Y=1|X)$) that Y belongs to a
-particular category given some predictors. This model just support
-classifications between to categories and calculate the probability
-using the ***logistic function*** which produce a S form between 0 and
-1:
+particular category given some predictors. This model calculates the
+probability using the ***logistic function*** which produce a S form
+between 0 and 1:
 
 $$
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
@@ -769,6 +778,7 @@ There are models that could make better classifications when:
 - There is a substantial separation between the $Y$ classes.
 - The predictors $X$ are approximately normal in each class and the
   sample size is small.
+- When the decision boundary is not lineal.
 
 # Generative Models for Classiﬁcation
 
@@ -795,19 +805,21 @@ models need to make more simplifying assumptions to estimate it.
 
 This model assumes that:
 
-- The density function of $X$ for each class $f_{k}$ follows a **Normal
-  (Gaussian) distribution** within each class.Even though, it is often
-  remarkably robust to model violations like Boolean variables.
+- The density function of $X$ for each $Y$ class $f_{k}$ follows a
+  **Normal (Gaussian) distribution** within each class. Even though, it
+  is often remarkably robust to model violations like Boolean variables.
+- $X$ has a **different mean** across all $Y$ classes
+  $\mu_{1}^2 \neq \dots \neq \mu_{k}^2$.
 - $X$ has a **common variance** across all $Y$ classes
-  $\hat{\sigma}_{1}^2 = \dots = \hat{\sigma}_{k}^2$
+  $\sigma_{1}^2 = \dots = \sigma_{k}^2$.
 
-To understand how the model calculate its parameters, let’s see the
-**discriminant function** for one predictor and a response with 2
-classes.
+To understand how the model calculates its parameters, let’s see the
+**discriminant function** when the number of predictors is $p=1$ and the
+number of $Y$ classes is $K=2$.
 
 $$
 \begin{split}
-\delta_{k}(x) & = \log{(p_{x}(x))} \\ 
+\delta_{k}(x) & = \log{ \left( p_{x}(x) \right)} \\ 
               & = \log{(\pi_{k})} 
                 - \frac{\mu_{k}^2}{\sigma^2} 
                 + x \cdot \frac{\mu_{k}}{\sigma^2} 
@@ -820,27 +832,32 @@ variance decreases. It is also important to take in consideration the
 effect of $\log{(\pi_{k})}$, in consequence the proportion of classes
 also influence the results.
 
-To use this model with more than one predictor we need to assume that:
+If we want to extend the model to work with $p \geq 1$ we also need to
+consider that:
 
 - Each individual predictor follows a one-dimensional normal
   distribution
-- There is low correlation between each pair of predictors
+- There is some correlation between each pair of predictors
 
-To represent the *discriminant function* in for many predictors we need
-to define the next elements:
-
-- $x$ refers to a vector the current value of each $p$ element.
-- $\mu$ refers to a vector with the mean of each predictor.
-- $\Sigma$ refers to the covariance matrix $p \times p$ of
-  $\text{Cov}(X)$.
+As result, the *discriminant function* is:
 
 $$
 \begin{split}
 \delta_{k}(x) & = \log{\pi_{k}}  - \frac{1}{2} \mu_{k}^T \Sigma^{-1} \mu_{k} \\
                 & \quad + x^T \Sigma^{-1} \mu_{k}
 \end{split}                      
-$$ If we want to use the LDA for $K > 2$ we need to define the class $K$
-as a baseline and the *discriminant function* would take the next form:
+$$
+
+- Where:
+
+  - $x$ refers to a vector the current value of each $p$ element.
+  - $\mu$ refers to a vector with the mean of each predictor.
+  - $\Sigma$ refers to the covariance matrix $p \times p$ of
+    $\text{Cov}(X)$.
+
+The model also can be extended to handle $K > 2$ after defining the $K$
+class as the baseline, we can extend the *discriminant function* to have
+the next form:
 
 $$
 \begin{split}
@@ -849,7 +866,7 @@ $$
                              {Pr(Y=K|X=x)}
                       \right)} \\
               & = \log{ \left( \frac{\pi_{k}}{\pi_{K}} \right)}
-                 - \frac{1}{2} (\mu_{k} + \mu_{K})^T \Sigma^{-1} (\mu_{k} - \mu_{K}) \\
+                  - \frac{1}{2} (\mu_{k} + \mu_{K})^T \Sigma^{-1} (\mu_{k} - \mu_{K}) \\
               & \quad + x^{T} \Sigma^{-1} (\mu_{k} - \mu_{K})
 \end{split}
 $$
@@ -861,7 +878,7 @@ Bayes’ theorem in order to perform prediction results and assumes that:
 
 - The observations from each class are drawn from a Gaussian
   distribution
-- But, each class has its own covariance matrix,
+- Each class has its own **covariance matrix**,
   $X \sim N(\mu_{k}, \Sigma_{k})$
 
 Under this assumption, the Bayes classiﬁer assigns an observation
@@ -869,29 +886,44 @@ $X = x$ to the class for which $\delta_{k}(x)$ is largest.
 
 $$
 \begin{split}
-\delta_{k}(x) = & - \frac{1}{2} x^T \Sigma_{k}^{-1} x \\
-                & +             x^T \Sigma_{k}^{-1} \mu_{k}  \\
-                & - \frac{1}{2} \mu_{k}^T \Sigma_{k}^{-1}\mu_{k} - 
-                    \frac{1}{2} \log{|\Sigma_{k}|} +
-                    \log{\pi_{k}}
+\delta_{k}(x) = & \quad \log{\pi_{k}} 
+                - \frac{1}{2} \log{|\Sigma_{k}|} 
+                - \frac{1}{2} \mu_{k}^T \Sigma_{k}^{-1}\mu_{k} \\
+              & + x^T \Sigma_{k}^{-1} \mu_{k} \\
+              & - \frac{1}{2} x^T \Sigma_{k}^{-1} x
 \end{split}                  
 $$
 
-Consequently, LDA is a much less ﬂexible classiﬁer than QDA, and so has
-substantially lower variance.
+In consequence, QDA is more flexible than LDA and has the potential to
+be more accurate in settings where interactions among the predictors are
+important in discriminating between classes or when we need non-linear
+decision boundaries.
+
+The model also can be extended to handle $K > 2$ after defining the $K$
+class as the baseline, we can extend the *discriminant function* to have
+the next form:
+
+$$
+\log{ \left( \frac{Pr(Y = k|K=x)}{Pr(Y=K|X=x)} \right)} = 
+a_k + \sum_{j=1}^{p}b_{kj}x_{j} + 
+      \sum_{j=1}^{p} \sum_{l=1}^{p} c_{kjl} x_{j}x_{l}
+$$
+
+Where $a_k$, $b_{kj}$ and $c_{kjl}$ are functions of $\pi_{k}$,
+$\pi_{K}$, $\mu_{k}$, $\mu_{K}$, $\Sigma_{k}$ and $\Sigma_{K}$
 
 ## Naive Bayes
 
 To estimate $f_{k}(X)$ this model assumes that *Within the kth class,
-the p predictors are independent* and as consequence:
+the p predictors are independent* (correlation = 0) and as consequence:
 
 $$
 f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
 $$
 
 Even thought the assumption might not be true, the model often leads to
-pretty decent results, especially in settings where n is not large
-enough relative to p for us to eﬀectively estimate the joint
+pretty decent results, especially in settings where $n$ is not large
+enough relative to $p$ for us to eﬀectively estimate the joint
 distribution of the predictors within each class.
 
 To estimate the one-dimensional density function $f_{kj}$ using training
@@ -903,3 +935,19 @@ data we have the following options:
 - We can estimate the distribution by use a kernel density estimator
 - If $X_{j}$ is **qualitative**, we can count the proportion of training
   observations for the $j$th predictor corresponding to each class.
+
+The model also can be extended to handle $K > 2$ after defining the $K$
+class as the baseline, we can extend the function to have the next form:
+
+$$
+\log{ \left( \frac{Pr(Y = k|K=x)}{Pr(Y=K|X=x)} \right)} = 
+\log{ \left( 
+        \frac{\pi_{k}}
+             {\pi_{K}}
+      \right)} 
++
+\log{ \left( 
+        \frac{\prod_{j=1}^{p} f_{kj}(x_{j}) }
+             {\prod_{j=1}^{p} f_{Kj}(x_{j}) }
+      \right)}
+$$
