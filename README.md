@@ -12,111 +12,71 @@ An Introduction to Statistical Learning
   - <a href="#evaluating-model-performance"
     id="toc-evaluating-model-performance"><span
     class="toc-section-number">1.3</span> Evaluating model performance</a>
-- <a href="#linear-regresion" id="toc-linear-regresion"><span
-  class="toc-section-number">2</span> Linear regresion</a>
-  - <a href="#getting-the-least-squares-line-of-a-sample"
-    id="toc-getting-the-least-squares-line-of-a-sample"><span
-    class="toc-section-number">2.1</span> Getting the Least Squares Line of
-    a sample</a>
-  - <a href="#getting-confident-intervarls-of-coeffients"
-    id="toc-getting-confident-intervarls-of-coeffients"><span
-    class="toc-section-number">2.2</span> Getting confident intervarls of
-    coeffients</a>
-  - <a href="#insights-to-extract" id="toc-insights-to-extract"><span
-    class="toc-section-number">2.3</span> Insights to extract</a>
-    - <a href="#confirm-the-relationship-between-the-response-and-predictors"
-      id="toc-confirm-the-relationship-between-the-response-and-predictors"><span
-      class="toc-section-number">2.3.1</span> Confirm the relationship between
-      the Response and Predictors</a>
-    - <a href="#accuracy-of-the-model-relationship-strength"
-      id="toc-accuracy-of-the-model-relationship-strength"><span
-      class="toc-section-number">2.3.2</span> Accuracy of the model
-      (relationship strength)</a>
-    - <a
-      href="#confirm-the-relationship-between-the-response-and-each-predictor"
-      id="toc-confirm-the-relationship-between-the-response-and-each-predictor"><span
-      class="toc-section-number">2.3.3</span> Confirm the relationship between
-      the Response and each predictor</a>
-    - <a href="#size-of-association-between-each-predictor-and-the-response."
-      id="toc-size-of-association-between-each-predictor-and-the-response."><span
-      class="toc-section-number">2.3.4</span> Size of association between each
-      predictor and the response.</a>
-    - <a href="#predicting-future-values"
-      id="toc-predicting-future-values"><span
-      class="toc-section-number">2.3.5</span> Predicting future values</a>
-  - <a href="#standard-linear-regression-model-assumptions"
-    id="toc-standard-linear-regression-model-assumptions"><span
-    class="toc-section-number">2.4</span> Standard linear regression model
-    assumptions</a>
-    - <a href="#including-an-interaction-term"
-      id="toc-including-an-interaction-term"><span
-      class="toc-section-number">2.4.1</span> Including an interaction
-      term</a>
-    - <a href="#polynomial-regression" id="toc-polynomial-regression"><span
-      class="toc-section-number">2.4.2</span> Polynomial regression</a>
-  - <a href="#possible-problems" id="toc-possible-problems"><span
-    class="toc-section-number">2.5</span> Possible problems</a>
-    - <a href="#non-linearity-of-the-response-predictor-relationships"
-      id="toc-non-linearity-of-the-response-predictor-relationships"><span
-      class="toc-section-number">2.5.1</span> Non-linearity of the
-      response-predictor relationships</a>
-    - <a href="#correlation-of-error-terms"
-      id="toc-correlation-of-error-terms"><span
-      class="toc-section-number">2.5.2</span> Correlation of error terms</a>
-    - <a href="#non-constant-variance-heteroscedasticity-of-error-terms"
-      id="toc-non-constant-variance-heteroscedasticity-of-error-terms"><span
-      class="toc-section-number">2.5.3</span> Non-constant variance
-      (heteroscedasticity) of error terms</a>
-    - <a href="#outliers" id="toc-outliers"><span
-      class="toc-section-number">2.5.4</span> Outliers</a>
-    - <a href="#high-leverage-points" id="toc-high-leverage-points"><span
-      class="toc-section-number">2.5.5</span> High-leverage points</a>
-    - <a href="#collinearity" id="toc-collinearity"><span
-      class="toc-section-number">2.5.6</span> Collinearity</a>
-  - <a href="#avoid-using-for-classification-problems"
-    id="toc-avoid-using-for-classification-problems"><span
-    class="toc-section-number">2.6</span> Avoid using for classification
-    problems</a>
-- <a href="#k-nearest-neighbors-knn"
-  id="toc-k-nearest-neighbors-knn"><span
-  class="toc-section-number">3</span> K-nearest neighbors (KNN)</a>
-  - <a href="#classiﬁer" id="toc-classiﬁer"><span
-    class="toc-section-number">3.1</span> Classiﬁer</a>
-  - <a href="#regression" id="toc-regression"><span
-    class="toc-section-number">3.2</span> Regression</a>
-- <a href="#logistic-regression" id="toc-logistic-regression"><span
-  class="toc-section-number">4</span> Logistic Regression</a>
-  - <a href="#estimating-coefficients"
-    id="toc-estimating-coefficients"><span
-    class="toc-section-number">4.1</span> Estimating coefficients</a>
-  - <a href="#multiple-regression" id="toc-multiple-regression"><span
-    class="toc-section-number">4.2</span> Multiple regression</a>
-  - <a href="#interpreting-the-model" id="toc-interpreting-the-model"><span
-    class="toc-section-number">4.3</span> Interpreting the model</a>
-    - <a href="#understanding-a-confounding-paradox"
-      id="toc-understanding-a-confounding-paradox"><span
-      class="toc-section-number">4.3.1</span> Understanding a confounding
-      paradox</a>
-  - <a href="#multinomial-logistic-regression"
-    id="toc-multinomial-logistic-regression"><span
-    class="toc-section-number">4.4</span> Multinomial Logistic
-    Regression</a>
-  - <a href="#model-limitatios" id="toc-model-limitatios"><span
-    class="toc-section-number">4.5</span> Model limitatios</a>
+- <a href="#generalized-linear-models-glm"
+  id="toc-generalized-linear-models-glm"><span
+  class="toc-section-number">2</span> Generalized linear models (GLM)</a>
+  - <a href="#linear-regresion" id="toc-linear-regresion"><span
+    class="toc-section-number">2.1</span> Linear regresion</a>
+    - <a href="#getting-the-least-squares-line-of-a-sample"
+      id="toc-getting-the-least-squares-line-of-a-sample"><span
+      class="toc-section-number">2.1.1</span> Getting the Least Squares Line
+      of a sample</a>
+    - <a href="#getting-confident-intervarls-of-coeffients"
+      id="toc-getting-confident-intervarls-of-coeffients"><span
+      class="toc-section-number">2.1.2</span> Getting confident intervarls of
+      coeffients</a>
+    - <a href="#insights-to-extract" id="toc-insights-to-extract"><span
+      class="toc-section-number">2.1.3</span> Insights to extract</a>
+    - <a href="#standard-linear-regression-model-assumptions"
+      id="toc-standard-linear-regression-model-assumptions"><span
+      class="toc-section-number">2.1.4</span> Standard linear regression model
+      assumptions</a>
+    - <a href="#possible-problems" id="toc-possible-problems"><span
+      class="toc-section-number">2.1.5</span> Possible problems</a>
+    - <a href="#avoid-using-for-classification-problems"
+      id="toc-avoid-using-for-classification-problems"><span
+      class="toc-section-number">2.1.6</span> Avoid using for classification
+      problems</a>
+  - <a href="#poisson-regression" id="toc-poisson-regression"><span
+    class="toc-section-number">2.2</span> Poisson Regression</a>
+  - <a href="#logistic-regression" id="toc-logistic-regression"><span
+    class="toc-section-number">2.3</span> Logistic Regression</a>
+    - <a href="#estimating-coefficients"
+      id="toc-estimating-coefficients"><span
+      class="toc-section-number">2.3.1</span> Estimating coefficients</a>
+    - <a href="#multiple-regression" id="toc-multiple-regression"><span
+      class="toc-section-number">2.3.2</span> Multiple regression</a>
+    - <a href="#interpreting-the-model" id="toc-interpreting-the-model"><span
+      class="toc-section-number">2.3.3</span> Interpreting the model</a>
+    - <a href="#multinomial-logistic-regression"
+      id="toc-multinomial-logistic-regression"><span
+      class="toc-section-number">2.3.4</span> Multinomial Logistic
+      Regression</a>
+    - <a href="#model-limitatios" id="toc-model-limitatios"><span
+      class="toc-section-number">2.3.5</span> Model limitatios</a>
 - <a href="#generative-models-for-classiﬁcation"
   id="toc-generative-models-for-classiﬁcation"><span
-  class="toc-section-number">5</span> Generative Models for
+  class="toc-section-number">3</span> Generative Models for
   Classiﬁcation</a>
   - <a href="#linear-discriminant-analysis-lda"
     id="toc-linear-discriminant-analysis-lda"><span
-    class="toc-section-number">5.1</span> Linear Discriminant Analysis
+    class="toc-section-number">3.1</span> Linear Discriminant Analysis
     (LDA)</a>
   - <a href="#quadratic-discriminant-analysis-qda"
     id="toc-quadratic-discriminant-analysis-qda"><span
-    class="toc-section-number">5.2</span> Quadratic Discriminant Analysis
+    class="toc-section-number">3.2</span> Quadratic Discriminant Analysis
     (QDA)</a>
   - <a href="#naive-bayes" id="toc-naive-bayes"><span
-    class="toc-section-number">5.3</span> Naive Bayes</a>
+    class="toc-section-number">3.3</span> Naive Bayes</a>
+- <a href="#non-parametric-methods" id="toc-non-parametric-methods"><span
+  class="toc-section-number">4</span> Non-parametric Methods</a>
+  - <a href="#k-nearest-neighbors-knn"
+    id="toc-k-nearest-neighbors-knn"><span
+    class="toc-section-number">4.1</span> K-nearest neighbors (KNN)</a>
+    - <a href="#classiﬁer" id="toc-classiﬁer"><span
+      class="toc-section-number">4.1.1</span> Classiﬁer</a>
+    - <a href="#regression" id="toc-regression"><span
+      class="toc-section-number">4.1.2</span> Regression</a>
 
 # General concepts
 
@@ -262,9 +222,11 @@ the classiﬁer.
 
 <img src="img/15-ROC-curve.png" data-fig-align="center" />
 
-# Linear regresion
+# Generalized linear models (GLM)
 
-## Getting the Least Squares Line of a sample
+## Linear regresion
+
+### Getting the Least Squares Line of a sample
 
 As the *population regression line* is unobserved the *least squares
 line* of a sample is a good estimation. To get it we need to follow the
@@ -298,7 +260,7 @@ $$
 \hat{\beta}_{0} = \overline{y} - \hat{\beta}_{1}\overline{x}
 $$
 
-## Getting confident intervarls of coeffients
+### Getting confident intervarls of coeffients
 
 To estimate the **population regression line** we can calculate
 **conﬁdence intervals** for sample coefficients, to define a range where
@@ -353,9 +315,9 @@ $$
 \hat{\beta_{1}} \pm 2 \cdot SE(\hat{\beta_{1}}), \quad \hat{\beta_{0}} \pm 2 \cdot SE(\hat{\beta_{0}})
 $$
 
-## Insights to extract
+### Insights to extract
 
-### Confirm the relationship between the Response and Predictors
+#### Confirm the relationship between the Response and Predictors
 
 Use the regression **overall P-value** (based on the F-statistic) to
 confirm that at **least one predictor** is related with the Response and
@@ -370,7 +332,7 @@ $$
 H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
 $$
 
-### Accuracy of the model (relationship strength)
+#### Accuracy of the model (relationship strength)
 
 If we want to know how well the model fits to the data we have two
 options:
@@ -399,7 +361,7 @@ R^2 =
 \end{cases}
 $$
 
-### Confirm the relationship between the Response and each predictor
+#### Confirm the relationship between the Response and each predictor
 
 To answer that we can test if a particular subset of q of the
 coefficients are zero.
@@ -426,12 +388,12 @@ alternative approaches for this task:
 - Backward selection (cannot be used if p \>n)
 - Mixed selection
 
-### Size of association between each predictor and the response.
+#### Size of association between each predictor and the response.
 
 To check that we need to see the $\hat{\beta}_{j}$ *confident intervals*
 as the real $\beta_{j}$ is in that range.
 
-### Predicting future values
+#### Predicting future values
 
 If we want to predict the average response $f(X)$ we can use the
 confident intervals, but if we want to predict an individual response
@@ -439,7 +401,7 @@ $Y = f(X) + \epsilon$ we need to use prediction intervals as they
 account for the uncertainty associated with $\epsilon$, the irreducible
 error.
 
-## Standard linear regression model assumptions
+### Standard linear regression model assumptions
 
 - The **additivity assumption** means that the association between a
   predictor $X_{j}$ and the response $Y$ does not depend on the values
@@ -450,7 +412,7 @@ error.
   associated with a one-unit change in $X_{j}$ is constant, regardless
   of the value of $X_{j}$.
 
-### Including an interaction term
+#### Including an interaction term
 
 This approach relax the *additivity assumption* that models usually
 have.
@@ -497,7 +459,7 @@ slope based on $X_{2}$ and not just a different intercept.
 
 <img src="img/03-factor-interaction.png" data-fig-align="center" />
 
-### Polynomial regression
+#### Polynomial regression
 
 This approach relax the *linearity assumption* that models usually have.
 It consist in including transformed versions of the predictors.
@@ -509,9 +471,9 @@ Y & = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} \\
 \end{split}
 $$
 
-## Possible problems
+### Possible problems
 
-### Non-linearity of the response-predictor relationships
+#### Non-linearity of the response-predictor relationships
 
 | Detection method                                                                                                                                                                                                  | Solutions                                                                                                                                   |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
@@ -520,13 +482,13 @@ $$
 <img src="img/04-residuals-predicted-values.png"
 data-fig-align="center" />
 
-### Correlation of error terms
+#### Correlation of error terms
 
 | Detection method                                                                                                                                                                                                                                          | Solutions                                                               |
 |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------|
 | 1\. Plot the residuals from our model as a function of time or execution order. If the errors are uncorrelated, then there should be no discernible pattern. </br> </br> 2. Check if some observation have been exposed to the same environmental factors | Good experimental design is crucial in order to mitigate these problems |
 
-### Non-constant variance (heteroscedasticity) of error terms
+#### Non-constant variance (heteroscedasticity) of error terms
 
 | Detection method                                              | Solutions                                                                              |
 |:--------------------------------------------------------------|:---------------------------------------------------------------------------------------|
@@ -534,7 +496,7 @@ data-fig-align="center" />
 
 <img src="img/05-non-constance-variance.png" data-fig-align="center" />
 
-### Outliers
+#### Outliers
 
 An outlier is a point for which $y_{i}$ is far from the value predicted
 by the model. Sometimes, they have little effect on the least squares
@@ -548,7 +510,7 @@ and *under estimate the* $R^2$.
 <img src="img/06-studentized-residuals-plot.png"
 data-fig-align="center" />
 
-### High-leverage points
+#### High-leverage points
 
 Observations with **high leverage** have an unusual value for $x_{i}$.
 High leverage observations tend to have a sizable impact on the
@@ -572,7 +534,7 @@ that is unusual in terms of the full set of predictors.
 <img src="img/07-studentized-residuals-leverage-plot.png"
 data-fig-align="center" />
 
-### Collinearity
+#### Collinearity
 
 **Collinearity** refers to the situation in which two or more predictor
 variables are closely related (highly correlated) to one another. It
@@ -598,7 +560,7 @@ $$
 Where $R_{X_{j}|X_{-j}}^2$ is the $R^2$ from a regression of $X_{j}$
 onto all of the other predictors.
 
-## Avoid using for classification problems
+### Avoid using for classification problems
 
 There are better model to achieve that kind of situation. For example,
 he linear **discriminant analysis (LDA)** procedure the same response of
@@ -609,60 +571,41 @@ a linear regression for a binary problem. Other reasons are:
 - A regression method will not provide meaningful estimates of $Pr(Y|X)$
   as some of our estimates might be outside the \[0, 1\] interval.
 
-# K-nearest neighbors (KNN)
+## Poisson Regression
 
-This method performs worst than a parametric as we starting adding
-*noise* predictors. In fact, we will get in the situation where for a
-given observation has no *nearby neighbors*, known as **curse of
-dimensionality** and leading to a very poor prediction of $f(x_{0})$.
-
-KNN unlike parametric models does not tell us which predictors are
-important, making it hard to make inferences using this model.
-
-## Classiﬁer
-
-The next function estimates the conditional probability for class $j$ as
-the fraction of points in $N_{0}$ whose response values equal $j$.
+If $Y \in \{ 0, 1, 2, 3, \dots \}$ that could be the result after
+**counting** a particular event the *linear regression* might not meet
+our needs as it could bring negative numbers. The **Poisson
+Distribution** follow the next function:
 
 $$
-\text{Pr}(Y = j|X = x_{0}) = \frac{1}{K} 
-                      \displaystyle\sum_{i \in N_{0}} I(y_{i} = j)
+Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
+                 {k!}
 $$
 
-- Where
-  - $j$ response value to test
-  - $x_{0}$ is the test observation
-  - $K$ the number of points in the training data that are closest to
-    $x_{0}$ and reduce the model flexibility
-  - $N_{0}$ points in the training data that are closest to $x_{0}$
+Where: - $\lambda$ must be greater than 0. It represents the expected
+number of events $E(Y)$ and variance related $Var(Y)$ - $k$ represent
+the number of events that we want to evaluate base of $\lambda$. Its
+numbers should be greater or equal to 0.
 
-Then KNN classiﬁes the test observation $x_{0}$ to the class with the
-largest probability.
-
-<img src="img/08-knn-classifier.png" data-fig-align="center" />
-
-## Regression
-
-KNN regression estimates $f(x_{0})$ using the average of all the
-training responses in $N_{0}$.
+So, it makes sense that the value that we want to predict with our
+regression would be $\lambda$, by using next structure:
 
 $$
-\hat{f}(x_{0}) = \frac{1}{K} 
-                      \displaystyle\sum_{i \in N_{0}} y_{i}
+\log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
 $$
 
-- Where
-  - $x_{0}$ is the test observation
-  - $K$ the number of points in the training data that are closest to
-    $x_{0}$ and reduce the model flexibility
-  - $N_{0}$ points in the training data that are closest to $x_{0}$
+If select this model we need to be aware how to interpret the
+coefficients. For example, if $\beta_1 = -0.08$ for a categorical
+variable, we can conclude by calculating $e^{-0.08}$ that ***92.31%***
+of events of the base line related to $\beta_0$ would happen.
 
-# Logistic Regression
+## Logistic Regression
 
 It models the **probability** ($p(X) = Pr(Y=1|X)$) that Y belongs to a
-particular category given some predictors. This model calculates the
-probability using the ***logistic function*** which produce a S form
-between 0 and 1:
+particular category given some predictors by assuming that $Y$ follows a
+**Bernoulli Distribution**. This model calculates the probability using
+the ***logistic function*** which produce a S form between 0 and 1:
 
 $$
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
@@ -675,7 +618,7 @@ data-fig-align="center" />
 As the functions returns probabilities is responsibility of the analyst
 to define a **threshold** to make classifications.
 
-## Estimating coefficients
+### Estimating coefficients
 
 To estimate $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ the method used is
 called as *maximum likelihood* which consists in maximizing the
@@ -686,7 +629,7 @@ $$
 \ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
 $$
 
-## Multiple regression
+### Multiple regression
 
 We also can generalize the *logistic function* as you can see bellow.
 
@@ -695,7 +638,7 @@ p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
             {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
 $$
 
-## Interpreting the model
+### Interpreting the model
 
 To understand how each variable influence the probability $p(X)$, we
 need to manipulate the *logistic function* until having a lineal
@@ -723,7 +666,7 @@ that $\log{(2)} = 0.69$ and $\log{(0.5)} = -0.69$.
 At end, $p(X)$ will increase as $X$ increases if $\beta_{1}$ is positive
 despite the relationship between each other isn’t a linear one.
 
-### Understanding a confounding paradox
+#### Understanding a confounding paradox
 
 | Simple Regression                                                                                                                                          | Multiple Regression                                                                                                                                   |
 |:-----------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -742,7 +685,7 @@ credit card balance*!
 <img src="img/13-Default-simple-plot-4_3.png"
 style="width:60.0%;height:60.0%" data-fig-align="center" />
 
-## Multinomial Logistic Regression
+### Multinomial Logistic Regression
 
 We also can generalize the *logistic function* to support more than 2
 categories ($K > 2$) by defining by convention the last category $K$ as
@@ -771,7 +714,7 @@ $$
 In consequence, each coefficient represent a measure of how much change
 the probability from the baseline probability.
 
-## Model limitatios
+### Model limitatios
 
 There are models that could make better classifications when:
 
@@ -951,3 +894,53 @@ $$
              {\prod_{j=1}^{p} f_{Kj}(x_{j}) }
       \right)}
 $$
+
+# Non-parametric Methods
+
+## K-nearest neighbors (KNN)
+
+This method performs worst than a parametric as we starting adding
+*noise* predictors. In fact, we will get in the situation where for a
+given observation has no *nearby neighbors*, known as **curse of
+dimensionality** and leading to a very poor prediction of $f(x_{0})$.
+
+KNN unlike parametric models does not tell us which predictors are
+important, making it hard to make inferences using this model.
+
+### Classiﬁer
+
+The next function estimates the conditional probability for class $j$ as
+the fraction of points in $N_{0}$ whose response values equal $j$.
+
+$$
+\text{Pr}(Y = j|X = x_{0}) = \frac{1}{K} 
+                      \displaystyle\sum_{i \in N_{0}} I(y_{i} = j)
+$$
+
+- Where
+  - $j$ response value to test
+  - $x_{0}$ is the test observation
+  - $K$ the number of points in the training data that are closest to
+    $x_{0}$ and reduce the model flexibility
+  - $N_{0}$ points in the training data that are closest to $x_{0}$
+
+Then KNN classiﬁes the test observation $x_{0}$ to the class with the
+largest probability.
+
+<img src="img/08-knn-classifier.png" data-fig-align="center" />
+
+### Regression
+
+KNN regression estimates $f(x_{0})$ using the average of all the
+training responses in $N_{0}$.
+
+$$
+\hat{f}(x_{0}) = \frac{1}{K} 
+                      \displaystyle\sum_{i \in N_{0}} y_{i}
+$$
+
+- Where
+  - $x_{0}$ is the test observation
+  - $K$ the number of points in the training data that are closest to
+    $x_{0}$ and reduce the model flexibility
+  - $N_{0}$ points in the training data that are closest to $x_{0}$
