@@ -907,6 +907,13 @@ dimensionality** and leading to a very poor prediction of $f(x_{0})$.
 KNN unlike parametric models does not tell us which predictors are
 important, making it hard to make inferences using this model.
 
+It also sensible the scale of the variables. Variables that are on a
+large scale will have a much larger eﬀect on the distance between the
+observations, and hence on the KNN classiﬁer, than variables that are on
+a small scale. To solve that problem we can *standardize* the data so
+that all variables are given a mean of zero and a standard deviation of
+one with the function `scale()`.
+
 ### Classiﬁer
 
 The next function estimates the conditional probability for class $j$ as
