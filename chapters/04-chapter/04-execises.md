@@ -1,0 +1,95 @@
+04-execises
+================
+
+- <a href="#conceptual" id="toc-conceptual"><span
+  class="toc-section-number">1</span> Conceptual</a>
+- <a href="#applied" id="toc-applied"><span
+  class="toc-section-number">2</span> Applied</a>
+
+## Conceptual
+
+1.  **Using a little bit of algebra, prove that (4.2) is equivalent to
+    (4.3). In other words, the logistic function representation and
+    logit representation for the logistic regression model are
+    equivalent.**
+
+$$
+\begin{split}
+p(X) &= \frac{e^{\beta_{0}+\beta_{1}X}}
+            {1+e^{\beta_{0}+\beta_{1}X}} \\
+p(X) (1+e^{\beta_{0}+\beta_{1}X}) & = e^{\beta_{0}+\beta_{1}X} \\
+p(X)+p(X) e^{\beta_{0}+\beta_{1}X} & = e^{\beta_{0}+\beta_{1}X} \\
+p(X) & = e^{\beta_{0}+\beta_{1}X} - p(X) e^{\beta_{0}+\beta_{1}X} \\
+p(X) & = (1 - p(X))e^{\beta_{0}+\beta_{1}X} \\
+\frac{p(X)}{1 - p(X)} & = e^{\beta_{0}+\beta_{1}X}
+\end{split}
+$$
+
+2.  \*\*It was stated in the text that classifying an observation to the
+    class for which (4.17) is largest is equivalent to classifying an
+    observation to the class for which (4.18) is largest. Prove that
+    this is the case. In other words, under the assumption that the
+    observations in the \_k_th class are drawn from a N(µk,σ2)
+    distribution, the Bayes classiﬁer assigns an observation to the
+    class for which the discriminant function is maximized.\*\*
+
+I don’t what is the problem in may function but the values between the
+original and logit **discriminant functions** have some difference.
+
+``` r
+library(ggplot2)
+library(patchwork)
+
+k_function <- function(x,
+                       k,
+                       sigma = c(0.5,0.5),
+                       pi_k = c(0.5,0.5),
+                       mu = c(2, 4),
+                       logit = FALSE){
+  
+  if(logit){
+    
+    return(x * mu[k]/sigma[k]^2 - mu[k]^2/(2*sigma[k]^2) + log(pi_k[k]))
+    
+  }
+  
+  denominator <-
+    sapply(x, \(y) sum(pi_k * (1/(sqrt(2*pi)*mu)) * exp(-1/(2*sigma^2) * (y - mu)^2) ) )
+  
+  k_numerador <-
+   (pi_k[k]* 1/(sqrt(2*pi)*mu[k]) * exp(- 1/(2*sigma[k]^2) * (x - mu[k])^2))
+  
+  return(k_numerador / denominator)
+  
+}
+
+BasePlot <-
+  data.frame(x = 1:5) |>
+  ggplot(aes(x))+
+  scale_x_continuous(breaks = scales::breaks_width(1))+
+  theme_light()+
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+  
+p1 <-
+  BasePlot +
+  geom_function(fun = \(y) k_function(x = y, k = 1), color = "blue")+
+  geom_function(fun = \(y) k_function(x = y, k = 2), color = "red")
+
+p2 <-
+  BasePlot +
+  geom_function(fun = \(y) k_function(x = y, k = 1, logit = TRUE), color = "blue")+
+  geom_function(fun = \(y) k_function(x = y, k = 2, logit = TRUE), color = "red")
+
+
+(p1 / p2) +
+  plot_annotation(title = 'Comparing Proportion Function vs Logit Function of LDA') &
+  theme(plot.title = element_text(face = "bold"))
+```
+
+![](04-execises_files/figure-gfm/unnamed-chunk-1-1.png)
+
+## Applied
