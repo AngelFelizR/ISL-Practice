@@ -552,7 +552,7 @@ $$
 \begin{split}
 \delta_{k}(x) & = \log{ \left( p_{x}(x) \right)} \\ 
               & = \log{(\pi_{k})} 
-                - \frac{\mu_{k}^2}{\sigma^2} 
+                - \frac{\mu_{k}^2}{2\sigma^2} 
                 + x \cdot \frac{\mu_{k}}{\sigma^2} 
 \end{split}
 $$
