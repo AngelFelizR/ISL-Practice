@@ -211,4 +211,190 @@ $$
   observations in the range \[0.55, 0.65\]. On average, what fraction of
   the available observations will we use to make the prediction?**
 
+``` r
+library(data.table)
+
+set.seed(123)
+
+UnifDistVar1 <-
+  data.table(sample = 1:1000
+  )[, .(x1 = runif(1000)),
+    by = "sample"
+  ][, .(prop = mean(x1 %between% c(0.6 - 0.1/2, 0.6 + 0.1/2))),
+    by = "sample"]
+  
+mean(UnifDistVar1$prop)
+```
+
+    [1] 0.100297
+
+- **Now suppose that we have a set of observations, each with
+  measurements on p = 2 features, X1 and X2. We assume that (X1, X2) are
+  uniformly distributed on \[0, 1\] × \[0, 1\]. We wish to predict a
+  test observation’s response using only observations that are within 10
+  % of the range of X1 and within 10 % of the range of X2 closest to
+  that test observation. For instance, in order to predict the response
+  for a test observation with X1 = 0.6 and X2 = 0.35, we will use
+  observations in the range \[0.55, 0.65\] for X1 and in the range
+  \[0.3, 0.4\] for X2. On average, what fraction of the available
+  observations will we use to make the prediction?**
+
+``` r
+set.seed(123)
+
+UnifDistVar2 <-
+  UnifDistVar1[, .(x1 = runif(1000),
+                   x2 = runif(1000)),
+               by = "sample"
+  ][ , .(prop = mean(x1 %between% c(0.6 - 0.1/2, 0.6 + 0.1/2) &
+                     x2 %between% c(0.35 - 0.1/2, 0.35 + 0.1/2))),
+     by = "sample"]
+
+mean(UnifDistVar2$prop)
+```
+
+    [1] 0.009943
+
+- **Now suppose that we have a set of observations on p = 100 features.
+  Again the observations are uniformly distributed on each feature, and
+  again each feature ranges in value from 0 to 1. We wish to predict a
+  test observation’s response using observations within the 10 % of each
+  feature’s range that is closest to that test observation. What
+  fraction of the available observations will we use to make the
+  prediction?**
+
+``` r
+0.1^100
+```
+
+    [1] 1e-100
+
+- **Using your answers to parts (a)–(c), argue that a drawback of KNN
+  when p is large is that there are very few training observations
+  “near” any given test observation.**
+
+As *p* gets lager every point has more specifications to meet and the
+number of point which meet them decrease.
+
+5.  **We now examine the differences between LDA and QDA.**
+
+- **If the Bayes decision boundary is linear, do we expect LDA or QDA to
+  perform better on the training set? On the test set?**
+
+| Type of set to test |              Perform better               |
+|:-------------------:|:-----------------------------------------:|
+|    training set     |  ***QDA***, as it will model some noise   |
+|      test set       | ***LDA***, as decision boundary is lineal |
+
+- **If the Bayes decision boundary is non-linear, do we expect LDA or
+  QDA to perform better on the training set? On the test set?**
+
+| Type of set to test |                Perform better                 |
+|:-------------------:|:---------------------------------------------:|
+|    training set     |    ***QDA***, as it will model some noise     |
+|      test set       | ***QDA***, as decision boundary is non-linear |
+
+- **In general, as the sample size n increases, do we expect the test
+  prediction accuracy of QDA relative to LDA to improve, decline, or be
+  unchanged? Why?**
+
+The test prediction accuracy won’t change by increasing *n*, as that
+measure depends on the real shape of the *Bayes decision boundary*.
+
+- **True or False: Even if the Bayes decision boundary for a given
+  problem is linear, we will probably achieve a superior test error rate
+  using QDA rather than LDA because QDA is flexible enough to model a
+  linear decision boundary. Justify your answer.**
+
+**FALSE**, as QDA would model some noise that could affect the
+prediction accuracy.
+
+6.  **Suppose we collect data for a group of students in a statistics
+    class with variables X1 = hours studied, X2 = undergrad GPA, and Y =
+    receive an A. We fit a logistic regression and produce estimated
+    coefficient, $\hat{\beta}_0 = −6$, $\hat{\beta}_1 = 0.05$ and
+    $\hat{\beta}_2 = 1$.**
+
+- **Estimate the probability that a student who studies for 40 h and has
+  an undergrad GPA of 3.5 gets an A in the class.**
+
+``` r
+LogisticCOef <- -6 + 0.05 * 40 + 1* 3.5
+
+exp(LogisticCOef)/(1+exp(LogisticCOef))
+```
+
+    [1] 0.3775407
+
+- **How many hours would the student in part (a) need to study to have a
+  50 % chance of getting an A in the class?**
+
+$$
+\begin{split}
+\log{ \left( \frac{p(X)}{1 - p(X)} \right)} & = \beta_{0}+\beta_{1}X_1+\beta_{2}X_2 \\
+\log{ \left( \frac{0.5}{1 - 0.5} \right)} & = \beta_{0}+\beta_{1}X_1+\beta_{2}X_2 \\
+0 & = \beta_{0}+\beta_{1}X_1+\beta_{2}X_2 \\
+X_2 & = \frac{-\beta_0-\beta_{2}X_2}{\beta_{1}} \\
+X_2 & = \frac{-(-6)-(1 \times 3.5)}{0.05}
+\end{split}
+$$
+
+``` r
+paste((6-3.5)/0.05, "horas")
+```
+
+    [1] "50 horas"
+
+7.  **Suppose that we wish to predict whether a given stock will issue a
+    dividend this year (“Yes” or “No”) based on X, last year’s percent
+    profit. We examine a large number of companies and discover that the
+    mean value of X for companies that issued a dividend was ¯X = 10,
+    while the mean for those that didn’t was ¯X = 0. In addition, the
+    variance of X for these two sets of companies was ˆσ2 = 36. Finally,
+    80 % of companies issued dividends. Assuming that X follows a normal
+    distribution, predict the probability that a company will issue a
+    dividend this year given that its percentage profit was X = 4 last
+    year.**
+
+``` r
+exp(log(0.80) - 10^2/(2*36) + 4 * 10/36) |> scales::percent(accuracy = 1)
+```
+
+    [1] "61%"
+
+8.  **Suppose that we take a data set, divide it into equally-sized
+    training and test sets, and then try out two different
+    classification procedures. First we use logistic regression and get
+    an error rate of 20 % on the training data and 30 % on the test
+    data. Next we use 1-nearestbors (i.e. K = 1) and get an average
+    error rate (averaged over both test and training data sets) of 18 %.
+    Based on these results, which method should we prefer to use for
+    classification of new observations? Why?**
+
+We should use the KNN as it has a lower test error rate than the
+logistic regression.
+
+9.  **This problem has to do with odds.**
+
+- **On average, what fraction of people with an odds of 0.37 of
+  defaulting on their credit card payment will in fact default?**
+
+$$
+\begin{split}
+\frac{p(X)}{1 - p(X)} & = Y \\
+p(X) & = Y - Yp(X) \\
+p(X) + Yp(X) & = Y \\
+p(X) & = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
+\end{split}
+$$
+
+- **Suppose that an individual has a 16 % chance of defaulting on her
+  credit card payment. What are the odds that she will default?**
+
+``` r
+0.16/(1-0.16)
+```
+
+    [1] 0.1904762
+
 ## Applied

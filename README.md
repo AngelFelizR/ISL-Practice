@@ -646,8 +646,10 @@ combination on the right site.
 
 $$
 \underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X 
-$$ As we can see, the result of the linear combination is the $\log$ of
-the *odds ratio*, known as **log odd** or **logit**.
+$$
+
+As we can see, the result of the linear combination is the $\log$ of the
+*odds ratio*, known as **log odd** or **logit**.
 
 An **odds ratio** of an event presents the likelihood that the event
 will occur as a proportion of the likelihood that the event won’t occur.
