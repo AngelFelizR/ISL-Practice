@@ -5,6 +5,7 @@ format:
     number-sections: true
     toc: true
 editor: source
+output-file: README.md
 ---
 
 ## Conceptual
@@ -301,6 +302,53 @@ $$
 ```{r}
 0.16/(1-0.16)
 ```
+
+12. **Suppose that you wish to classify an observation X ∈ R into apples and oranges. You fit a logistic regression model and find that**
+
+$$
+\widehat{\text{Pr}}(Y = \text{orange}|X=x) =
+\frac{\exp(\hat{\beta}_0+\hat{\beta}_1x)}
+{1 + \exp(\hat{\beta}_0+\hat{\beta}_1x)}
+$$
+
+**Your friend fits a logistic regression model to the same data using the softmax formulation in (4.13), and finds that**
+
+$$
+\widehat{\text{Pr}}(Y = \text{orange}|X=x) =
+\frac{\exp(\hat{\alpha}_{\text{orange}0}+
+           \hat{\alpha}_{\text{orange}1}x)}
+{\exp(\hat{\alpha}_{\text{orange}0}+
+      \hat{\alpha}_{\text{orange}1}x)+
+ \exp(\hat{\alpha}_{\text{apple}0}+
+      \hat{\alpha}_{\text{apple}1}x)}
+$$
+
+- **What is the log odds of orange versus apple in your model?**
+
+$$
+\log{
+  \left( 
+    \frac{\widehat{\text{Pr}}(Y = \text{orange}|X=x)}
+         {1 - \widehat{\text{Pr}}(Y = \text{orange}|X=x)}
+  \right)} = 
+\hat{\beta}_0+\hat{\beta}_1x
+$$
+
+- **What is the log odds of orange versus apple in your friend’s model?**
+
+$$
+\log{
+  \left( 
+    \frac{\exp(\hat{\alpha}_{\text{orange}0} + \hat{\alpha}_{\text{orange}1}x)}
+         {\exp(\hat{\alpha}_{\text{apple}0} + \hat{\alpha}_{\text{apple}1}x)}
+  \right)} = 
+(\hat{\alpha}_{\text{orange}0} - \hat{\alpha}_{\text{apple}0}) +
+(\hat{\alpha}_{\text{orange}1} - \hat{\alpha}_{\text{apple}1}) x
+$$
+
+
+- **Suppose that in your model, $\hat{\beta}_0 = 2$ and $\hat{\beta}_1 = -1$. What are the coefficient estimates in your friend’s model? Be as specific as possible.**
+
 
 
 ## Applied
