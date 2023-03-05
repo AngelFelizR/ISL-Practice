@@ -447,4 +447,6 @@ $$
   $\hat{\beta}_1 = -1$. What are the coefficient estimates in your
   friend’s model? Be as specific as possible.**
 
+$\hat{\beta}_0 = 2$ and $\hat{\beta}_1 = -1$
+
 ## Applied

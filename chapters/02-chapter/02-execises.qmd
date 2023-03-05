@@ -5,6 +5,7 @@ format:
     number-sections: true
     toc: true
 editor: source
+output-file: README.md
 ---
 
 ## Conceptual

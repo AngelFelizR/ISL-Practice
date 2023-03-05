@@ -165,11 +165,7 @@ $$
 
 ``` r
 library(ISLR2)
-```
 
-    Warning: package 'ISLR2' was built under R version 4.2.2
-
-``` r
 AutoSimpleModel <- lm(mpg ~ horsepower, data = Auto)
 
 summary(AutoSimpleModel)
@@ -225,7 +221,7 @@ plot(Auto$horsepower,Auto$mpg)
 abline(AutoSimpleModel)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-3-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-3-1.png)
 
 - **Use the plot() function to produce diagnostic plots of the least
   squares regression fit. Comment on any problems you see with the
@@ -236,7 +232,7 @@ par(mfrow = c(2, 2))
 plot(AutoSimpleModel)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-4-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-4-1.png)
 
 The *Residuals vs Fitted* shows that the relation is not linear and
 variance isn’t constant.
@@ -251,7 +247,7 @@ variance isn’t constant.
 pairs(Auto)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-6-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-6-1.png)
 
 - **Compute the matrix of correlations between the variables using the
   function cor(). You will need to exclude the name variable, which is
@@ -364,7 +360,7 @@ par(mfrow = c(2, 2))
 plot(AutoModelNoInteraction)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-10-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-10-1.png)
 
 - ***Use the \* and : symbols to fit linear regression models with
   interaction effects. Do any interactions appear to be statistically
@@ -618,7 +614,7 @@ par(mfrow = c(2,2))
 plot(CarseatsPriceModel)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-20-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-20-1.png)
 
 ``` r
 par(mfrow = c(1,1))
@@ -792,7 +788,7 @@ SimulatedData2$y <-
 plot(SimulatedData2$x, SimulatedData2$y)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-26-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-26-1.png)
 
 ``` r
 lm(y~ x+0, data = SimulatedData2) |>
@@ -856,7 +852,7 @@ SimulatedData3$y <-
 plot(SimulatedData3$x, SimulatedData3$y)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-27-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-27-1.png)
 
 ``` r
 lm(y~ x+0, data = SimulatedData3) |>
@@ -951,7 +947,7 @@ $\beta_{0} = -1$ and $\beta_{1} = 0.5$.
 plot(x,y)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-31-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-31-1.png)
 
 - **Fit a least squares linear model to predict y using x. Comment on
   the model obtained. How do ˆβ0 and ˆ β1 compare to β0 and β1?**
@@ -982,7 +978,7 @@ legend(-2.35, 0.40 ,
        col = c("red","blue"), lty=1, cex=0.8)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-33-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-33-1.png)
 
 - **Now ﬁt a polynomial regression model that predicts y using x and
   x^2. Is there evidence that the quadratic term improves the model ﬁt?
@@ -1020,7 +1016,7 @@ y <- -1 + 0.5*x +eps
 plot(x,y)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-35-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-35-1.png)
 
 The coefficients remind the same.
 
@@ -1046,7 +1042,7 @@ legend(-2.35, 0.40 ,
        col = c("red","blue"), lty=1, cex=0.8)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-37-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-37-1.png)
 
 - **Repeat (a)–(f) after modifying the data generation process in such a
   way that there is more noise in the data. The model (3.39) should
@@ -1064,7 +1060,7 @@ y <- -1 + 0.5*x +eps
 plot(x,y)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-38-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-38-1.png)
 
 The coefficients remind the same.
 
@@ -1090,7 +1086,7 @@ legend(-2.35, 0.40 ,
        col = c("red","blue"), lty=1, cex=0.8)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-40-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-40-1.png)
 
 - **What are the conﬁdence intervals for β0 and β1 based on the original
   data set, the noisier data set, and the less noisy data set? Comment
@@ -1134,7 +1130,10 @@ list(original = SimilatedModel,
         plot.title = element_text(face = "bold"))
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-41-1.png)
+    Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+    ℹ Please use `linewidth` instead.
+
+![](03-execises_files/figure-commonmark/unnamed-chunk-41-1.png)
 
 14. **This problem focuses on the collinearity problem.**
 
@@ -1163,7 +1162,7 @@ plot(x1,x2,
      main = paste0("x1 and x2 correlation :",round(cor(x1,x2), 2)))
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-43-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-43-1.png)
 
 - **Using this data, ﬁt a least squares regression to predict y using x1
   and x2. Describe the results obtained. What are ˆβ0, ˆ β1, and ˆβ2?
@@ -1377,7 +1376,7 @@ par(mfrow = c(2,2))
 plot(ModelC)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-51-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-51-1.png)
 
 In the **d** model the last observation is an outlier point as it’s
 studentized residuals is greater than 3.
@@ -1387,7 +1386,7 @@ par(mfrow = c(2,2))
 plot(ModelD)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-52-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-52-1.png)
 
 In the **e** model the last observation is a high-leverage point.
 
@@ -1396,7 +1395,7 @@ par(mfrow = c(2,2))
 plot(ModelE)
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-53-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-53-1.png)
 
 15. **This problem involves the Boston data set, which we saw in the lab
     for this chapter. We will now try to predict per capita crime rate
@@ -1461,29 +1460,29 @@ for(predictor in BostonModelSummary$predictor){
 }
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-1.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-2.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-2.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-3.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-3.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-4.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-4.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-5.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-5.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-6.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-6.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-7.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-7.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-8.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-8.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-9.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-9.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-10.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-10.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-11.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-11.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-56-12.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-56-12.png)
 
 But after changing chas to a factor we keep the same conclusion and the
 coefficient it’s the same.
@@ -1568,7 +1567,7 @@ merge(BostonModelSummary, BostonModelSummary2,
         plot.title = element_text(face = "bold"))
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-59-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-59-1.png)
 
 - **Is there evidence of non-linear association between any of the
   predictors and the response? To answer this question, for each
@@ -1625,8 +1624,8 @@ for(predictor in SimpleVsPolySummary[change >= 0.1 ,predictor]){
 }
 ```
 
-![](03-execises_files/figure-gfm/unnamed-chunk-60-1.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-60-1.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-60-2.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-60-2.png)
 
-![](03-execises_files/figure-gfm/unnamed-chunk-60-3.png)
+![](03-execises_files/figure-commonmark/unnamed-chunk-60-3.png)
